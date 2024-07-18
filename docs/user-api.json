@@ -67,6 +67,120 @@
                 }
             }
         },
+        "/api/v1/register": {
+            "post": {
+                "description": "Register User Magang Mahasiswa",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "examples": {
+                                "user": {
+                                    "description": "Register User Magang Mahasiswa",
+                                    "value": {
+                                        "name": "string",
+                                        "email": "string",
+                                        "password": "string"
+                                    }
+                                }
+                            },
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "nama",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "nama": {
+                                        "type": "string"
+                                    },
+                                    "nim": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success Register User",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "success": {
+                                        "description": "Success Register New User",
+                                        "value": {
+                                            "data": {
+                                                "name": "string",
+                                                "email": "string",
+                                                "updated_at": "string",
+                                                "created_at": "string",
+                                                "id": 1
+                                            }
+                                        }
+                                    }
+                                },
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "number"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Validation Error": {
+                                        "description": "Validation Error",
+                                        "value": {
+                                            "email": [
+                                                "The email field is required",
+                                                "email containt @examples.com",
+                                                "The email has already been taken"
+                                            ],
+                                            "password": [
+                                                "The password field is required",
+                                                "password min 8 characters"
+                                            ],
+                                            "name": [
+                                                "The name field is required"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/register/mahasiswa": {
             "post": {
                 "description": "Register User Magang Mahasiswa",
@@ -92,10 +206,19 @@
                             },
                             "schema": {
                                 "type": "object",
-                                "required": ["nama", "email", "password", "nim", "no_telp", "jurusan", "tahun_angkatan", "universitas"],
+                                "required": [
+                                    "nama",
+                                    "email",
+                                    "password",
+                                    "nim",
+                                    "no_telp",
+                                    "jurusan",
+                                    "tahun_angkatan",
+                                    "universitas"
+                                ],
                                 "properties": {
                                     "nama": {
-                                        "type": "string"  
+                                        "type": "string"
                                     },
                                     "nim": {
                                         "type": "string"
@@ -106,19 +229,18 @@
                                     "password": {
                                         "type": "string"
                                     },
-                                    "no_telp":{
+                                    "no_telp": {
                                         "type": "string"
                                     },
-                                    "jurusan":{
+                                    "jurusan": {
                                         "type": "string"
                                     },
-                                    "tahun_angkatan":{
+                                    "tahun_angkatan": {
                                         "type": "string"
                                     },
-                                    "universitas":{
+                                    "universitas": {
                                         "type": "string"
                                     }
-
                                 }
                             }
                         }
@@ -207,7 +329,6 @@
                                             "akhir_magang": [
                                                 "The akhir magang field is required"
                                             ]
-                                            
                                         }
                                     }
                                 }
@@ -242,10 +363,21 @@
                             },
                             "schema": {
                                 "type": "object",
-                                "required": ["nama", "email", "password", "nisn", "no_telp", "jurusan", "tahun_angkatan", "sekolah", "mulai_magang", "akhir_magang"],
+                                "required": [
+                                    "nama",
+                                    "email",
+                                    "password",
+                                    "nisn",
+                                    "no_telp",
+                                    "jurusan",
+                                    "tahun_angkatan",
+                                    "sekolah",
+                                    "mulai_magang",
+                                    "akhir_magang"
+                                ],
                                 "properties": {
                                     "nama": {
-                                        "type": "string"  
+                                        "type": "string"
                                     },
                                     "nisn": {
                                         "type": "string"
@@ -256,19 +388,18 @@
                                     "password": {
                                         "type": "string"
                                     },
-                                    "no_telp":{
+                                    "no_telp": {
                                         "type": "string"
                                     },
-                                    "jurusan":{
+                                    "jurusan": {
                                         "type": "string"
                                     },
-                                    "tahun_angkatan":{
+                                    "tahun_angkatan": {
                                         "type": "string"
                                     },
-                                    "sekolah":{
+                                    "sekolah": {
                                         "type": "string"
                                     }
-
                                 }
                             }
                         }
@@ -357,7 +488,6 @@
                                             "akhir_magang": [
                                                 "The akhir magang field is required"
                                             ]
-                                            
                                         }
                                     }
                                 }
@@ -367,8 +497,8 @@
                 }
             }
         },
-        "/api/v1/logout":{
-            "delete":{
+        "/api/v1/logout": {
+            "delete": {
                 "description": "Logout current user",
                 "parameters": [
                     {
@@ -377,14 +507,14 @@
                     }
                 ],
                 "responses": {
-                    "200":{
+                    "200": {
                         "description": "Success Logout User",
                         "content": {
-                            "application/json":{
-                                "schema":{
+                            "application/json": {
+                                "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "message":{
+                                        "message": {
                                             "type": "string"
                                         }
                                     }
