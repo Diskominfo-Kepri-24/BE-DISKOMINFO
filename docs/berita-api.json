@@ -1,0 +1,313 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Berita API",
+        "description": "Berita API",
+        "version": "1.0"
+    },
+    "servers": [{ "url": "https://localhost:8000" }],
+    "paths": {
+        "/api/v1/berita": {
+            "post": {
+                "description": "Membuat Berita",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Membuat Berita",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "tanggal": {
+                                        "type": "string"
+                                    },
+                                    "penulis": {
+                                        "type": "string"
+                                    },
+                                    "judul": {
+                                        "type": "string"
+                                    },
+                                    "isi_berita": {
+                                        "type": "string"
+                                    },
+                                    "gambar":{
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Berhasil membuat kelengkapan dokumen",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "number"
+                                                },
+                                                "tanggal": {
+                                                    "type": "string"
+                                                },
+                                                "penulis": {
+                                                    "type": "string"
+                                                },
+                                                "judul": {
+                                                    "type": "string"
+                                                },
+                                                "isi_berita": {
+                                                    "type": "string"
+                                                },
+                                                "gambar":{
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Gagal membuat berita",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "validationerror": {
+                                        "description": "Validation Error",
+                                        "value": {
+                                            "errors": {
+                                                "tanggal": [
+                                                    "tanggal is required"
+                                                ],
+                                                "penulis": [
+                                                    "penulis is required"
+                                                ],
+                                                "judul": [
+                                                    "judul is required"
+                                                ],
+                                                "isi_berita": [
+                                                    "isi berita is required"
+                                                ],
+                                                "gambar": [
+                                                    "gambar is required",
+                                                    "gambar should be in png, jpeg, jpg"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "description": "Search Berita",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "name": "judul",
+                        "in": "query"
+                    },
+                    {
+                        "name": "isi_berita",
+                        "in": "query"
+                    }
+
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Search Berita",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "number"
+                                                },
+                                                "tanggal": {
+                                                    "type": "string"
+                                                },
+                                                "penulis": {
+                                                    "type": "string"
+                                                },
+                                                "judul": {
+                                                    "type": "string"
+                                                },
+                                                "isi_berita": {
+                                                    "type": "string"
+                                                },
+                                                "gambar": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/berita/{id}":{
+            "put":{
+                "description": "Update Berita",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody":{
+                    "description": "Update Berita",
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "type": "object",
+                                "properties": {
+                                    "tanggal": {
+                                        "type": "string"
+                                    },
+                                    "penulis": {
+                                        "type": "string"
+                                    },
+                                    "judul": {
+                                        "type": "string"
+                                    },
+                                    "isi_berita": {
+                                        "type": "string"
+                                    },
+                                    "gambar":{
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200":{
+                        "description": "Success Update Data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "number"
+                                                },
+                                                "tanggal": {
+                                                    "type": "string"
+                                                },
+                                                "penulis": {
+                                                    "type": "string"
+                                                },
+                                                "judul": {
+                                                    "type": "string"
+                                                },
+                                                "isi_berita": {
+                                                    "type": "string"
+                                                },
+                                                "gambar":{
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description": "Gagal membuat kelengkapan dokumen",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "validationerror": {
+                                        "description": "Validation Error",
+                                        "value": {
+                                            "errors": {
+                                                "tanggal": [
+                                                    "tanggal is required"
+                                                ],
+                                                "penulis": [
+                                                    "penulis is required"
+                                                ],
+                                                "judul": [
+                                                    "judul is required"
+                                                ],
+                                                "isi_berita": [
+                                                    "isi berita is required"
+                                                ],
+                                                "gambar": [
+                                                    "gambar should be in jpg, jpeg, png"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete":{
+                "description": "Delete berita",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Success delete berita",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "data":{
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

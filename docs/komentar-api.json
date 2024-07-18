@@ -1,0 +1,298 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Komentar API",
+        "description": "Komentar API",
+        "version": "1.0"
+    },
+    "servers": [{ "url": "https://localhost:8000" }],
+    "paths": {
+        "/api/v1/berita/{id_berita}/komentar": {
+            "post": {
+                "description": "Membuat Komentar",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "name": "id_berita",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Membuat Komentar",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id_berita": {
+                                        "type": "string"
+                                    },
+                                    "id_user": {
+                                        "type": "string"
+                                    },
+                                    "tanggal":{
+                                        "type": "string"
+                                    },
+                                    "isi_komentar":{
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Berhasil menambahkan komentar",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "number"
+                                                },
+                                                "id_berita": {
+                                                    "type": "string"
+                                                },
+                                                "id_user": {
+                                                    "type": "string"
+                                                },
+                                                "tanggal": {
+                                                    "type": "string"
+                                                },
+                                                "isi_komentar": {
+                                                    "type": "string"
+                                                },
+                                                "created_at":{
+                                                    "type": "string"  
+                                                },
+                                                "updated_at":{
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Gagal menambahkan komentar",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "validationerror": {
+                                        "description": "Validation Error",
+                                        "value": {
+                                            "errors": {
+                                                "isi_komentar": [
+                                                    "isi_komentar is required"
+                                                ],
+                                                "tanggal": [
+                                                    "tanggal is required"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "description": "Get komentar by id_berita",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "name": "id_berita",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success mendapatkan komentar",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "number"
+                                                },
+                                                "id_berita": {
+                                                    "type": "string"
+                                                },
+                                                "id_user": {
+                                                    "type": "string"
+                                                },
+                                                "tanggal": {
+                                                    "type": "string"
+                                                },
+                                                "created_at": {
+                                                    "type": "string"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/berita/{id_berita}/komentar/{id_komentar}":{
+            "put":{
+                "description": "Update Komentar",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "name": "id_berita",
+                        "in": "path"
+                    },
+                    {
+                        "name": "id_komentar",
+                        "in": "path"
+                    }
+                ],
+                "requestBody":{
+                    "description": "Update Komentar",
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "type": "object",
+                                "properties": {
+                                    "id_berita": {
+                                        "type": "string"
+                                    },
+                                    "id_user": {
+                                        "type": "string"
+                                    },
+                                    "isi_komentar": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200":{
+                        "description": "Success Update Komentar",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string"
+                                                },
+                                                "id_berita": {
+                                                    "type": "string"
+                                                },
+                                                "id_user": {
+                                                    "type": "string"
+                                                },
+                                                "isi_komentar": {
+                                                    "type": "string"
+                                                },
+                                                "created_at": {
+                                                    "type": "string"
+                                                },
+                                                "updated_at":{
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description": "Gagal update komentar",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "validationerror": {
+                                        "description": "Validation Error",
+                                        "value": {
+                                            "errors": {
+                                                "id_berita": [
+                                                    "id_berita is required"
+                                                ],
+                                                "id_user": [
+                                                    "id_user is required"
+                                                ],
+                                                "isi_komentar": [
+                                                    "isi_komentar is required"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete":{
+                "description": "Delete Komentar",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "name": "id_berita",
+                        "in": "path"
+                    },
+                    {
+                        "name": "id_komentar",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Success delete komentar",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "data":{
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

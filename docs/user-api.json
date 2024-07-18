@@ -1,0 +1,399 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "User API",
+        "description": "User API",
+        "version": "1.0"
+    },
+    "servers": [{ "url": "https://localhost:8000" }],
+    "paths": {
+        "/api/v1/login": {
+            "post": {
+                "description": "Login User",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "access_token": {
+                                            "type": "string"
+                                        },
+                                        "token_type": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Failed Login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/register/mahasiswa": {
+            "post": {
+                "description": "Register User Magang Mahasiswa",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "examples": {
+                                "user": {
+                                    "description": "Register User Magang Mahasiswa",
+                                    "value": {
+                                        "nama": "string",
+                                        "email": "string",
+                                        "password": "string",
+                                        "nim": "string",
+                                        "no_telp": "string",
+                                        "jurusan": "string",
+                                        "tahun_angkatan": "string",
+                                        "universitas": "string",
+                                        "mulai_magang": "string",
+                                        "akhir_magang": "string"
+                                    }
+                                }
+                            },
+                            "schema": {
+                                "type": "object",
+                                "required": ["nama", "email", "password", "nim", "no_telp", "jurusan", "tahun_angkatan", "universitas"],
+                                "properties": {
+                                    "nama": {
+                                        "type": "string"  
+                                    },
+                                    "nim": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "no_telp":{
+                                        "type": "string"
+                                    },
+                                    "jurusan":{
+                                        "type": "string"
+                                    },
+                                    "tahun_angkatan":{
+                                        "type": "string"
+                                    },
+                                    "universitas":{
+                                        "type": "string"
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success Register User",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "success": {
+                                        "description": "Success Register New User",
+                                        "value": {
+                                            "data": {
+                                                "name": "Mahadi Dwi Nugraha",
+                                                "email": "mahadidwinugraha@gmail.com",
+                                                "id": 1
+                                            }
+                                        }
+                                    }
+                                },
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "number"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Validation Error": {
+                                        "description": "Validation Error",
+                                        "value": {
+                                            "email": [
+                                                "The email field is required",
+                                                "email containt @examples.com",
+                                                "The email has already been taken"
+                                            ],
+                                            "password": [
+                                                "The password field is required",
+                                                "password min 8 characters"
+                                            ],
+                                            "name": [
+                                                "The name field is required"
+                                            ],
+                                            "nim": [
+                                                "The nim field is required"
+                                            ],
+                                            "no_telp": [
+                                                "The no_telp field is required"
+                                            ],
+                                            "jurusan": [
+                                                "The jurusan field is required"
+                                            ],
+                                            "tahun_angkatan": [
+                                                "the tahun angkatan field is required"
+                                            ],
+                                            "universitas": [
+                                                "the universitas field is required"
+                                            ],
+                                            "mulai_magang": [
+                                                "The mulai magang field is required"
+                                            ],
+                                            "akhir_magang": [
+                                                "The akhir magang field is required"
+                                            ]
+                                            
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/register/siswa": {
+            "post": {
+                "description": "Register User Magang Siswa",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "examples": {
+                                "user": {
+                                    "description": "Register User Magang Siswa",
+                                    "value": {
+                                        "nama": "string",
+                                        "email": "string",
+                                        "password": "string",
+                                        "nisn": "string",
+                                        "no_telp": "string",
+                                        "jurusan": "string",
+                                        "tahun_angkatan": "string",
+                                        "sekolah": "string",
+                                        "mulai_magang": "string",
+                                        "akhir_magang": "string"
+                                    }
+                                }
+                            },
+                            "schema": {
+                                "type": "object",
+                                "required": ["nama", "email", "password", "nisn", "no_telp", "jurusan", "tahun_angkatan", "sekolah", "mulai_magang", "akhir_magang"],
+                                "properties": {
+                                    "nama": {
+                                        "type": "string"  
+                                    },
+                                    "nisn": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "no_telp":{
+                                        "type": "string"
+                                    },
+                                    "jurusan":{
+                                        "type": "string"
+                                    },
+                                    "tahun_angkatan":{
+                                        "type": "string"
+                                    },
+                                    "sekolah":{
+                                        "type": "string"
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success Register User",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "success": {
+                                        "description": "Success Register New User",
+                                        "value": {
+                                            "data": {
+                                                "name": "Mahadi Dwi Nugraha",
+                                                "email": "mahadidwinugraha@gmail.com",
+                                                "id": 1
+                                            }
+                                        }
+                                    }
+                                },
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "number"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Validation Error": {
+                                        "description": "Validation Error",
+                                        "value": {
+                                            "email": [
+                                                "The email field is required",
+                                                "email containt @examples.com",
+                                                "The email has already been taken"
+                                            ],
+                                            "password": [
+                                                "The password field is required",
+                                                "password min 8 characters"
+                                            ],
+                                            "name": [
+                                                "The name field is required"
+                                            ],
+                                            "nim": [
+                                                "The nim field is required"
+                                            ],
+                                            "no_telp": [
+                                                "The no_telp field is required"
+                                            ],
+                                            "jurusan": [
+                                                "The jurusan field is required"
+                                            ],
+                                            "tahun_angkatan": [
+                                                "the tahun angkatan field is required"
+                                            ],
+                                            "universitas": [
+                                                "the universitas field is required"
+                                            ],
+                                            "mulai_magang": [
+                                                "The mulai magang field is required"
+                                            ],
+                                            "akhir_magang": [
+                                                "The akhir magang field is required"
+                                            ]
+                                            
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/logout":{
+            "delete":{
+                "description": "Logout current user",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Success Logout User",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "message":{
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
