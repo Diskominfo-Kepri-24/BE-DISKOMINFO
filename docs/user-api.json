@@ -5,7 +5,7 @@
         "description": "User API",
         "version": "1.0"
     },
-    "servers": [{ "url": "https://localhost:8000" }],
+    "servers": [{ "url": "http://localhost:8000" }],
     "paths": {
         "/api/v1/login": {
             "post": {
@@ -142,9 +142,17 @@
                                         "description": "Success Register New User",
                                         "value": {
                                             "data": {
-                                                "name": "Mahadi Dwi Nugraha",
-                                                "email": "mahadidwinugraha@gmail.com",
-                                                "id": 1
+                                                "name": "string",
+                                                "email": "string",
+                                                "id": 1,
+                                                "jurusan": "string",
+                                                "tahun_angkatan": "string",
+                                                "universitas": "string",
+                                                "id_user_magang": 1,
+                                                "updated_at": "string",
+                                                "created_at": "string",
+                                                "no_telp": "string",
+                                                "role": "string"
                                             }
                                         }
                                     }
@@ -163,7 +171,26 @@
                                                 },
                                                 "email": {
                                                     "type": "string"
+                                                },
+                                                "jurusan":{
+                                                    "type": "string"
+                                                },
+                                                "tahun_angkatan":{
+                                                    "type": "string"
+                                                },
+                                                "universitas":{
+                                                    "type": "string"
+                                                },
+                                                "id_user_magang":{
+                                                    "type": "number"
+                                                },
+                                                "no_telp":{
+                                                    "type": "string"
+                                                },
+                                                "role":{
+                                                    "type": "string"
                                                 }
+                                                
                                             }
                                         },
                                         "errors": {
@@ -401,11 +428,7 @@
                             },
                             "schema": {
                                 "type": "object",
-                                "required": [
-                                    "nama",
-                                    "email",
-                                    "password"
-                                ],
+                                "required": ["nama", "email", "password"],
                                 "properties": {
                                     "nama": {
                                         "type": "string"

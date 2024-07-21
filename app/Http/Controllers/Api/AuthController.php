@@ -10,36 +10,61 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Enums\RoleEnum;
+use App\Models\UserMagang;
+use App\Models\UserMagangMahasiswa;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function registerMahasiswa(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:8',
-            'role' => [Rule::enum(RoleEnum::class)],
+            'nim' => 'required|string',
+            'no_telp' => 'string|min:10',
+            'jurusan' => 'string',
+            'tahun_angkatan' => 'string',
+            'universitas' => 'string'
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
-
         $user = User::create([
             'name' => $request->name,
+            'password' => $request->password,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
+            'role' => 'mahasiswa',
         ]);
 
-        // $token = $user->createToken('auth_token')->plainTextToken;
+        $userMagang = UserMagang::create([
+            'no_telp' => $request->no_telp,
+            'mulai_magang' => $request->mulai_magang,
+            'akhir_magang' => $request->akhir_magang,
+            'id_user' => $user->id,
+        ]);
+
+        $userMahasiswa = UserMagangMahasiswa::create([
+            'nim' => $request->nim,
+            'jurusan' => $request->jurusan,
+            'tahun_angkatan' => $request->tahun_angkatan,
+            'universitas' => $request->universitas,
+            'id_user_magang' => $userMagang->id,
+            
+        ]);
+
+        $data = $userMahasiswa->toArray();
+        $data['name'] = $user->name;
+        $data['email'] = $user->email;
+        $data['no_telp'] = $userMagang->no_telp;
+        $data['role'] = $user->role;
+        $data['id'] = $user->id;
+        
 
         return response()->json([
-            'data' => $user,
-            // 'access_token' => $token,
-            // 'token_type' => 'Bearer',
+            'data' => $data
         ]);
     }
 
