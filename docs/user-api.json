@@ -67,120 +67,6 @@
                 }
             }
         },
-        "/api/v1/register": {
-            "post": {
-                "description": "Register User Magang Mahasiswa",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "examples": {
-                                "user": {
-                                    "description": "Register User Magang Mahasiswa",
-                                    "value": {
-                                        "name": "string",
-                                        "email": "string",
-                                        "password": "string"
-                                    }
-                                }
-                            },
-                            "schema": {
-                                "type": "object",
-                                "required": [
-                                    "nama",
-                                    "email",
-                                    "password"
-                                ],
-                                "properties": {
-                                    "nama": {
-                                        "type": "string"
-                                    },
-                                    "nim": {
-                                        "type": "string"
-                                    },
-                                    "email": {
-                                        "type": "string"
-                                    },
-                                    "password": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Success Register User",
-                        "content": {
-                            "application/json": {
-                                "examples": {
-                                    "success": {
-                                        "description": "Success Register New User",
-                                        "value": {
-                                            "data": {
-                                                "name": "string",
-                                                "email": "string",
-                                                "updated_at": "string",
-                                                "created_at": "string",
-                                                "id": 1
-                                            }
-                                        }
-                                    }
-                                },
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number"
-                                                },
-                                                "name": {
-                                                    "type": "string"
-                                                },
-                                                "email": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        },
-                                        "errors": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "examples": {
-                                    "Validation Error": {
-                                        "description": "Validation Error",
-                                        "value": {
-                                            "email": [
-                                                "The email field is required",
-                                                "email containt @examples.com",
-                                                "The email has already been taken"
-                                            ],
-                                            "password": [
-                                                "The password field is required",
-                                                "password min 8 characters"
-                                            ],
-                                            "name": [
-                                                "The name field is required"
-                                            ]
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/api/v1/register/mahasiswa": {
             "post": {
                 "description": "Register User Magang Mahasiswa",
@@ -487,6 +373,118 @@
                                             ],
                                             "akhir_magang": [
                                                 "The akhir magang field is required"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/register/pembimbing": {
+            "post": {
+                "description": "Register User Pembimbing",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "examples": {
+                                "user": {
+                                    "description": "Register User Pembimbing",
+                                    "value": {
+                                        "nama": "string",
+                                        "email": "string",
+                                        "password": "string"
+                                    }
+                                }
+                            },
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "nama",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "nama": {
+                                        "type": "string"
+                                    },
+                                    "nisn": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success Register User Pembimbing",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "success": {
+                                        "description": "Success Register New User",
+                                        "value": {
+                                            "data": {
+                                                "name": "string",
+                                                "email": "string",
+                                                "id": 1
+                                            }
+                                        }
+                                    }
+                                },
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "number"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Validation Error": {
+                                        "description": "Validation Error",
+                                        "value": {
+                                            "email": [
+                                                "The email field is required",
+                                                "email containt @examples.com",
+                                                "The email has already been taken"
+                                            ],
+                                            "password": [
+                                                "The password field is required",
+                                                "password min 8 characters"
+                                            ],
+                                            "name": [
+                                                "The name field is required"
                                             ]
                                         }
                                     }

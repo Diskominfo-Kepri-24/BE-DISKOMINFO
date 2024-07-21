@@ -125,7 +125,7 @@
                         "in": "query"
                     },
                     {
-                        "name": "isi_berita",
+                        "name": "tanggal",
                         "in": "query"
                     }
 
@@ -170,6 +170,62 @@
             }
         },
         "/api/v1/berita/{id}":{
+            "get":{
+                "description": "Get Berita By ID",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Success Update Data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "number"
+                                                },
+                                                "tanggal": {
+                                                    "type": "string"
+                                                },
+                                                "penulis": {
+                                                    "type": "string"
+                                                },
+                                                "judul": {
+                                                    "type": "string"
+                                                },
+                                                "isi_berita": {
+                                                    "type": "string"
+                                                },
+                                                "gambar":{
+                                                    "type": "string"
+                                                },
+                                                "created_at":{
+                                                    "type": "string"
+                                                },
+                                                "updated_at":{
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "put":{
                 "description": "Update Berita",
                 "parameters": [
@@ -236,6 +292,9 @@
                                                     "type": "string"
                                                 },
                                                 "gambar":{
+                                                    "type": "string"
+                                                },
+                                                "created_at":{
                                                     "type": "string"
                                                 }
                                             }
