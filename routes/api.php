@@ -4,12 +4,16 @@ use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/v1/register/mahasiswa', [AuthController::class, 'registerMahasiswa']);
-// Route::post('/v1/register/mahasiswa', [AuthController::class, 'registerDosen']);
-// Route::post('/v1/register/pembimbing', [AuthController::class, 'registerPembimbing']);
 
+Route::controller(AuthController::class)->group(function(){
+    
+    Route::post('/v1/login', 'login');
+    Route::post('/v1/register/mahasiswa', 'registerMahasiswa');
+    Route::post('/v1/register/siswa', 'registerSiswa');
+    Route::post('/v1/register/pembimbing', 'registerPembimbing');
+    
+});
 
-Route::post('/v1/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->get('/v1/user', function(Request $request){
     return $request->user();

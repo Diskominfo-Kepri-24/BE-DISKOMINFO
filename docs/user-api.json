@@ -5,6 +5,22 @@
         "description": "User API",
         "version": "1.0"
     },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth":{
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth":[
+                
+            ]
+        }
+    ],
     "servers": [{ "url": "http://localhost:8000" }],
     "paths": {
         "/api/v1/login": {
@@ -77,7 +93,7 @@
                                 "user": {
                                     "description": "Register User Magang Mahasiswa",
                                     "value": {
-                                        "nama": "string",
+                                        "name": "string",
                                         "email": "string",
                                         "password": "string",
                                         "nim": "string",
@@ -93,7 +109,7 @@
                             "schema": {
                                 "type": "object",
                                 "required": [
-                                    "nama",
+                                    "name",
                                     "email",
                                     "password",
                                     "nim",
@@ -103,7 +119,7 @@
                                     "universitas"
                                 ],
                                 "properties": {
-                                    "nama": {
+                                    "name": {
                                         "type": "string"
                                     },
                                     "nim": {
@@ -261,7 +277,7 @@
                                 "user": {
                                     "description": "Register User Magang Siswa",
                                     "value": {
-                                        "nama": "string",
+                                        "name": "string",
                                         "email": "string",
                                         "password": "string",
                                         "nisn": "string",
@@ -277,7 +293,7 @@
                             "schema": {
                                 "type": "object",
                                 "required": [
-                                    "nama",
+                                    "name",
                                     "email",
                                     "password",
                                     "nisn",
@@ -289,7 +305,7 @@
                                     "akhir_magang"
                                 ],
                                 "properties": {
-                                    "nama": {
+                                    "name": {
                                         "type": "string"
                                     },
                                     "nisn": {
@@ -320,7 +336,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Success Register User",
+                        "description": "Success Register User Siswa",
                         "content": {
                             "application/json": {
                                 "examples": {
@@ -328,9 +344,18 @@
                                         "description": "Success Register New User",
                                         "value": {
                                             "data": {
-                                                "name": "Mahadi Dwi Nugraha",
-                                                "email": "mahadidwinugraha@gmail.com",
-                                                "id": 1
+                                                "name": "string",
+                                                "email": "string",
+                                                "id": 1,
+                                                "nisn": "string",
+                                                "jurusan": "string",
+                                                "tahun_angkatan": "string",
+                                                "sekolah": "string",
+                                                "id_user_magang": 1,
+                                                "updated_at": "string",
+                                                "created_at": "string",
+                                                "no_telp": "string",
+                                                "role": "string" 
                                             }
                                         }
                                     }
@@ -420,7 +445,7 @@
                                 "user": {
                                     "description": "Register User Pembimbing",
                                     "value": {
-                                        "nama": "string",
+                                        "name": "string",
                                         "email": "string",
                                         "password": "string"
                                     }
@@ -428,9 +453,9 @@
                             },
                             "schema": {
                                 "type": "object",
-                                "required": ["nama", "email", "password"],
+                                "required": ["name", "email", "password"],
                                 "properties": {
-                                    "nama": {
+                                    "name": {
                                         "type": "string"
                                     },
                                     "nisn": {

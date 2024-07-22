@@ -12,6 +12,7 @@ use Illuminate\Validation\Rule;
 use App\Enums\RoleEnum;
 use App\Models\UserMagang;
 use App\Models\UserMagangMahasiswa;
+use App\Models\UserMagangSiswa;
 
 class AuthController extends Controller
 {
@@ -65,6 +66,87 @@ class AuthController extends Controller
 
         return response()->json([
             'data' => $data
+        ]);
+    }
+
+
+    public function registerSiswa(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|max:255|unique:users',
+            'password' => 'required|string|min:8',
+            'nisn' => 'required|string',
+            'no_telp' => 'string|min:10',
+            'jurusan' => 'string',
+            'tahun_angkatan' => 'string',
+            'sekolah' => 'string'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $user = User::create([
+            'name' => $request->name,
+            'password' => $request->password,
+            'email' => $request->email,
+            'role' => 'siswa',
+        ]);
+
+        $userMagang = UserMagang::create([
+            'no_telp' => $request->no_telp,
+            'mulai_magang' => $request->mulai_magang,
+            'akhir_magang' => $request->akhir_magang,
+            'id_user' => $user->id,
+        ]);
+
+        $userSiswa = UserMagangSiswa::create([
+            'nisn' => $request->nisn,
+            'jurusan' => $request->jurusan,
+            'tahun_angkatan' => $request->tahun_angkatan,
+            'sekolah' => $request->sekolah,
+            'id_user_magang' => $userMagang->id,
+            
+        ]);
+
+        $data = $userSiswa->toArray();
+        $data['name'] = $user->name;
+        $data['email'] = $user->email;
+        $data['no_telp'] = $userMagang->no_telp;
+        $data['role'] = $user->role;
+        $data['id'] = $user->id;
+        
+
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+
+
+    public function registerPembimbing(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|max:255|unique:users',
+            "password" => "required|min:8",
+            'role' => "pembimbing",
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $user = User::create([
+            'name' => $request->name,
+            'password' => $request->password,
+            'email' => $request->email,
+            'role' => 'pembimbing',
+        ]);
+        
+
+        return response()->json([
+            'data' => $user
         ]);
     }
 
