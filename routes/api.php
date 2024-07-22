@@ -15,14 +15,14 @@ Route::controller(AuthController::class)->group(function(){
     
 });
 
-Route::middleware(['auth:sanctum', 'role'])->group(function(){
 
+Route::middleware(['auth:sanctum', 'role'])->group(function(){
+    
     Route::controller(DokumenController::class)->group(function(){
         Route::post('v1/document', 'storeDocument');
         Route::get('v1/document', 'getDocument');
         Route::delete('v1/document', 'deleteAllDocuments');
-        Route::delete('v1/document/{documentName}/name/{fileName}', 'deleteDocument');
-        Route::put('v1/document', 'updateDocument');
+        Route::post('v1/document/update', 'updateDocument');
     });
 
     Route::get('v1/get-document', [DokumenController::class, 'getDocument']);

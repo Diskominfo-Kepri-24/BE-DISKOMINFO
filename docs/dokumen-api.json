@@ -1,13 +1,65 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "Dokumen API",
-        "description": "Dokumen API untuk User Magang",
-        "version": "1.0"
+        "title": "File Upload API",
+        "version": "1.0.0",
+        "description": "API untuk mengunggah dokumen dengan beberapa persyaratan."
     },
     "components": {
+        "schemas": {
+            "Dokumen": {
+                "type": "object",
+                "properties": {
+                    "cv": {
+                        "type": "string",
+                        "description": "Nama file CV yang diunggah."
+                    },
+                    "transkip_nilai": {
+                        "type": "string",
+                        "description": "Nama file transkrip nilai yang diunggah."
+                    },
+                    "id_user_magang": {
+                        "type": "integer",
+                        "description": "ID user magang."
+                    },
+                    "surat_rekomendasi": {
+                        "type": "string",
+                        "description": "Nama file surat rekomendasi yang diunggah."
+                    },
+                    "ktp": {
+                        "type": "string",
+                        "description": "Nama file KTP yang diunggah."
+                    },
+                    "sertifikat": {
+                        "type": "string",
+                        "description": "Nama file sertifikat yang diunggah (jika ada)."
+                    },
+                    "dokumen_tambahan": {
+                        "type": "string",
+                        "description": "Nama file dokumen tambahan yang diunggah (jika ada)."
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "description": "Tanggal update tabel"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "description": "Tanggal dokumen ditambahkan"
+                    }
+                }
+            },
+            "Error": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "description": "Pesan kesalahan."
+                    }
+                }
+            }
+        },
         "securitySchemes": {
-            "bearerAuth":{
+            "bearerAuth": {
                 "type": "http",
                 "scheme": "bearer",
                 "bearerFormat": "JWT"
@@ -16,98 +68,74 @@
     },
     "security": [
         {
-            "bearerAuth":[
-                
-            ]
+            "bearerAuth": []
         }
     ],
     "servers": [{ "url": "http://localhost:8000" }],
     "paths": {
-        "/api/v1/dokumen": {
+        "/api/v1/document": {
             "post": {
-                "description": "Upload dokumen",
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header"
-                    }
-                ],
+                "summary": "Unggah Dokumen",
+                "description": "Endpoint untuk mengunggah berbagai dokumen yang diperlukan.",
+                "tags": ["Dokumen"],
                 "requestBody": {
-                    "description": "Membuat Dokumen",
+                    "required": true,
                     "content": {
-                        "multipart/form-data":{
-                            "schema":{
+                        "multipart/form-data": {
+                            "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "cv":{
+                                    "cv": {
                                         "type": "string",
-                                        "format": "binary"
+                                        "format": "binary",
+                                        "description": "Curriculum Vitae (CV)"
                                     },
-                                    "transkip_nilai":{
+                                    "transkip_nilai": {
                                         "type": "string",
-                                        "format": "binary"
+                                        "format": "binary",
+                                        "description": "Transkrip Nilai"
                                     },
-                                    "surat_rekomendasi":{
+                                    "surat_rekomendasi": {
                                         "type": "string",
-                                        "format": "binary"
+                                        "format": "binary",
+                                        "description": "Surat Rekomendasi"
                                     },
-                                    "ktp":{
+                                    "ktp": {
                                         "type": "string",
-                                        "format": "binary"
+                                        "format": "binary",
+                                        "description": "Kartu Tanda Penduduk (KTP)"
                                     },
-                                    "sertifikat":{
+                                    "sertifikat": {
                                         "type": "string",
-                                        "format": "binary"
+                                        "format": "binary",
+                                        "description": "Sertifikat (opsional)"
                                     },
-                                    "dokumen_tambahan":{
+                                    "dokumen_tambahan": {
                                         "type": "string",
-                                        "format": "binary"
+                                        "format": "binary",
+                                        "description": "Dokumen Tambahan (opsional)"
                                     }
-
-                                }
+                                },
+                                "required": [
+                                    "cv",
+                                    "transkip_nilai",
+                                    "surat_rekomendasi",
+                                    "ktp"
+                                ]
                             }
                         }
                     }
                 },
                 "responses": {
-                    "201": {
-                        "description": "Berhasil menambahkan Dokumen",
+                    "200": {
+                        "description": "Dokumen berhasil diunggah.",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number"
-                                                },
-                                                "cv": {
-                                                    "type": "string"
-                                                },
-                                                "transkip_nilai": {
-                                                    "type": "string"
-                                                },
-                                                "surat_rekomendasi": {
-                                                    "type": "string"
-                                                },
-                                                "ktp": {
-                                                    "type": "string"
-                                                },
-                                                "sertifikat": {
-                                                    "type": "string"
-                                                },
-                                                "dokumen_tambahan": {
-                                                    "type": "string"
-                                                },
-                                                "created_at":{
-                                                    "type": "string"  
-                                                },
-                                                "updated_at":{
-                                                    "type": "string"
-                                                }
-                                            }
+                                            "$ref": "#/components/schemas/Dokumen"
                                         }
                                     }
                                 }
@@ -115,40 +143,11 @@
                         }
                     },
                     "400": {
-                        "description": "Gagal menambahkan komentar",
+                        "description": "Permintaan tidak valid.",
                         "content": {
                             "application/json": {
-                                "examples": {
-                                    "validationerror": {
-                                        "description": "Validation Error",
-                                        "value": {
-                                            "errors": {
-                                                "cv": [
-                                                    "cv is required",
-                                                    "cv should be in pdf"
-                                                ],
-                                                "transkip_nilai": [
-                                                    "transkip_nilai is required",
-                                                    "transkip_nilai should be in pdf"
-                                                ],
-                                                "surat_rekomendasi": [
-                                                    "surat_rekomendasi is required",
-                                                    "surat_rekomendasi should be in pdf"
-                                                ],
-                                                "ktp": [
-                                                    "ktp is required",
-                                                    "ktp should be in jpg, jpeg, png"
-                                                ],
-                                                "sertifikat": [
-                                                    "sertifikat should be in pdf"
-                                                ],
-                                                "dokumen_tambahan": [
-                                                    "dokumen_tambahan should be in pdf"
-                                                ]
-
-                                            }
-                                        }
-                                    }
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
                                 }
                             }
                         }
@@ -156,95 +155,132 @@
                 }
             },
             "get": {
-                "description": "Get Dokumen",
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header"
-                    }
-                ],
+                "summary": "Dapatkan Dokumen",
+                "description": "Endpoint untuk mendapatkan dokumen berdasarkan user yang sedang login.",
+                "tags": ["Dokumen"],
                 "responses": {
                     "200": {
-                        "description": "Success mendapatkan data dokumen",
+                        "description": "Dokumen berhasil diambil.",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number"
-                                                },
-                                                "id_user_magang": {
-                                                    "type": "string"
-                                                },
-                                                "cv": {
-                                                    "type": "string"
-                                                },
-                                                "transkip_nilai": {
-                                                    "type": "string"
-                                                },
-                                                "surat_rekomendasi":{
-                                                    "type": "string"
-                                                },
-                                                "ktp":{
-                                                    "type": "string"
-                                                },
-                                                "sertifikat":{
-                                                    "type": "string"
-                                                },
-                                                "dokumen_tambahan":{
-                                                    "type": "string"
-                                                },
-                                                "created_at": {
-                                                    "type": "string"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string"
-                                                }
-                                            }
+                                            "$ref": "#/components/schemas/Dokumen"
                                         }
                                     }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Tidak terautentikasi.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Dokumen tidak ditemukan.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan server.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
                                 }
                             }
                         }
                     }
                 }
             },
-            "put": {
-                "description": "Update Dokumen User Magang",
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header"
+            "delete": {
+                "summary": "Hapus Semua Dokumen",
+                "description": "Endpoint untuk menghapus semua dokumen berdasarkan user yang sedang login.",
+                "tags": ["Dokumen"],
+                "responses": {
+                    "200": {
+                        "description": "Dokumen berhasil dihapus.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Berhasil menghapus dokumen"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Tidak terautentikasi.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
                     }
-                ],
+                }
+            }
+        },
+        "/api/v1/document/update": {
+            "post": {
+                "summary": "Perbarui Dokumen",
+                "description": "Endpoint untuk memperbarui dokumen berdasarkan user yang sedang login.",
+                "tags": ["Dokumen"],
                 "requestBody": {
-                    "description": "Update Dokumen User Magang",
+                    "required": true,
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "type": "object",
                                 "properties": {
                                     "cv": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Curriculum Vitae (CV)"
                                     },
                                     "transkip_nilai": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Transkrip Nilai"
                                     },
-                                    "surat_rekomendasi":{
-                                        "type": "string"
+                                    "surat_rekomendasi": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Surat Rekomendasi"
                                     },
-                                    "ktp":{
-                                        "type": "string"
+                                    "ktp": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Kartu Tanda Penduduk (KTP)"
                                     },
-                                    "sertifikat":{
-                                        "type": "string"
+                                    "sertifikat": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Sertifikat (opsional)"
                                     },
-                                    "dokumen_tambahan":{
-                                        "type": "string"
+                                    "dokumen_tambahan": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Dokumen Tambahan (opsional)"
                                     }
                                 }
                             }
@@ -252,44 +288,16 @@
                     }
                 },
                 "responses": {
-                    "201": {
-                        "description": "Berhasil menambahkan komentar",
+                    "200": {
+                        "description": "Dokumen berhasil diperbarui.",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number"
-                                                },
-                                                "cv": {
-                                                    "type": "string"
-                                                },
-                                                "transkip_nilai": {
-                                                    "type": "string"
-                                                },
-                                                "surat_rekomendasi": {
-                                                    "type": "string"
-                                                },
-                                                "ktp": {
-                                                    "type": "string"
-                                                },
-                                                "sertifikat": {
-                                                    "type": "string"
-                                                },
-                                                "dokumen_tambahan": {
-                                                    "type": "string"
-                                                },
-                                                "created_at":{
-                                                    "type": "string"  
-                                                },
-                                                "updated_at":{
-                                                    "type": "string"
-                                                }
-                                            }
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Berhasil mengubah data dokumen"
                                         }
                                     }
                                 }
@@ -297,74 +305,41 @@
                         }
                     },
                     "400": {
-                        "description": "Gagal menambahkan komentar",
+                        "description": "Permintaan tidak valid.",
                         "content": {
                             "application/json": {
-                                "examples": {
-                                    "validationerror": {
-                                        "description": "Validation Error",
-                                        "value": {
-                                            "errors": {
-                                                "cv": [
-                                                    "cv is required",
-                                                    "cv should be in pdf"
-                                                ],
-                                                "transkip_nilai": [
-                                                    "transkip_nilai is required",
-                                                    "transkip_nilai should be in pdf"
-                                                ],
-                                                "surat_rekomendasi": [
-                                                    "surat_rekomendasi is required",
-                                                    "surat_rekomendasi should be in pdf"
-                                                ],
-                                                "ktp": [
-                                                    "ktp is required",
-                                                    "ktp should be in jpg, jpeg, png"
-                                                ],
-                                                "sertifikat": [
-                                                    "sertifikat should be in pdf"
-                                                ],
-                                                "dokumen_tambahan": [
-                                                    "dokumen_tambahan should be in pdf"
-                                                ]
-
-                                            }
-                                        }
-                                    }
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
                                 }
                             }
                         }
-                    }
-                }
-            },
-            "delete":{
-                "description": "Delete Komentar",
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header"
                     },
-                    {
-                        "name": "id_berita",
-                        "in": "path"
-                    },
-                    {
-                        "name": "id_komentar",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200":{
-                        "description": "Success delete komentar",
+                    "401": {
+                        "description": "Tidak terautentikasi.",
                         "content": {
-                            "application/json":{
-                                "schema":{
-                                    "type": "object",
-                                    "properties": {
-                                        "data":{
-                                            "type": "boolean"
-                                        }
-                                    }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Dokumen tidak ditemukan.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan server.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
                                 }
                             }
                         }
