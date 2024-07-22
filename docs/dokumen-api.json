@@ -5,11 +5,27 @@
         "description": "Dokumen API untuk User Magang",
         "version": "1.0"
     },
-    "servers": [{ "url": "https://localhost:8000" }],
+    "components": {
+        "securitySchemes": {
+            "bearerAuth":{
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth":[
+                
+            ]
+        }
+    ],
+    "servers": [{ "url": "http://localhost:8000" }],
     "paths": {
         "/api/v1/dokumen": {
             "post": {
-                "description": "Membuat Dokumen User Magang",
+                "description": "Upload dokumen",
                 "parameters": [
                     {
                         "name": "Authorization",
@@ -17,30 +33,37 @@
                     }
                 ],
                 "requestBody": {
-                    "description": "Membuat Komentar",
+                    "description": "Membuat Dokumen",
                     "content": {
-                        "application/json": {
-                            "schema": {
+                        "multipart/form-data":{
+                            "schema":{
                                 "type": "object",
                                 "properties": {
-                                    "cv": {
-                                        "type": "string"
+                                    "cv":{
+                                        "type": "string",
+                                        "format": "binary"
                                     },
-                                    "transkip_nilai": {
-                                        "type": "string"
+                                    "transkip_nilai":{
+                                        "type": "string",
+                                        "format": "binary"
                                     },
                                     "surat_rekomendasi":{
-                                        "type": "string"
+                                        "type": "string",
+                                        "format": "binary"
                                     },
                                     "ktp":{
-                                        "type": "string"
+                                        "type": "string",
+                                        "format": "binary"
                                     },
                                     "sertifikat":{
-                                        "type": "string"
+                                        "type": "string",
+                                        "format": "binary"
                                     },
                                     "dokumen_tambahan":{
-                                        "type": "string"
+                                        "type": "string",
+                                        "format": "binary"
                                     }
+
                                 }
                             }
                         }
@@ -48,7 +71,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Berhasil menambahkan komentar",
+                        "description": "Berhasil menambahkan Dokumen",
                         "content": {
                             "application/json": {
                                 "schema": {
