@@ -1,384 +1,95 @@
 {
-    "openapi": "3.0.2",
-    "info": {
-        "title": "File Upload API",
-        "version": "1.0.0",
-        "description": "API untuk mengunggah, mendapatkan, memperbarui, dan menghapus dokumen dengan beberapa persyaratan."
-    },
-    "paths": {
-        "/api/v1/file-upload": {
-            "post": {
-                "summary": "Unggah Dokumen",
-                "description": "Endpoint untuk mengunggah berbagai dokumen yang diperlukan.",
-                "tags": ["Dokumen"],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "cv": {
-                                        "type": "string",
-                                        "format": "binary",
-                                        "description": "Curriculum Vitae (CV)"
-                                    },
-                                    "transkip_nilai": {
-                                        "type": "string",
-                                        "format": "binary",
-                                        "description": "Transkrip Nilai"
-                                    },
-                                    "surat_rekomendasi": {
-                                        "type": "string",
-                                        "format": "binary",
-                                        "description": "Surat Rekomendasi"
-                                    },
-                                    "ktp": {
-                                        "type": "string",
-                                        "format": "binary",
-                                        "description": "Kartu Tanda Penduduk (KTP)"
-                                    },
-                                    "sertifikat": {
-                                        "type": "string",
-                                        "format": "binary",
-                                        "description": "Sertifikat (opsional)"
-                                    },
-                                    "dokumen_tambahan": {
-                                        "type": "string",
-                                        "format": "binary",
-                                        "description": "Dokumen Tambahan (opsional)"
-                                    }
-                                },
-                                "required": [
-                                    "cv",
-                                    "transkip_nilai",
-                                    "surat_rekomendasi",
-                                    "ktp"
-                                ]
-                            }
+  "openapi": "3.0.2",
+  "info": {
+    "title": "API Berita",
+    "description": "Dokumentasi API untuk endpoint berita",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/v1/berita/{slug}": {
+      "get": {
+        "summary": "Dapatkan Berita Berdasarkan Slug",
+        "description": "Endpoint untuk mendapatkan berita berdasarkan slug",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Slug dari berita yang dicari",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Berhasil mendapatkan data berita",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "id_user": {
+                          "type": "integer"
+                        },
+                        "tanggal": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "slug": {
+                          "type": "string"
+                        },
+                        "judul": {
+                          "type": "string"
+                        },
+                        "gambar": {
+                          "type": "string"
+                        },
+                        "isi_berita": {
+                          "type": "string"
+                        },
+                        "kategori": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "format": "date-time"
                         }
+                      }
                     }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Dokumen berhasil diunggah.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/Dokumen"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Permintaan tidak valid.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Kesalahan server.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
+                  }
                 }
+              }
             }
-        },
-        "/api/v1/get-document": {
-            "get": {
-                "summary": "Dapatkan Dokumen",
-                "description": "Endpoint untuk mendapatkan dokumen berdasarkan user yang sedang login.",
-                "tags": ["Dokumen"],
-                "responses": {
-                    "200": {
-                        "description": "Dokumen berhasil diambil.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/Dokumen"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Tidak terautentikasi.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Dokumen tidak ditemukan.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Kesalahan server.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/document": {
-            "put": {
-                "summary": "Perbarui Dokumen",
-                "description": "Endpoint untuk memperbarui dokumen berdasarkan user yang sedang login.",
-                "tags": ["Dokumen"],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "cv": {
-                                        "type": "string",
-                                        "format": "binary",
-                                        "description": "Curriculum Vitae (CV)"
-                                    },
-                                    "transkip_nilai": {
-                                        "type": "string",
-                                        "format": "binary",
-                                        "description": "Transkrip Nilai"
-                                    },
-                                    "surat_rekomendasi": {
-                                        "type": "string",
-                                        "format": "binary",
-                                        "description": "Surat Rekomendasi"
-                                    },
-                                    "ktp": {
-                                        "type": "string",
-                                        "format": "binary",
-                                        "description": "Kartu Tanda Penduduk (KTP)"
-                                    },
-                                    "sertifikat": {
-                                        "type": "string",
-                                        "format": "binary",
-                                        "description": "Sertifikat (opsional)"
-                                    },
-                                    "dokumen_tambahan": {
-                                        "type": "string",
-                                        "format": "binary",
-                                        "description": "Dokumen Tambahan (opsional)"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Dokumen berhasil diperbarui.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Berhasil mengubah data dokumen"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Permintaan tidak valid.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Tidak terautentikasi.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Dokumen tidak ditemukan.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Kesalahan server.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
-            "delete": {
-                "summary": "Hapus Semua Dokumen",
-                "description": "Endpoint untuk menghapus semua dokumen berdasarkan user yang sedang login.",
-                "tags": ["Dokumen"],
-                "responses": {
-                    "200": {
-                        "description": "Dokumen berhasil dihapus.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Berhasil menghapus dokumen"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Tidak terautentikasi.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Dokumen tidak ditemukan.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Kesalahan server.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        }
-    },
-    "components": {
-        "schemas": {
-            "Dokumen": {
-                "type": "object",
-                "properties": {
-                    "cv": {
-                        "type": "string",
-                        "description": "Nama file CV yang diunggah."
-                    },
-                    "transkip_nilai": {
-                        "type": "string",
-                        "description": "Nama file transkrip nilai yang diunggah."
-                    },
-                    "id_user_magang": {
-                        "type": "integer",
-                        "description": "ID user magang."
-                    },
-                    "surat_rekomendasi": {
-                        "type": "string",
-                        "description": "Nama file surat rekomendasi yang diunggah."
-                    },
-                    "ktp": {
-                        "type": "string",
-                        "description": "Nama file KTP yang diunggah."
-                    },
-                    "sertifikat": {
-                        "type": "string",
-                        "description": "Nama file sertifikat yang diunggah (opsional)."
-                    },
-                    "dokumen_tambahan": {
-                        "type": "string",
-                        "description": "Nama file dokumen tambahan yang diunggah (opsional)."
-                    }
-                }
-            },
-            "Error": {
-                "type": "object",
-                "properties": {
+          },
+          "404": {
+            "description": "Berita tidak ditemukan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
                     "message": {
-                        "type": "string",
-                        "description": "Pesan kesalahan."
+                      "type": "string",
+                      "example": "Not Found"
                     }
+                  }
                 }
+              }
             }
-        },
-        "securitySchemes": {
-            "bearerAuth": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
-            }
+          }
         }
+      }
     }
+  }
 }

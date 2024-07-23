@@ -52,4 +52,8 @@ class User extends Authenticatable
         return $this->hasOne(UserMagang::class, 'id_user', 'id');
     }
 
+    public function berita(): HasOne {
+        return $this->hasOne(News::class, "id_user", "id");
+    }
+
 }

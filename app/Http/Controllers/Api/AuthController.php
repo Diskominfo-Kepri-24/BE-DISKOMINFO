@@ -8,8 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use App\Enums\RoleEnum;
 use App\Models\UserMagang;
 use App\Models\UserMagangMahasiswa;
 use App\Models\UserMagangSiswa;
@@ -35,7 +33,7 @@ class AuthController extends Controller
 
         $user = User::create([
             'name' => $request->name,
-            'password' => $request->password,
+            'password' => Hash::make($request->password),
             'email' => $request->email,
             'role' => 'mahasiswa',
         ]);
@@ -89,7 +87,7 @@ class AuthController extends Controller
 
         $user = User::create([
             'name' => $request->name,
-            'password' => $request->password,
+            'password' => Hash::make($request->password),
             'email' => $request->email,
             'role' => 'siswa',
         ]);
@@ -139,7 +137,7 @@ class AuthController extends Controller
 
         $user = User::create([
             'name' => $request->name,
-            'password' => $request->password,
+            'password' => Hash::make($request->password),
             'email' => $request->email,
             'role' => 'pembimbing',
         ]);
