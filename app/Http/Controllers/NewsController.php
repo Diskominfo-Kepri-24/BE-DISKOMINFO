@@ -88,8 +88,11 @@ class NewsController extends Controller
             ], 404);
         }
 
+        $komentar = $berita->comments();
+
         return response()->json([
-            'data' => $berita
+            'data' => $berita,
+            "komentar" => $komentar
         ]);
 
     }

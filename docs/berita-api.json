@@ -400,6 +400,32 @@
                                                     "format": "date-time"
                                                 }
                                             }
+                                        },
+                                        "komentar": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "nama_user": {
+                                                    "type": "integer"
+                                                },
+                                                "tanggal": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "isi_komentar": {
+                                                    "type": "string"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            }
                                         }
                                     }
                                 }

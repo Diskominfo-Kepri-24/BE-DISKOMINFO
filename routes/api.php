@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\NewsController;
 use Illuminate\Http\Request;
@@ -36,6 +37,12 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('v1/berita/{berita:slug}', 'updateBerita');
             Route::delete('v1/berita/{berita:slug}', 'deleteBerita');
         });
+    });
+
+    Route::controller(CommentController::class)->group(function(){
+        Route::post('v1/berita/{berita:slug}/komentar', 'addComment');
+        Route::post('v1/berita/{berita:slug}/komentar/{id_komentar}/update', 'updateComment');
+        Route::delete('v1/berita/{berita:slug}/komentar/{id_komentar}/delete', 'deleteComment');
     });
 
     Route::delete('/v1/logout', [AuthController::class, 'logout']);
