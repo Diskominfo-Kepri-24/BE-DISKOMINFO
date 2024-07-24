@@ -6,87 +6,55 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/api/v1/berita/{slug}": {
-      "get": {
-        "summary": "Dapatkan Berita Berdasarkan Slug",
-        "description": "Endpoint untuk mendapatkan berita berdasarkan slug",
-        "parameters": [
-          {
-            "name": "slug",
-            "in": "path",
-            "required": true,
-            "description": "Slug dari berita yang dicari",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Berhasil mendapatkan data berita",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "integer"
-                        },
-                        "id_user": {
-                          "type": "integer"
-                        },
-                        "tanggal": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "slug": {
-                          "type": "string"
-                        },
-                        "judul": {
-                          "type": "string"
-                        },
-                        "gambar": {
-                          "type": "string"
-                        },
-                        "isi_berita": {
-                          "type": "string"
-                        },
-                        "kategori": {
-                          "type": "string"
-                        },
-                        "created_at": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "updated_at": {
-                          "type": "string",
-                          "format": "date-time"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
+    
+  },
+  "components": {
+    "schemas": {
+      "Berita": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
           },
-          "404": {
-            "description": "Berita tidak ditemukan",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Not Found"
-                    }
-                  }
-                }
-              }
-            }
+          "id_user": {
+            "type": "integer",
+            "example": 2
+          },
+          "tanggal": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-07-22 00:00:00"
+          },
+          "slug": {
+            "type": "string",
+            "example": "judul-berita"
+          },
+          "judul": {
+            "type": "string",
+            "example": "Judul Berita"
+          },
+          "gambar": {
+            "type": "string",
+            "example": "storage/berita/1721712290_gambar_hj90MMzdnjNq67u2wQNQyb6kP2KYCqd5Jw9n6LrO.png"
+          },
+          "isi_berita": {
+            "type": "string",
+            "example": "Isi berita yang sangat menarik."
+          },
+          "kategori": {
+            "type": "string",
+            "example": "Olahraga"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-07-23T05:24:50.000000Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-07-23T05:24:50.000000Z"
           }
         }
       }

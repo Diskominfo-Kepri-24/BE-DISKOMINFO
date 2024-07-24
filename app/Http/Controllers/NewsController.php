@@ -6,6 +6,7 @@ use App\Models\News;
 use App\Models\UserMagang;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller
 {
@@ -79,10 +80,8 @@ class NewsController extends Controller
     }
 
 
-    public function getBeritaBySlug(Request $request, string $slug)
+    public function getBeritaBySlug(Request $request, News $berita)
     {
-
-        $berita = News::query()->where('slug', $slug)->first();
         if(!$berita){
             return response()->json([
                 'message' => "Not Found"
@@ -95,7 +94,83 @@ class NewsController extends Controller
 
     }
 
-    public function updateBerita(Request $request, string $slug)
+    public function updateBerita(Request $request, News $berita)
     {
+
+        $id_user = $request->user()->id;
+
+        $rules = [
+            "tanggal" => "date|required",
+            "judul" => "required",
+            "isi_berita" => "required",
+            "kategori" => "required",
+        ];
+
+        if($request->slug != $berita->slug){
+            $rules['slug'] = "required|unique:news,slug";
+        }
+
+        $request->validate($rules);
+
+        if(is_null($berita)){
+            return response()->json([
+                "data" => "Data tidak ditemukan"
+            ], 404);
+        }
+
+        $gambarName = null;
+        if ($request->hasFile("gambar")) {
+
+            if(!is_null($berita->gambar)){
+                Storage::disk('public')->delete(substr($berita->gambar, 8));
+            }
+
+            $request->validate([
+                "gambar" => "mimes:png,jpg,jpeg|max:4096"
+            ]);
+
+            $gambar = $request->file('gambar');
+            $gambarName = time() . "_" . "gambar" . "_" . $gambar->hashName();
+            $gambar->storeAs("public/berita", $gambarName);
+
+            $berita->gambar = "storage/berita/" . $gambarName;
+        }
+
+        $berita->judul = $request->judul;
+        $berita->tanggal = $request->tanggal;
+        $berita->slug = $request->slug;
+        $berita->isi_berita = $request->isi_berita;
+        $berita->id_user = $id_user;
+
+        $berita->save();
+
+        return response()->json([
+            "data" => $berita,
+            "status" => "Berita Berhasil diubah"
+        ]);
     }
+
+    public function deleteBerita(Request $request, News $berita){
+
+        if(is_null($berita)){
+            return response()->json([
+                "data" => "Data tidak ditemukan"
+            ], 404);
+        }
+
+        if(!is_null($berita->gambar)){
+
+            Storage::disk('public')->delete(substr($berita->gambar, 8));
+
+        }
+
+        
+        $isSuccess = $berita->delete();
+
+        return response()->json([
+            "status" => $isSuccess
+        ]);
+
+    }
+
 }

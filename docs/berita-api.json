@@ -423,6 +423,157 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "summary": "Update Berita Berdasarkan Slug",
+                "description": "Endpoint untuk mengupdate berita berdasarkan slug",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "required": true,
+                        "description": "Slug dari berita yang akan diupdate",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "tanggal": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Tanggal berita",
+                                        "example": "2024-07-22"
+                                    },
+                                    "slug": {
+                                        "type": "string",
+                                        "description": "Slug berita",
+                                        "example": "judul-berita"
+                                    },
+                                    "judul": {
+                                        "type": "string",
+                                        "description": "Judul berita",
+                                        "example": "Judul Berita"
+                                    },
+                                    "isi_berita": {
+                                        "type": "string",
+                                        "description": "Isi berita",
+                                        "example": "Isi berita yang sangat menarik."
+                                    },
+                                    "kategori": {
+                                        "type": "string",
+                                        "description": "Kategori berita",
+                                        "example": "Olahraga"
+                                    },
+                                    "gambar": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Gambar berita"
+                                    }
+                                },
+                                "required": [
+                                    "tanggal",
+                                    "slug",
+                                    "judul",
+                                    "isi_berita",
+                                    "kategori"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengupdate data berita",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Berita"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Berita Berhasil diubah"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Berita tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Hapus Berita Berdasarkan Slug",
+                "description": "Endpoint untuk menghapus berita berdasarkan slug",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "required": true,
+                        "description": "Slug dari berita yang akan dihapus",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil menghapus data berita",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Berita tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
