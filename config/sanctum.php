@@ -46,7 +46,7 @@ return [
     |
     */
 
-    'expiration' => null,
+    'expiration' => '43800', // akan expired tokennya dalam waktu 1 bulan
 
     /*
     |--------------------------------------------------------------------------
