@@ -52,6 +52,11 @@ class CommentController extends Controller
     }
 
     public function updateComment(Request $request, Comment $komentar){
+        
+        if($request->user()->cannot('update', $komentar)){
+            abort(403);
+        }
+
         $request->validate([
             "isi_komentar" => "required"
         ]);
@@ -68,6 +73,10 @@ class CommentController extends Controller
     }
 
     public function deleteComment(Request $request, Comment $komentar){
+
+        if($request->user()->cannot('delete', $komentar)){
+            abort(403);
+        }
 
         $komentar->delete();
 
