@@ -233,70 +233,69 @@
                 }
             }
         },
-        "/api/v1/berita/{slug}/komentar/{id_komentar}": {
+        "/api/v1/berita/komentar/{id_komentar}": {
             "put": {
-                "description": "Update Komentar",
+                "summary": "Update Komentar Berdasarkan ID Komentar ",
+                "description": "Endpoint untuk mengupdate komentar berdasarkan ID komentar ",
                 "parameters": [
                     {
-                        "name": "Authorization",
-                        "in": "header"
-                    },
-                    {
-                        "name": "id_berita",
-                        "in": "path"
-                    },
-                    {
                         "name": "id_komentar",
-                        "in": "path"
+                        "in": "path",
+                        "required": true,
+                        "description": "ID dari komentar yang akan diupdate",
+                        "schema": {
+                            "type": "integer"
+                        }
                     }
                 ],
                 "requestBody": {
-                    "description": "Update Komentar",
+                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "id_berita": {
-                                        "type": "string"
-                                    },
-                                    "id_user": {
-                                        "type": "string"
-                                    },
                                     "isi_komentar": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Isi dari komentar yang akan diupdate",
+                                        "example": "Ini adalah komentar yang telah diperbarui."
                                     }
-                                }
+                                },
+                                "required": ["isi_komentar"]
                             }
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "description": "Success Update Komentar",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "400": {
-                        "description": "Gagal update komentar",
+                        "description": "Berhasil mengupdate komentar",
                         "content": {
                             "application/json": {
-                                "examples": {
-                                    "validationerror": {
-                                        "description": "Validation Error",
-                                        "value": {
-                                            "errors": {
-                                                "id_berita": [
-                                                    "id_berita is required"
-                                                ],
-                                                "id_user": [
-                                                    "id_user is required"
-                                                ],
-                                                "isi_komentar": [
-                                                    "isi_komentar is required"
-                                                ]
-                                            }
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "komentar": {
+                                            "$ref": "#/components/schemas/Comment"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Komentar berhasil diubah"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Berita atau komentar tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Found"
                                         }
                                     }
                                 }
@@ -306,31 +305,46 @@
                 }
             },
             "delete": {
-                "description": "Delete Komentar",
+                "summary": "Hapus Komentar Berdasarkan ID Komentar",
+                "description": "Endpoint untuk menghapus komentar berdasarkan ID komentar",
                 "parameters": [
                     {
-                        "name": "Authorization",
-                        "in": "header"
-                    },
-                    {
-                        "name": "id_berita",
-                        "in": "path"
-                    },
-                    {
                         "name": "id_komentar",
-                        "in": "path"
+                        "in": "path",
+                        "required": true,
+                        "description": "ID dari komentar yang akan dihapus",
+                        "schema": {
+                            "type": "integer"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success delete komentar",
+                        "description": "Berhasil menghapus komentar",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "data": {
-                                            "type": "boolean"
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Komentar berhasil dihapus"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Berita atau komentar tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Found"
                                         }
                                     }
                                 }

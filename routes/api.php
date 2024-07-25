@@ -41,8 +41,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::controller(CommentController::class)->group(function(){
         Route::post('v1/berita/{berita:slug}/komentar', 'addComment');
-        Route::post('v1/berita/{berita:slug}/komentar/{komentar:id}/update', 'updateComment');
-        Route::delete('v1/berita/{berita:slug}/komentar/{komentar:id}/delete', 'deleteComment');
+        Route::put('v1/berita/komentar/{komentar:id}', 'updateComment');
+        Route::delete('v1/berita/komentar/{komentar:id}', 'deleteComment');
     });
 
     Route::delete('/v1/logout', [AuthController::class, 'logout']);

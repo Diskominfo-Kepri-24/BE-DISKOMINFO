@@ -51,21 +51,29 @@ class CommentController extends Controller
         ]);
     }
 
-    public function updateComment(Request $request, News $berita, Comment $komentar){
+    public function updateComment(Request $request, Comment $komentar){
         $request->validate([
-            "isi_komentar" => $request->isi_komentar
+            "isi_komentar" => "required"
         ]);
 
         $komentar->isi_komentar = $request->isi_komentar;
 
         $komentar->update();
         
+        return response()->json([
+            "komentar" => $komentar,
+            "status" => "Komentar berhasil diubah"
+        ]);
         
     }
 
-    public function deleteComment(Request $request, News $berita, $idComment){
+    public function deleteComment(Request $request, Comment $komentar){
 
-        
+        $komentar->delete();
+
+        return response()->json([
+            "status" => "Komentar berhasil dihapus"
+        ]);
 
     }
 
