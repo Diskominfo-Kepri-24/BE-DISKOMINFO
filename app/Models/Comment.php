@@ -19,7 +19,7 @@ class Comment extends Model
         "id_berita",
         "id_user",
         "tanggal",
-        "isi_komentas",
+        "isi_komentar",
     ];
 
     public function user(): BelongsTo {
@@ -28,6 +28,9 @@ class Comment extends Model
 
     public function news(): BelongsTo {
         return $this->belongsTo(News::class, "id_berita", "id");
+    }
+
+    public function getCommentWithRelation($slug, $id_user, $id_comment){
     }
 
 }

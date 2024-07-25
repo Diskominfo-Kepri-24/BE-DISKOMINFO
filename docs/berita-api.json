@@ -357,75 +357,48 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Berhasil mendapatkan data berita",
+                        "description": "Komentar berhasil ditambahkan",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer"
+                                "examples": {
+                                    "example-1": {
+                                        "value": {
+                                            "data": {
+                                                "id": 3,
+                                                "id_user": 2,
+                                                "tanggal": "2024-07-22 00:00:00",
+                                                "slug": "judul-berita-unik",
+                                                "judul": "Judul Berita Unik",
+                                                "gambar": "storage/berita/1721833965_gambar_Vx6naHXeZXa9gScQcPEkzCZNRqFoVDXitIhuWzJI.png",
+                                                "isi_berita": "Isi berita yang sangat menarik.",
+                                                "kategori": "Olahraga",
+                                                "created_at": "2024-07-24T15:12:45.000000Z",
+                                                "updated_at": "2024-07-24T15:12:45.000000Z"
+                                            },
+                                            "komentar": [
+                                                {
+                                                    "id": 1,
+                                                    "id_berita": 3,
+                                                    "id_user": 1,
+                                                    "tanggal": "2024-07-25 03:16:09 am",
+                                                    "isi_komentar": "This is a comment",
+                                                    "created_at": "2024-07-25T03:16:09.000000Z",
+                                                    "updated_at": "2024-07-25T03:16:09.000000Z",
+                                                    "berita_judul": "Judul Berita Unik",
+                                                    "user_name": "Mahadi Dwi Nugraha"
                                                 },
-                                                "id_user": {
-                                                    "type": "integer"
-                                                },
-                                                "tanggal": {
-                                                    "type": "string",
-                                                    "format": "date-time"
-                                                },
-                                                "slug": {
-                                                    "type": "string"
-                                                },
-                                                "judul": {
-                                                    "type": "string"
-                                                },
-                                                "gambar": {
-                                                    "type": "string"
-                                                },
-                                                "isi_berita": {
-                                                    "type": "string"
-                                                },
-                                                "kategori": {
-                                                    "type": "string"
-                                                },
-                                                "created_at": {
-                                                    "type": "string",
-                                                    "format": "date-time"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string",
-                                                    "format": "date-time"
+                                                {
+                                                    "id": 2,
+                                                    "id_berita": 3,
+                                                    "id_user": 1,
+                                                    "tanggal": "2024-07-25 03:17:25 am",
+                                                    "isi_komentar": "Tambah komentar lagi",
+                                                    "created_at": "2024-07-25T03:17:25.000000Z",
+                                                    "updated_at": "2024-07-25T03:17:25.000000Z",
+                                                    "berita_judul": "Judul Berita Unik",
+                                                    "user_name": "Mahadi Dwi Nugraha"
                                                 }
-                                            }
-                                        },
-                                        "komentar": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer"
-                                                },
-                                                "nama_user": {
-                                                    "type": "integer"
-                                                },
-                                                "tanggal": {
-                                                    "type": "string",
-                                                    "format": "date-time"
-                                                },
-                                                "isi_komentar": {
-                                                    "type": "string"
-                                                },
-                                                "created_at": {
-                                                    "type": "string",
-                                                    "format": "date-time"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string",
-                                                    "format": "date-time"
-                                                }
-                                            }
+                                            ]
                                         }
                                     }
                                 }

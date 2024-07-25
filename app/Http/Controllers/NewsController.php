@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\News;
 use App\Models\UserMagang;
 use Illuminate\Database\Eloquent\Builder;
@@ -88,11 +89,16 @@ class NewsController extends Controller
             ], 404);
         }
 
-        $komentar = $berita->comments();
+        // ambil comments berdasarkan slug
+        $comments = Comment::join('news', 'news.id', '=', 'comments.id_berita')
+                        ->join('users', 'users.id', '=', 'comments.id_user')
+                        ->select('comments.*', 'news.judul as berita_judul', 'users.name as user_name')
+                        ->where('news.id', $berita->id)
+                        ->get();
 
         return response()->json([
             'data' => $berita,
-            "komentar" => $komentar
+            "komentar" => $comments
         ]);
 
     }

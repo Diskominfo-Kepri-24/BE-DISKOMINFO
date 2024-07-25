@@ -5,78 +5,123 @@
         "description": "Komentar API",
         "version": "1.0"
     },
-    "servers": [{ "url": "https://localhost:8000" }],
+    "components": {
+        "schemas": {
+            "Comment": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_berita": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_user": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "tanggal": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-07-22T00:00:00.000000Z"
+                    },
+                    "isi_komentar": {
+                        "type": "string",
+                        "example": "This is a comment"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-07-23T05:24:50.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-07-23T05:24:50.000000Z"
+                    }
+                }
+            },
+            "User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "john.doe@example.com"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "servers": [{ "url": "http://localhost:8000" }],
     "paths": {
-        "/api/v1/berita/{id_berita}/komentar": {
+        "/api/v1/berita/{slug}/komentar": {
             "post": {
-                "description": "Membuat Komentar",
+                "summary": "Add a comment to a news item",
+                "description": "Endpoint untuk menambahkan komentar pada berita berdasarkan slug",
                 "parameters": [
                     {
-                        "name": "Authorization",
-                        "in": "header"
-                    },
-                    {
-                        "name": "id_berita",
-                        "in": "path"
+                        "name": "slug",
+                        "in": "path",
+                        "required": true,
+                        "description": "Slug dari berita",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "requestBody": {
-                    "description": "Membuat Komentar",
+                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "id_berita": {
-                                        "type": "string"
-                                    },
-                                    "id_user": {
-                                        "type": "string"
-                                    },
-                                    "tanggal":{
-                                        "type": "string"
-                                    },
-                                    "isi_komentar":{
-                                        "type": "string"
+                                    "isi_komentar": {
+                                        "type": "string",
+                                        "description": "Isi komentar",
+                                        "example": "This is a comment"
                                     }
-                                }
+                                },
+                                "required": ["isi_komentar"]
                             }
                         }
                     }
                 },
                 "responses": {
                     "201": {
-                        "description": "Berhasil menambahkan komentar",
+                        "description": "Comment added successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number"
-                                                },
-                                                "id_berita": {
-                                                    "type": "string"
-                                                },
-                                                "id_user": {
-                                                    "type": "string"
-                                                },
-                                                "tanggal": {
-                                                    "type": "string"
-                                                },
-                                                "isi_komentar": {
-                                                    "type": "string"
-                                                },
-                                                "created_at":{
-                                                    "type": "string"  
-                                                },
-                                                "updated_at":{
-                                                    "type": "string"
-                                                }
-                                            }
+                                        "comment": {
+                                            "$ref": "#/components/schemas/Comment"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
                                         }
                                     }
                                 }
@@ -84,21 +129,31 @@
                         }
                     },
                     "400": {
-                        "description": "Gagal menambahkan komentar",
+                        "description": "Validation error",
                         "content": {
                             "application/json": {
-                                "examples": {
-                                    "validationerror": {
-                                        "description": "Validation Error",
-                                        "value": {
-                                            "errors": {
-                                                "isi_komentar": [
-                                                    "isi_komentar is required"
-                                                ],
-                                                "tanggal": [
-                                                    "tanggal is required"
-                                                ]
-                                            }
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "News not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Found"
                                         }
                                     }
                                 }
@@ -158,8 +213,8 @@
                 }
             }
         },
-        "/api/v1/berita/{id_berita}/komentar/{id_komentar}":{
-            "put":{
+        "/api/v1/berita/{slug}/komentar/{id_komentar}": {
+            "put": {
                 "description": "Update Komentar",
                 "parameters": [
                     {
@@ -175,11 +230,11 @@
                         "in": "path"
                     }
                 ],
-                "requestBody":{
+                "requestBody": {
                     "description": "Update Komentar",
                     "content": {
-                        "application/json":{
-                            "schema":{
+                        "application/json": {
+                            "schema": {
                                 "type": "object",
                                 "properties": {
                                     "id_berita": {
@@ -197,42 +252,15 @@
                     }
                 },
                 "responses": {
-                    "200":{
+                    "200": {
                         "description": "Success Update Komentar",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "string"
-                                                },
-                                                "id_berita": {
-                                                    "type": "string"
-                                                },
-                                                "id_user": {
-                                                    "type": "string"
-                                                },
-                                                "isi_komentar": {
-                                                    "type": "string"
-                                                },
-                                                "created_at": {
-                                                    "type": "string"
-                                                },
-                                                "updated_at":{
-                                                    "type": "string"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
+                                
                             }
                         }
                     },
-                    "400":{
+                    "400": {
                         "description": "Gagal update komentar",
                         "content": {
                             "application/json": {
@@ -259,7 +287,7 @@
                     }
                 }
             },
-            "delete":{
+            "delete": {
                 "description": "Delete Komentar",
                 "parameters": [
                     {
@@ -276,14 +304,14 @@
                     }
                 ],
                 "responses": {
-                    "200":{
+                    "200": {
                         "description": "Success delete komentar",
                         "content": {
-                            "application/json":{
-                                "schema":{
+                            "application/json": {
+                                "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "data":{
+                                        "data": {
                                             "type": "boolean"
                                         }
                                     }

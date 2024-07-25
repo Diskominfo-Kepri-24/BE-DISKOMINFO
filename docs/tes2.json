@@ -1,63 +1,188 @@
 {
-  "openapi": "3.0.2",
-  "info": {
-    "title": "API Berita",
-    "description": "Dokumentasi API untuk endpoint berita",
-    "version": "1.0.0"
-  },
-  "paths": {
-    
-  },
-  "components": {
-    "schemas": {
-      "Berita": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "example": 1
-          },
-          "id_user": {
-            "type": "integer",
-            "example": 2
-          },
-          "tanggal": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2024-07-22 00:00:00"
-          },
-          "slug": {
-            "type": "string",
-            "example": "judul-berita"
-          },
-          "judul": {
-            "type": "string",
-            "example": "Judul Berita"
-          },
-          "gambar": {
-            "type": "string",
-            "example": "storage/berita/1721712290_gambar_hj90MMzdnjNq67u2wQNQyb6kP2KYCqd5Jw9n6LrO.png"
-          },
-          "isi_berita": {
-            "type": "string",
-            "example": "Isi berita yang sangat menarik."
-          },
-          "kategori": {
-            "type": "string",
-            "example": "Olahraga"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2024-07-23T05:24:50.000000Z"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2024-07-23T05:24:50.000000Z"
-          }
+    "openapi": "3.0.2",
+    "info": {
+        "title": "API Berita",
+        "description": "Dokumentasi API untuk endpoint berita",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/berita/{slug}/komentar": {
+            "post": {
+                "summary": "Tambah Komentar Berdasarkan Slug Berita",
+                "description": "Endpoint untuk menambah komentar berdasarkan slug berita",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "required": true,
+                        "description": "Slug dari berita",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "isi_komentar": {
+                                        "type": "string",
+                                        "description": "Isi komentar",
+                                        "example": "Ini adalah komentar"
+                                    }
+                                },
+                                "required": ["isi_komentar"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Komentar berhasil ditambahkan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "comment": {
+                                            "$ref": "#/components/schemas/Comment"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "example-1": {
+                                        "value": {
+                                            "data": {
+                                                "id": 3,
+                                                "id_user": 2,
+                                                "tanggal": "2024-07-22 00:00:00",
+                                                "slug": "judul-berita-unik",
+                                                "judul": "Judul Berita Unik",
+                                                "gambar": "storage/berita/1721833965_gambar_Vx6naHXeZXa9gScQcPEkzCZNRqFoVDXitIhuWzJI.png",
+                                                "isi_berita": "Isi berita yang sangat menarik.",
+                                                "kategori": "Olahraga",
+                                                "created_at": "2024-07-24T15:12:45.000000Z",
+                                                "updated_at": "2024-07-24T15:12:45.000000Z"
+                                            },
+                                            "komentar": [
+                                                {
+                                                    "id": 1,
+                                                    "id_berita": 3,
+                                                    "id_user": 1,
+                                                    "tanggal": "2024-07-25 03:16:09 am",
+                                                    "isi_komentar": "This is a comment",
+                                                    "created_at": "2024-07-25T03:16:09.000000Z",
+                                                    "updated_at": "2024-07-25T03:16:09.000000Z",
+                                                    "berita_judul": "Judul Berita Unik",
+                                                    "user_name": "Mahadi Dwi Nugraha"
+                                                },
+                                                {
+                                                    "id": 2,
+                                                    "id_berita": 3,
+                                                    "id_user": 1,
+                                                    "tanggal": "2024-07-25 03:17:25 am",
+                                                    "isi_komentar": "Tambah komentar lagi",
+                                                    "created_at": "2024-07-25T03:17:25.000000Z",
+                                                    "updated_at": "2024-07-25T03:17:25.000000Z",
+                                                    "berita_judul": "Judul Berita Unik",
+                                                    "user_name": "Mahadi Dwi Nugraha"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Berita tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
-      }
+    },
+    "components": {
+        "schemas": {
+            "Comment": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_berita": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "id_user": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "tanggal": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-07-22 00:00:00"
+                    },
+                    "isi_komentar": {
+                        "type": "string",
+                        "example": "This is a comment"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-07-25T03:16:09.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-07-25T03:16:09.000000Z"
+                    },
+                    "berita_judul": {
+                        "type": "string",
+                        "example": "Judul Berita Unik"
+                    },
+                    "user_name": {
+                        "type": "string",
+                        "example": "Mahadi Dwi Nugraha"
+                    }
+                }
+            },
+            "User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Mahadi Dwi Nugraha"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "mahadi@example.com"
+                    }
+                }
+            }
+        }
     }
-  }
 }
