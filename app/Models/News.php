@@ -15,6 +15,8 @@ class News extends Model
 
     public $timestamps = true;
 
+    protected $appends = ['last_updated'];
+
     protected $fillable = [
         "id_user",
         "tanggal",
@@ -31,6 +33,12 @@ class News extends Model
 
     public function comments(): HasMany {
         return $this->hasMany(Comment::class, "id_berita", "id");
+    }
+
+    public function getLastUpdatedAttribute(){
+
+        return $this->updated_at->diffForHumans();
+
     }
 
 }

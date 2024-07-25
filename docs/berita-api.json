@@ -83,11 +83,6 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "tanggal": {
-                                        "type": "string",
-                                        "format": "date",
-                                        "example": "2024-07-22"
-                                    },
                                     "slug": {
                                         "type": "string",
                                         "example": "judul-berita-unik"
@@ -110,7 +105,6 @@
                                     }
                                 },
                                 "required": [
-                                    "tanggal",
                                     "slug",
                                     "judul",
                                     "isi_berita",
@@ -143,6 +137,7 @@
                                         "kategori": "Olahraga",
                                         "gambar": "storage/berita/1626949200_gambar_judul-berita-unik.jpg",
                                         "id_user": 1,
+                                        "last_updated": "string",
                                         "created_at": "2024-07-22T10:00:00.000000Z",
                                         "updated_at": "2024-07-22T10:00:00.000000Z"
                                     }
@@ -357,7 +352,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Komentar berhasil ditambahkan",
+                        "description": "Berita berhasil didapatkan",
                         "content": {
                             "application/json": {
                                 "examples": {
@@ -374,31 +369,7 @@
                                                 "kategori": "Olahraga",
                                                 "created_at": "2024-07-24T15:12:45.000000Z",
                                                 "updated_at": "2024-07-24T15:12:45.000000Z"
-                                            },
-                                            "komentar": [
-                                                {
-                                                    "id": 1,
-                                                    "id_berita": 3,
-                                                    "id_user": 1,
-                                                    "tanggal": "2024-07-25 03:16:09 am",
-                                                    "isi_komentar": "This is a comment",
-                                                    "created_at": "2024-07-25T03:16:09.000000Z",
-                                                    "updated_at": "2024-07-25T03:16:09.000000Z",
-                                                    "berita_judul": "Judul Berita Unik",
-                                                    "user_name": "Mahadi Dwi Nugraha"
-                                                },
-                                                {
-                                                    "id": 2,
-                                                    "id_berita": 3,
-                                                    "id_user": 1,
-                                                    "tanggal": "2024-07-25 03:17:25 am",
-                                                    "isi_komentar": "Tambah komentar lagi",
-                                                    "created_at": "2024-07-25T03:17:25.000000Z",
-                                                    "updated_at": "2024-07-25T03:17:25.000000Z",
-                                                    "berita_judul": "Judul Berita Unik",
-                                                    "user_name": "Mahadi Dwi Nugraha"
-                                                }
-                                            ]
+                                            }
                                         }
                                     }
                                 }
@@ -444,12 +415,6 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "tanggal": {
-                                        "type": "string",
-                                        "format": "date",
-                                        "description": "Tanggal berita",
-                                        "example": "2024-07-22"
-                                    },
                                     "slug": {
                                         "type": "string",
                                         "description": "Slug berita",
@@ -477,7 +442,6 @@
                                     }
                                 },
                                 "required": [
-                                    "tanggal",
                                     "slug",
                                     "judul",
                                     "isi_berita",

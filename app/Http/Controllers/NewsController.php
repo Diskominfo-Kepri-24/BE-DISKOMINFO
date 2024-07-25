@@ -18,7 +18,6 @@ class NewsController extends Controller
         $id_user = $request->user()->id;
 
         $request->validate([
-            "tanggal" => "date|required",
             "slug" => "required|unique:news,slug",
             "judul" => "required",
             "isi_berita" => "required",
@@ -38,7 +37,7 @@ class NewsController extends Controller
         }
 
         $data = News::query()->create([
-            "tanggal" => $request->tanggal,
+            "tanggal" => date("Y-m-d h:i:s", time()),
             "slug" => $request->slug,
             "judul" => $request->judul,
             "gambar" => is_null($gambarName) ? null : "storage/berita/" . $gambarName,
@@ -72,9 +71,14 @@ class NewsController extends Controller
                 $builder->where('kategori', 'like', '%' . $kategori . '%');
             }
         });
-
+        
         $berita = $berita->paginate(perPage: $size, page: $page);
+        
+        foreach ($berita as $item) {
+            $item->last_updated = $item->updated_at->diffForHumans();
 
+        }
+        
         return response()->json([
             'data' => $berita,
         ]);
@@ -89,16 +93,8 @@ class NewsController extends Controller
             ], 404);
         }
 
-        // ambil comments berdasarkan slug
-        $comments = Comment::join('news', 'news.id', '=', 'comments.id_berita')
-                        ->join('users', 'users.id', '=', 'comments.id_user')
-                        ->select('comments.*', 'news.judul as berita_judul', 'users.name as user_name')
-                        ->where('news.id', $berita->id)
-                        ->get();
-
         return response()->json([
-            'data' => $berita,
-            "komentar" => $comments
+            'data' => $berita
         ]);
 
     }
@@ -109,7 +105,6 @@ class NewsController extends Controller
         $id_user = $request->user()->id;
 
         $rules = [
-            "tanggal" => "date|required",
             "judul" => "required",
             "isi_berita" => "required",
             "kategori" => "required",
@@ -146,7 +141,7 @@ class NewsController extends Controller
         }
 
         $berita->judul = $request->judul;
-        $berita->tanggal = $request->tanggal;
+        $berita->tanggal = date("Y-m-d h:i:s", time());
         $berita->slug = $request->slug;
         $berita->isi_berita = $request->isi_berita;
         $berita->id_user = $id_user;

@@ -30,7 +30,6 @@ class Comment extends Model
         return $this->belongsTo(News::class, "id_berita", "id");
     }
 
-    public function getCommentWithRelation($slug, $id_user, $id_comment){
-    }
+
 
 }

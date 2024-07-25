@@ -163,47 +163,67 @@
                 }
             },
             "get": {
-                "description": "Get komentar by id_berita",
+                "summary": "Dapatkan Komentar Berdasarkan Slug Berita",
+                "description": "Endpoint untuk mendapatkan berita berdasarkan slug",
                 "parameters": [
                     {
-                        "name": "Authorization",
-                        "in": "header"
-                    },
-                    {
-                        "name": "id_berita",
-                        "in": "path"
+                        "name": "slug",
+                        "in": "path",
+                        "required": true,
+                        "description": "Slug dari berita yang dicari",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success mendapatkan komentar",
+                        "description": "Komentar berhasil didapatkan",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "example-1": {
+                                        "value": {
+                                            "komentar": [
+                                                {
+                                                    "id": 0,
+                                                    "id_berita": 0,
+                                                    "id_user": 0,
+                                                    "tanggal": "string",
+                                                    "isi_komentar": "string",
+                                                    "created_at": "string",
+                                                    "updated_at": "string",
+                                                    "berita_judul": "string",
+                                                    "user_name": "string"
+                                                },
+                                                {
+                                                    "id": 0,
+                                                    "id_berita": 0,
+                                                    "id_user": 0,
+                                                    "tanggal": "string",
+                                                    "isi_komentar": "string",
+                                                    "created_at": "string",
+                                                    "updated_at": "string",
+                                                    "berita_judul": "string",
+                                                    "user_name": "string"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Berita tidak ditemukan",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number"
-                                                },
-                                                "id_berita": {
-                                                    "type": "string"
-                                                },
-                                                "id_user": {
-                                                    "type": "string"
-                                                },
-                                                "tanggal": {
-                                                    "type": "string"
-                                                },
-                                                "created_at": {
-                                                    "type": "string"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string"
-                                                }
-                                            }
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Found"
                                         }
                                     }
                                 }
@@ -255,9 +275,7 @@
                     "200": {
                         "description": "Success Update Komentar",
                         "content": {
-                            "application/json": {
-                                
-                            }
+                            "application/json": {}
                         }
                     },
                     "400": {

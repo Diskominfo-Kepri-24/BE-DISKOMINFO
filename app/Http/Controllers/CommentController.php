@@ -25,11 +25,6 @@ class CommentController extends Controller
             "isi_komentar" => $request->isi_komentar,
         ]);
 
-        // $user = $comment->query()->where("slug", $berita->slug)->comment();
-        // $user = User::query()->where("id", $id_user)
-        //                     ->join("comments", "comments.id_user", "=", "users.id")
-        //                     ->first();
-        // $user = $comment->query()->find($id_user);
 
         $user = User::find($id_user);
 
@@ -41,8 +36,30 @@ class CommentController extends Controller
         ]);
     }
 
-    public function updateComment(Request $request, News $berita, $idComment){
+    public function getComment(Request $request, News $berita){
+        // ambil comments berdasarkan slug
+        $comments = Comment::join('news', 'news.id', '=', 'comments.id_berita')
+                        ->join('users', 'users.id', '=', 'comments.id_user')
+                        ->select('comments.*', 'news.judul as berita_judul', 'users.name as user_name')
+                        ->where('news.id', $berita->id)
+                        ->orderBy("comments.tanggal", "desc")
+                        ->get();
 
+                        
+        return response()->json([
+            "komentar" => $comments
+        ]);
+    }
+
+    public function updateComment(Request $request, News $berita, Comment $komentar){
+        $request->validate([
+            "isi_komentar" => $request->isi_komentar
+        ]);
+
+        $komentar->isi_komentar = $request->isi_komentar;
+
+        $komentar->update();
+        
         
     }
 

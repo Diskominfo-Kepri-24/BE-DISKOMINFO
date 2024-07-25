@@ -18,7 +18,7 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::get('v1/berita', [NewsController::class, 'searchBerita']);
 Route::get('v1/berita/{berita:slug}', [NewsController::class, 'getBeritaBySlug']);
-
+Route::get('v1/berita/{berita:slug}/komentar', [CommentController::class, 'getComment']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -41,8 +41,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::controller(CommentController::class)->group(function(){
         Route::post('v1/berita/{berita:slug}/komentar', 'addComment');
-        Route::post('v1/berita/{berita:slug}/komentar/{id_komentar}/update', 'updateComment');
-        Route::delete('v1/berita/{berita:slug}/komentar/{id_komentar}/delete', 'deleteComment');
+        Route::post('v1/berita/{berita:slug}/komentar/{komentar:id}/update', 'updateComment');
+        Route::delete('v1/berita/{berita:slug}/komentar/{komentar:id}/delete', 'deleteComment');
     });
 
     Route::delete('/v1/logout', [AuthController::class, 'logout']);
