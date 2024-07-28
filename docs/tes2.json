@@ -1,13 +1,86 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "API Berita",
-        "description": "Dokumentasi API untuk endpoint berita",
+        "title": "API Gallery",
+        "description": "Dokumentasi API untuk endpoint gallery",
         "version": "1.0.0"
     },
     "paths": {
-        "/api/v1/berita/{slug}/komentar/{id_komentar}": {
-            
+        "/api/v1/gallery/{id}": {
+            "get": {
+                "summary": "Get gallery image by ID",
+                "description": "Endpoint untuk mengambil gambar galeri berdasarkan ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID dari gambar galeri yang akan diambil",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data gallery berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "gallery": {
+                                            "$ref": "#/components/schemas/Gallery"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data gallery tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data tidak ditemukan"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Gallery": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "image": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            }
         }
     }
 }

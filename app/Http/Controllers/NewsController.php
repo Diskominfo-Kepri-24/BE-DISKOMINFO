@@ -32,7 +32,7 @@ class NewsController extends Controller
             ]);
 
             $gambar = $request->file('gambar');
-            $gambarName = time() . "_" . "gambar" . "_" . $gambar->hashName();
+            $gambarName = now() . "_" . "gambar" . "_" . $gambar->hashName();
             $gambar->storeAs("public/berita", $gambarName);
         }
 

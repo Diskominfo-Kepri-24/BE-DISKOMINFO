@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DokumenController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\NewsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,8 @@ Route::controller(AuthController::class)->group(function () {
 Route::get('v1/berita', [NewsController::class, 'searchBerita']);
 Route::get('v1/berita/{berita:slug}', [NewsController::class, 'getBeritaBySlug']);
 Route::get('v1/berita/{berita:slug}/komentar', [CommentController::class, 'getComment']);
+Route::get('v1/gallery', [GalleryController::class, 'getImages']);
+Route::get('v1/gallery/{gallery:id}',[GalleryController::class, 'getImageById']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -37,6 +40,12 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('v1/berita', 'storeBerita');
             Route::post('v1/berita/{berita:slug}', 'updateBerita');
             Route::delete('v1/berita/{berita:slug}', 'deleteBerita');
+        });
+
+        Route::controller(GalleryController::class)->group(function(){
+            Route::post('v1/gallery', 'storeImage');
+            Route::post('v1/gallery/{gallery:id}', 'updateImage');
+            Route::delete('v1/gallery/{gallery:id}', 'deleteImage');
         });
     });
 
