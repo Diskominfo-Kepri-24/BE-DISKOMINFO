@@ -14,6 +14,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/v1/register/mahasiswa', 'registerMahasiswa');
     Route::post('/v1/register/siswa', 'registerSiswa');
     Route::post('/v1/register/pembimbing', 'registerPembimbing');
+    Route::post('/v1/register/admin', 'registerAdmin');
 });
 
 Route::get('v1/berita', [NewsController::class, 'searchBerita']);

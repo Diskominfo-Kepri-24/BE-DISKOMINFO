@@ -7,7 +7,7 @@
     },
     "components": {
         "securitySchemes": {
-            "bearerAuth":{
+            "bearerAuth": {
                 "type": "http",
                 "scheme": "bearer",
                 "bearerFormat": "JWT"
@@ -16,9 +16,7 @@
     },
     "security": [
         {
-            "bearerAuth":[
-                
-            ]
+            "bearerAuth": []
         }
     ],
     "servers": [{ "url": "http://localhost:8000" }],
@@ -188,25 +186,24 @@
                                                 "email": {
                                                     "type": "string"
                                                 },
-                                                "jurusan":{
+                                                "jurusan": {
                                                     "type": "string"
                                                 },
-                                                "tahun_angkatan":{
+                                                "tahun_angkatan": {
                                                     "type": "string"
                                                 },
-                                                "universitas":{
+                                                "universitas": {
                                                     "type": "string"
                                                 },
-                                                "id_user_magang":{
+                                                "id_user_magang": {
                                                     "type": "number"
                                                 },
-                                                "no_telp":{
+                                                "no_telp": {
                                                     "type": "string"
                                                 },
-                                                "role":{
+                                                "role": {
                                                     "type": "string"
                                                 }
-                                                
                                             }
                                         },
                                         "errors": {
@@ -355,7 +352,7 @@
                                                 "updated_at": "string",
                                                 "created_at": "string",
                                                 "no_telp": "string",
-                                                "role": "string" 
+                                                "role": "string"
                                             }
                                         }
                                     }
@@ -459,6 +456,111 @@
                                         "type": "string"
                                     },
                                     "nisn": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success Register User Pembimbing",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "success": {
+                                        "description": "Success Register New User",
+                                        "value": {
+                                            "data": {
+                                                "name": "string",
+                                                "email": "string",
+                                                "id": 1
+                                            }
+                                        }
+                                    }
+                                },
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "number"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Validation Error": {
+                                        "description": "Validation Error",
+                                        "value": {
+                                            "email": [
+                                                "The email field is required",
+                                                "email containt @examples.com",
+                                                "The email has already been taken"
+                                            ],
+                                            "password": [
+                                                "The password field is required",
+                                                "password min 8 characters"
+                                            ],
+                                            "name": [
+                                                "The name field is required"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/register/admin": {
+            "post": {
+                "description": "Register User Admin",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "examples": {
+                                "user": {
+                                    "description": "Register User Admin",
+                                    "value": {
+                                        "name": "string",
+                                        "email": "string",
+                                        "password": "string"
+                                    }
+                                }
+                            },
+                            "schema": {
+                                "type": "object",
+                                "required": ["name", "email", "password"],
+                                "properties": {
+                                    "name": {
                                         "type": "string"
                                     },
                                     "email": {

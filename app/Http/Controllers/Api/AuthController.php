@@ -128,7 +128,6 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|max:255|unique:users',
             "password" => "required|min:8",
-            'role' => "pembimbing",
         ]);
 
         if ($validator->fails()) {
@@ -147,6 +146,33 @@ class AuthController extends Controller
             'data' => $user
         ]);
     }
+
+    public function registerAdmin(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|max:255|unique:users',
+            "password" => "required|min:8",
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $user = User::create([
+            'name' => $request->name,
+            'password' => Hash::make($request->password),
+            'email' => $request->email,
+            'role' => 'admin',
+        ]);
+        
+
+        return response()->json([
+            'data' => $user
+        ]);
+    }
+
+
 
     public function login(Request $request)
     {
