@@ -51,7 +51,7 @@ class AuthController extends Controller
             'tahun_angkatan' => $request->tahun_angkatan,
             'universitas' => $request->universitas,
             'id_user_magang' => $userMagang->id,
-            
+
         ]);
 
         $data = $userMahasiswa->toArray();
@@ -60,7 +60,7 @@ class AuthController extends Controller
         $data['no_telp'] = $userMagang->no_telp;
         $data['role'] = $user->role;
         $data['id'] = $user->id;
-        
+
 
         return response()->json([
             'data' => $data
@@ -140,7 +140,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'role' => 'pembimbing',
         ]);
-        
+
 
         return response()->json([
             'data' => $user
@@ -165,7 +165,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'role' => 'admin',
         ]);
-        
+
 
         return response()->json([
             'data' => $user
@@ -185,6 +185,29 @@ class AuthController extends Controller
         // $user = User::where('email', $request->email)->firstOrFail()
         $user = User::query()->where('email', $request->email)->firstOrFail();
 
+        if ($user->role == "mahasiswa" || $user->role == "siswa") {
+
+            $userMagang = $user->userMagang()->firstOrFail();
+
+
+            if ($userMagang->status == "menunggu" || $userMagang->status == "ditolak") {
+                return response()->json([
+                    "message" => "Anda belum memiliki akses ke halaman ini",
+                    "status" => $userMagang->status,
+                ], 403);
+            }
+
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json([
+                "message" => "Login Success",
+                "access_token" => $token,
+                "status" => $userMagang->status,
+                "token_type" => "Bearer",
+                "role" => $user->role,
+            ]);
+        }
+
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
@@ -192,6 +215,50 @@ class AuthController extends Controller
             'access_token' => $token,
             'token_type' => 'Bearer',
             "role" => $user->role
+        ]);
+    }
+
+    public function loginDiff(Request $request)
+    {
+
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            return response()->json([
+                'message' => "Unauthorized"
+            ], 401);
+        }
+
+        $user = User::query()->where('email', $request->email)->firstOrFail();
+
+        if ($user->role == "mahasiswa" || $user->role == "siswa") {
+
+            $userMagang = $user->userMagang()->firstOrFail();
+
+
+            if ($userMagang->status == "menunggu" || $userMagang->status == "ditolak") {
+                return response()->json([
+                    "message" => "Anda belum memiliki akses ke halaman ini",
+                    "status" => $userMagang->status
+                ], 403);
+            }
+
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json([
+                "message" => "Login Success",
+                "access_token" => $token,
+                "status" => $userMagang->status,
+                "token_type" => "Bearer",
+                "role" => $user->role,
+            ]);
+        }
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            "message" => "Login Success",
+            "access_token" => $token,
+            "token_type" => 'Bearer',
+            "role" => $user->role,
         ]);
     }
 

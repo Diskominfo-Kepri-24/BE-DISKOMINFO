@@ -84,6 +84,90 @@
                 }
             }
         },
+        "/api/v1/magang/login":{
+            "post":{
+                "description": "Login User Magang",
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "type": "object",
+                                "properties": {
+                                    "email":{
+                                        "type": "string"
+                                    },
+                                    "password":{
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200":{
+                        "description": "Success login",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "message":{
+                                            "type": "string"
+                                        },
+                                        "access_token":{
+                                            "type": "string"
+                                        },
+                                        "status":{
+                                            "type": "string"
+                                        },
+                                        "token_type":{
+                                            "type": "string"
+                                        },
+                                        "role":{
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description": "Failed Login",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "message":{
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403":{
+                        "description": "Dont have access",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "message":{
+                                            "type": "string"
+                                        },
+                                        "status":{
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/register/mahasiswa": {
             "post": {
                 "description": "Register User Magang Mahasiswa",

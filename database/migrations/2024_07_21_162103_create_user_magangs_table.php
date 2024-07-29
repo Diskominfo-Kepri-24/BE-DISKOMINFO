@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('no_telp', 20)->nullable(true);
             $table->uuid()->unique()->default(DB::raw('(UUID())'));
+            $table->enum("status", ["diterima", "menunggu", "ditolak"])->default("menunggu");
             $table->dateTime('mulai_magang');
             $table->dateTime('akhir_magang');
             $table->unsignedBigInteger('id_user');
