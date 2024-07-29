@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DokumenController;
@@ -33,7 +34,9 @@ Route::get('v1/gallery/{gallery:id}',[GalleryController::class, 'getImageById'])
 // program
 Route::get('v1/program', [ProgramController::class, 'getPrograms']);
 Route::get('v1/program/{program:id}', [ProgramController::class, 'getProgram']);
-
+// agenda
+Route::get('v1/agenda', [AgendaController::class, 'getAgendas']);
+Route::get('v1/agenda/{slug}', [AgendaController::class, 'getAgenda']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -64,6 +67,13 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('v1/program/{program:id}', 'updateProgram');
             Route::delete('v1/program/{program:id}', 'deleteProgram');
         });
+
+        Route::controller(AgendaController::class)->group(function(){
+            Route::post('v1/agenda', 'addAgenda');
+            Route::post('v1/agenda/{slug}', 'updateAgenda');
+            Route::delete('v1/agenda/{slug}', 'deleteAgenda');
+        });
+
 
     });
 

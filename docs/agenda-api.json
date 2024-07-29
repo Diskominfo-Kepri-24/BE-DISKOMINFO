@@ -5,120 +5,80 @@
         "description": "Agenda API",
         "version": "1.0"
     },
-    "servers": [{ "url": "https://localhost:8000" }],
+    "components": {
+        "schemas": {
+            "Agenda": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "judul": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "tanggal_mulai": {
+                        "type": "string"
+                    },
+                    "tanggal_selesai": {
+                        "type": "string"
+                    },
+                    "tipe_acara": {
+                        "type": "string"
+                    },
+                    "isi_agenda": {
+                        "type": "string"
+                    },
+                    "foto": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "servers": [{ "url": "http://localhost:8000" }],
     "paths": {
         "/api/v1/agenda": {
-            "post": {
-                "description": "Membuat Agenda",
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header"
-                    }
-                ],
-                "requestBody": {
-                    "description": "Membuat Agenda",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "judul": {
-                                        "type": "string"
-                                    },
-                                    "status": {
-                                        "type": "string"
-                                    },
-                                    "tanggal":{
-                                        "type": "string"
-                                    },
-                                    "tipe_acara":{
-                                        "type": "string"
-                                    },
-                                    "isi_agenda":{
-                                        "type": "string"
-                                    },
-                                    "foto":{
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
+            "get": {
+                "summary": "Get all agendas",
+                "description": "Endpoint untuk mendapatkan daftar semua agenda",
                 "responses": {
-                    "201": {
-                        "description": "Berhasil menambahkan komentar",
+                    "200": {
+                        "description": "Daftar agenda berhasil diambil",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number"
-                                                },
-                                                "judul": {
-                                                    "type": "string"
-                                                },
-                                                "status": {
-                                                    "type": "string"
-                                                },
-                                                "tanggal": {
-                                                    "type": "string"
-                                                },
-                                                "tipe_acara":{
-                                                    "type": "string"
-                                                },
-                                                "isi_agenda":{
-                                                    "type": "string"
-                                                },
-                                                "foto":{
-                                                    "type": "string"
-                                                },
-                                                "created_at":{
-                                                    "type": "string"  
-                                                },
-                                                "updated_at":{
-                                                    "type": "string"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Gagal menambahkan agenda",
-                        "content": {
-                            "application/json": {
-                                "examples": {
-                                    "validationerror": {
-                                        "description": "Validation Error",
-                                        "value": {
-                                            "errors": {
-                                                "judul": [
-                                                    "judul is required"
-                                                ],
-                                                "status": [
-                                                    "status is required"
-                                                ],
-                                                "tanggal": [
-                                                    "tanggal is required"
-                                                ],
-                                                "tipe_acara": [
-                                                    "tipe_acara is required"
-                                                ],
-                                                "isi_agenda": [
-                                                    "isi_agenda is required"
-                                                ],
-                                                "foto": [
-                                                    "foto should be in jpg, jpeg, png"
-                                                ]
-
+                                        "agenda": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Agenda"
                                             }
                                         }
                                     }
@@ -128,53 +88,79 @@
                     }
                 }
             },
-            "get": {
-                "description": "Get Semua Agenda",
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header"
+            "post": {
+                "summary": "Add a new agenda",
+                "description": "Endpoint untuk menambahkan agenda baru",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "judul": {
+                                        "type": "string",
+                                        "description": "Judul agenda"
+                                    },
+                                    "slug": {
+                                        "type": "string",
+                                        "description": "Slug agenda"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "description": "Status agenda"
+                                    },
+                                    "tanggal_mulai": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Tanggal mulai agenda"
+                                    },
+                                    "tanggal_selesai": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Tanggal selesai agenda"
+                                    },
+                                    "tipe_acara": {
+                                        "type": "string",
+                                        "description": "Tipe acara"
+                                    },
+                                    "isi_agenda": {
+                                        "type": "string",
+                                        "description": "Isi agenda"
+                                    },
+                                    "gambar": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Gambar agenda"
+                                    }
+                                },
+                                "required": [
+                                    "judul",
+                                    "slug",
+                                    "status",
+                                    "tanggal_mulai",
+                                    "tanggal_selesai",
+                                    "tipe_acara",
+                                    "isi_agenda"
+                                ]
+                            }
+                        }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
-                        "description": "Success mendapatkan data agenda",
+                        "description": "Data agenda berhasil ditambah",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number"
-                                                },
-                                                "judul": {
-                                                    "type": "string"
-                                                },
-                                                "status": {
-                                                    "type": "string"
-                                                },
-                                                "tanggal": {
-                                                    "type": "string"
-                                                },
-                                                "tipe_acara":{
-                                                    "type": "string"
-                                                },
-                                                "isi_agenda":{
-                                                    "type": "string"
-                                                },
-                                                "foto":{
-                                                    "type": "string"
-                                                },
-                                                "created_at": {
-                                                    "type": "string"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string"
-                                                }
-                                            }
+                                        "agenda": {
+                                            "$ref": "#/components/schemas/Agenda"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Data agenda berhasil ditambah"
                                         }
                                     }
                                 }
@@ -184,58 +170,47 @@
                 }
             }
         },
-        "/api/v1/agenda/{id_agenda}":{
+        "/api/v1/agenda/{slug}": {
             "get": {
-                "description": "Get Detail Agenda",
+                "summary": "Get agenda by slug",
+                "description": "Endpoint untuk mendapatkan agenda berdasarkan slug",
                 "parameters": [
                     {
-                        "name": "Authorization",
-                        "in": "header"
-                    },
-                    {
-                        "name": "id_agenda",
-                        "in": "path"
+                        "name": "slug",
+                        "in": "path",
+                        "required": true,
+                        "description": "Slug dari agenda yang ingin diambil",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success mendapatkan data agenda",
+                        "description": "Agenda berhasil diambil",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number"
-                                                },
-                                                "judul": {
-                                                    "type": "string"
-                                                },
-                                                "status": {
-                                                    "type": "string"
-                                                },
-                                                "tanggal": {
-                                                    "type": "string"
-                                                },
-                                                "tipe_acara":{
-                                                    "type": "string"
-                                                },
-                                                "isi_agenda":{
-                                                    "type": "string"
-                                                },
-                                                "foto":{
-                                                    "type": "string"
-                                                },
-                                                "created_at": {
-                                                    "type": "string"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string"
-                                                }
-                                            }
+                                        "agenda": {
+                                            "$ref": "#/components/schemas/Agenda"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Agenda tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Agenda not found"
                                         }
                                     }
                                 }
@@ -244,122 +219,125 @@
                     }
                 }
             },
-            "put": {
-                "description": "update data Agenda",
+            "post": {
+                "summary": "Update agenda by slug",
+                "description": "Endpoint untuk mengupdate agenda berdasarkan slug",
                 "parameters": [
                     {
-                        "name": "Authorization",
-                        "in": "header"
-                    },
-                    {
-                        "name": "id_agenda",
-                        "in": "path"
+                        "name": "slug",
+                        "in": "path",
+                        "required": true,
+                        "description": "Slug dari agenda yang ingin diupdate",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "requestBody": {
-                    "description": "update data Agenda",
+                    "required": true,
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "type": "object",
                                 "properties": {
                                     "judul": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Judul agenda"
+                                    },
+                                    "slug": {
+                                        "type": "string",
+                                        "description": "Slug agenda"
                                     },
                                     "status": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Status agenda"
                                     },
-                                    "tanggal":{
-                                        "type": "string"
+                                    "tanggal_mulai": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Tanggal mulai agenda"
                                     },
-                                    "tipe_acara":{
-                                        "type": "string"
+                                    "tanggal_selesai": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Tanggal selesai agenda"
                                     },
-                                    "isi_agenda":{
-                                        "type": "string"
+                                    "tipe_acara": {
+                                        "type": "string",
+                                        "description": "Tipe acara agenda"
                                     },
-                                    "foto":{
-                                        "type": "string"
+                                    "isi_agenda": {
+                                        "type": "string",
+                                        "description": "Isi agenda"
+                                    },
+                                    "gambar": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Gambar agenda"
                                     }
-                                }
+                                },
+                                "required": [
+                                    "judul",
+                                    "status",
+                                    "slug",
+                                    "tanggal_mulai",
+                                    "tanggal_selesai",
+                                    "tipe_acara",
+                                    "isi_agenda"
+                                ]
                             }
                         }
                     }
                 },
                 "responses": {
-                    "201": {
-                        "description": "Berhasil menambahkan komentar",
+                    "200": {
+                        "description": "Agenda berhasil diubah",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number"
-                                                },
-                                                "judul": {
-                                                    "type": "string"
-                                                },
-                                                "status": {
-                                                    "type": "string"
-                                                },
-                                                "tanggal": {
-                                                    "type": "string"
-                                                },
-                                                "tipe_acara":{
-                                                    "type": "string"
-                                                },
-                                                "isi_agenda":{
-                                                    "type": "string"
-                                                },
-                                                "foto":{
-                                                    "type": "string"
-                                                },
-                                                "created_at":{
-                                                    "type": "string"  
-                                                },
-                                                "updated_at":{
-                                                    "type": "string"
-                                                }
-                                            }
+                                        "agenda": {
+                                            "$ref": "#/components/schemas/Agenda"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Agenda berhasil diubah"
                                         }
                                     }
                                 }
                             }
                         }
                     },
-                    "400": {
-                        "description": "Gagal menambahkan agenda",
+                    "404": {
+                        "description": "Agenda tidak ditemukan",
                         "content": {
                             "application/json": {
-                                "examples": {
-                                    "validationerror": {
-                                        "description": "Validation Error",
-                                        "value": {
-                                            "errors": {
-                                                "judul": [
-                                                    "judul is required"
-                                                ],
-                                                "status": [
-                                                    "status is required"
-                                                ],
-                                                "tanggal": [
-                                                    "tanggal is required"
-                                                ],
-                                                "tipe_acara": [
-                                                    "tipe_acara is required"
-                                                ],
-                                                "isi_agenda": [
-                                                    "isi_agenda is required"
-                                                ],
-                                                "foto": [
-                                                    "foto should be in jpg, jpeg, png"
-                                                ]
-
-                                            }
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Agenda not found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -368,28 +346,47 @@
                     }
                 }
             },
-            "delete":{
-                "description": "Delete Agenda",
+            "delete": {
+                "summary": "Delete agenda by slug",
+                "description": "Endpoint untuk menghapus agenda berdasarkan slug",
                 "parameters": [
                     {
-                        "name": "Authorization",
-                        "in": "header"
-                    },
-                    {
-                        "name": "id_agenda",
-                        "in": "header"
+                        "name": "slug",
+                        "in": "path",
+                        "required": true,
+                        "description": "Slug dari agenda yang ingin dihapus",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
-                    "200":{
-                        "description": "Success delete Agenda",
+                    "200": {
+                        "description": "Agenda berhasil dihapus",
                         "content": {
-                            "application/json":{
-                                "schema":{
+                            "application/json": {
+                                "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "data":{
-                                            "type": "boolean"
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Agenda tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Agenda not found"
                                         }
                                     }
                                 }
@@ -398,7 +395,6 @@
                     }
                 }
             }
-
         }
     }
 }
