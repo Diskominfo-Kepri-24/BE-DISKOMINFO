@@ -185,29 +185,7 @@ class AuthController extends Controller
         // $user = User::where('email', $request->email)->firstOrFail()
         $user = User::query()->where('email', $request->email)->firstOrFail();
 
-        if ($user->role == "mahasiswa" || $user->role == "siswa") {
-
-            $userMagang = $user->userMagang()->firstOrFail();
-
-
-            if ($userMagang->status == "menunggu" || $userMagang->status == "ditolak") {
-                return response()->json([
-                    "message" => "Anda belum memiliki akses ke halaman ini",
-                    "status" => $userMagang->status,
-                ], 403);
-            }
-
-            $token = $user->createToken('auth_token')->plainTextToken;
-
-            return response()->json([
-                "message" => "Login Success",
-                "access_token" => $token,
-                "status" => $userMagang->status,
-                "token_type" => "Bearer",
-                "role" => $user->role,
-            ]);
-        }
-
+        
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
