@@ -5,92 +5,132 @@
         "description": "Program API",
         "version": "1.0"
     },
-    "servers": [{ "url": "https://localhost:8000" }],
+    "components": {
+        "schemas": {
+            "Program": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "image": {
+                        "type": "string"
+                    },
+                    "category": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "servers": [{ "url": "http://localhost:8000" }],
     "paths": {
         "/api/v1/program": {
             "post": {
-                "description": "Membuat Program",
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header"
-                    }
-                ],
+                "summary": "Add a new program",
+                "description": "Endpoint untuk menambahkan program baru",
                 "requestBody": {
-                    "description": "Membuat Program",
+                    "required": true,
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "judul": {
-                                        "type": "string"
+                                    "title": {
+                                        "type": "string",
+                                        "description": "Judul program",
+                                        "example": "Program Baru"
                                     },
-                                    "deskripsi": {
-                                        "type": "string"
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Deskripsi program",
+                                        "example": "Deskripsi dari program baru"
                                     },
-                                    "kategori":{
-                                        "type": "string"
+                                    "category": {
+                                        "type": "string",
+                                        "description": "Kategori program",
+                                        "example": "Edukasi"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Gambar untuk program"
                                     }
-                                }
+                                },
+                                "required": [
+                                    "title",
+                                    "description",
+                                    "category",
+                                    "image"
+                                ]
                             }
                         }
                     }
                 },
                 "responses": {
-                    "201": {
-                        "description": "Berhasil membuat kelengkapan dokumen",
+                    "200": {
+                        "description": "Data berhasil ditambahkan",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number"
-                                                },
-                                                "judul": {
-                                                    "type": "string"
-                                                },
-                                                "deskripsi": {
-                                                    "type": "string"
-                                                },
-                                                "kategori": {
-                                                    "type": "string"
-                                                },
-                                                "created_at": {
-                                                    "type": "string"
-                                                },
-                                                "updated_at":{
-                                                    "type": "string"
-                                                }
-                                            }
+                                            "$ref": "#/components/schemas/Program"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Data berhasil ditambahkan"
                                         }
                                     }
                                 }
                             }
                         }
                     },
-                    "400": {
-                        "description": "Gagal membuat berita",
+                    "422": {
+                        "description": "Validasi gagal",
                         "content": {
                             "application/json": {
-                                "examples": {
-                                    "validationerror": {
-                                        "description": "Validation Error",
-                                        "value": {
-                                            "errors": {
-                                                "judul": [
-                                                    "tanggal is required"
-                                                ],
-                                                "deskripsi": [
-                                                    "penulis is required"
-                                                ],
-                                                "kategori": [
-                                                    "judul is required"
-                                                ]
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
                                             }
                                         }
                                     }
@@ -101,52 +141,37 @@
                 }
             },
             "get": {
-                "description": "Search Program",
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header"
-                    },
-                    {
-                        "name": "judul",
-                        "in": "query"
-                    },
-                    {
-                        "name": "kategori",
-                        "in": "query"
-                    }
-
-                ],
+                "summary": "Get list of programs",
+                "description": "Endpoint untuk mendapatkan daftar program",
                 "responses": {
                     "200": {
-                        "description": "Success Search Program",
+                        "description": "Daftar program berhasil diambil",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number"
-                                                },
-                                                "judul": {
-                                                    "type": "string"
-                                                },
-                                                "deskripsi": {
-                                                    "type": "string"
-                                                },
-                                                "kategori": {
-                                                    "type": "string"
-                                                },
-                                                "created_at": {
-                                                    "type": "string"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string"
-                                                }
+                                        "program": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Program"
                                             }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Program tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Found"
                                         }
                                     }
                                 }
@@ -156,94 +181,92 @@
                 }
             }
         },
-        "/api/v1/program/{id}":{
-            "put":{
-                "description": "Update Program",
+        "/api/v1/program/{id}": {
+            "post": {
+                "summary": "Update a program",
+                "description": "Endpoint untuk mengubah data program",
                 "parameters": [
                     {
-                        "name": "Authorization",
-                        "in": "header"
-                    },
-                    {
                         "name": "id",
-                        "in": "path"
+                        "in": "path",
+                        "required": true,
+                        "description": "ID dari program yang akan diubah",
+                        "schema": {
+                            "type": "integer"
+                        }
                     }
                 ],
-                "requestBody":{
-                    "description": "Update Program",
+                "requestBody": {
+                    "required": true,
                     "content": {
-                        "application/json":{
-                            "schema":{
+                        "multipart/form-data": {
+                            "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "judul": {
-                                        "type": "string"
+                                    "title": {
+                                        "type": "string",
+                                        "description": "Judul program",
+                                        "example": "Program Diperbarui"
                                     },
-                                    "deskripsi": {
-                                        "type": "string"
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Deskripsi program",
+                                        "example": "Deskripsi dari program yang diperbarui"
                                     },
-                                    "kategori": {
-                                        "type": "string"
+                                    "category": {
+                                        "type": "string",
+                                        "description": "Kategori program",
+                                        "example": "Edukasi"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Gambar untuk program"
                                     }
-                                }
+                                },
+                                "required": ["title", "description", "category"]
                             }
                         }
                     }
                 },
                 "responses": {
-                    "200":{
-                        "description": "Success Update Data Program",
+                    "200": {
+                        "description": "Data program berhasil diubah",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number"
-                                                },
-                                                "judul": {
-                                                    "type": "string"
-                                                },
-                                                "deskripsi": {
-                                                    "type": "string"
-                                                },
-                                                "kategori": {
-                                                    "type": "string"
-                                                },
-                                                "created_at": {
-                                                    "type": "string"
-                                                },
-                                                "updated_at":{
-                                                    "type": "string"
-                                                }
-                                            }
+                                            "$ref": "#/components/schemas/Program"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Data program berhasil diubah"
                                         }
                                     }
                                 }
                             }
                         }
                     },
-                    "400":{
-                        "description": "Gagal membuat kelengkapan dokumen",
+                    "422": {
+                        "description": "Validasi gagal",
                         "content": {
                             "application/json": {
-                                "examples": {
-                                    "validationerror": {
-                                        "description": "Validation Error",
-                                        "value": {
-                                            "errors": {
-                                                "judul": [
-                                                    "judul is required"
-                                                ],
-                                                "deskripsi": [
-                                                    "description is required"
-                                                ],
-                                                "kategori": [
-                                                    "kategori is required"
-                                                ]
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
                                             }
                                         }
                                     }
@@ -253,28 +276,95 @@
                     }
                 }
             },
-            "delete":{
-                "description": "Delete Program",
+            "get": {
+                "summary": "Get program by ID",
+                "description": "Endpoint untuk mendapatkan detail program berdasarkan ID",
                 "parameters": [
                     {
-                        "name": "Authorization",
-                        "in": "header"
-                    },
-                    {
                         "name": "id",
-                        "in": "path"
+                        "in": "path",
+                        "required": true,
+                        "description": "ID dari program yang akan diambil",
+                        "schema": {
+                            "type": "integer"
+                        }
                     }
                 ],
                 "responses": {
-                    "200":{
-                        "description": "Success delete Program",
+                    "200": {
+                        "description": "Detail program berhasil diambil",
                         "content": {
-                            "application/json":{
-                                "schema":{
+                            "application/json": {
+                                "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "data":{
-                                            "type": "boolean"
+                                        "program": {
+                                            "$ref": "#/components/schemas/Program"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Program tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete program by ID",
+                "description": "Endpoint untuk menghapus data program berdasarkan ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID dari program yang akan dihapus",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data program berhasil dihapus",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data program berhasil dihapus"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Program tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Found"
                                         }
                                     }
                                 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\ProgramController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,11 +22,18 @@ Route::controller(AuthController::class)->group(function () {
 
 });
 
+// get data without login
+// berita
 Route::get('v1/berita', [NewsController::class, 'searchBerita']);
 Route::get('v1/berita/{berita:slug}', [NewsController::class, 'getBeritaBySlug']);
 Route::get('v1/berita/{berita:slug}/komentar', [CommentController::class, 'getComment']);
+// gallery
 Route::get('v1/gallery', [GalleryController::class, 'getImages']);
 Route::get('v1/gallery/{gallery:id}',[GalleryController::class, 'getImageById']);
+// program
+Route::get('v1/program', [ProgramController::class, 'getPrograms']);
+Route::get('v1/program/{program:id}', [ProgramController::class, 'getProgram']);
+
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -50,6 +58,13 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('v1/gallery/{gallery:id}', 'updateImage');
             Route::delete('v1/gallery/{gallery:id}', 'deleteImage');
         });
+
+        Route::controller(ProgramController::class)->group(function(){
+            Route::post('v1/program', 'addProgram');
+            Route::post('v1/program/{program:id}', 'updateProgram');
+            Route::delete('v1/program/{program:id}', 'deleteProgram');
+        });
+
     });
 
     Route::controller(CommentController::class)->group(function(){

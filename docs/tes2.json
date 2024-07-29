@@ -1,65 +1,18 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "API Gallery",
-        "description": "Dokumentasi API untuk endpoint gallery",
+        "title": "API Program",
+        "description": "Dokumentasi API untuk endpoint program",
         "version": "1.0.0"
     },
     "paths": {
-        "/api/v1/gallery/{id}": {
-            "get": {
-                "summary": "Get gallery image by ID",
-                "description": "Endpoint untuk mengambil gambar galeri berdasarkan ID",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "description": "ID dari gambar galeri yang akan diambil",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Data gallery berhasil diambil",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "gallery": {
-                                            "$ref": "#/components/schemas/Gallery"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Data gallery tidak ditemukan",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Data tidak ditemukan"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        "/api/v1/program/{id}": {
+            
         }
     },
     "components": {
         "schemas": {
-            "Gallery": {
+            "Program": {
                 "type": "object",
                 "properties": {
                     "id": {
@@ -68,7 +21,13 @@
                     "title": {
                         "type": "string"
                     },
+                    "description": {
+                        "type": "string"
+                    },
                     "image": {
+                        "type": "string"
+                    },
+                    "category": {
                         "type": "string"
                     },
                     "created_at": {

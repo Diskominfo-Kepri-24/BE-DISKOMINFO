@@ -12,7 +12,10 @@ class Program extends Model
     protected $table = "programs";
 
     protected $fillable = [
-        "judul"
+        "title",
+        "description",
+        "category",
+        "image"
     ];
 
 }
