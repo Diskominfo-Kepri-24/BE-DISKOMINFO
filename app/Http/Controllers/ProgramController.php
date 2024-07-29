@@ -3,16 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\Program;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ProgramController extends Controller
 {
 
-    public function getPrograms()
+    public function getPrograms(Request $request)
     {
 
-        $program = Program::query()->get();
+        $page = $request->input('page', 1);
+        $size = $request->input('size', 8);
+
+        // $program = Program::query()->get();
+        $program = new Program();
+
+        $program = $program->where(function(Builder $builder) use ($request){
+            $title = $request->input("title");
+            if($title){
+                $builder->where("title", 'like', "%" . $title . "%");
+            }
+
+            $category = $request->input("category");
+            if($category){
+                $builder->where("category", "like", "%" . $category . "%");
+            }
+
+        });
+
+        $program = $program->paginate(perPage: $size, page: $page);
 
         return response()->json([
             "program" => $program

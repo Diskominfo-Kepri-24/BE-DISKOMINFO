@@ -6,8 +6,94 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/v1/program/{id}": {
-            
+        "/api/v1/program": {
+            "get": {
+                "summary": "Get programs with pagination and filters",
+                "description": "Endpoint untuk mendapatkan daftar program dengan pagination dan filter",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "description": "Nomor halaman",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "required": false,
+                        "description": "Jumlah program per halaman",
+                        "schema": {
+                            "type": "integer",
+                            "default": 8
+                        }
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "required": false,
+                        "description": "Filter berdasarkan judul program",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "required": false,
+                        "description": "Filter berdasarkan kategori program",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Daftar program berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "program": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Program"
+                                            }
+                                        },
+                                        "pagination": {
+                                            "type": "object",
+                                            "properties": {
+                                                "total": {
+                                                    "type": "integer"
+                                                },
+                                                "per_page": {
+                                                    "type": "integer"
+                                                },
+                                                "current_page": {
+                                                    "type": "integer"
+                                                },
+                                                "last_page": {
+                                                    "type": "integer"
+                                                },
+                                                "from": {
+                                                    "type": "integer"
+                                                },
+                                                "to": {
+                                                    "type": "integer"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
