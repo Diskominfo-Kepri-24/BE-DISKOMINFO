@@ -57,6 +57,9 @@
                                         },
                                         "token_type": {
                                             "type": "string"
+                                        },
+                                        "role":{
+                                            "type": "string"
                                         }
                                     }
                                 }
