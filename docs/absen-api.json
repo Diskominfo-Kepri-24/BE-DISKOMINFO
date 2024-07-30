@@ -2,36 +2,39 @@
     "openapi": "3.0.2",
     "info": {
         "title": "Absen API",
-        "description": "API untuk mengelola absensi siswa/mahasiswa dalam sistem magang",
+        "description": "Testing Absen API",
         "version": "1.0"
     },
     "components": {
         "schemas": {
-            "Absen": {
+            "Agenda": {
                 "type": "object",
                 "properties": {
                     "id": {
                         "type": "integer"
                     },
-                    "id_user_magang": {
-                        "type": "integer"
-                    },
-                    "tanggal": {
-                        "type": "string",
-                        "format": "date"
-                    },
-                    "hari": {
+                    "judul": {
                         "type": "string"
                     },
-                    "jam_masuk": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "jam_pulang": {
-                        "type": "string",
-                        "format": "date-time"
+                    "slug": {
+                        "type": "string"
                     },
                     "status": {
+                        "type": "string"
+                    },
+                    "tanggal_mulai": {
+                        "type": "string"
+                    },
+                    "tanggal_selesai": {
+                        "type": "string"
+                    },
+                    "tipe_acara": {
+                        "type": "string"
+                    },
+                    "isi_agenda": {
+                        "type": "string"
+                    },
+                    "foto": {
                         "type": "string"
                     },
                     "created_at": {
@@ -58,17 +61,15 @@
             "bearerAuth": []
         }
     ],
-    "servers": [
-        { "url": "http://localhost:8000" }
-    ],
+    "servers": [{ "url": "http://localhost:8000" }],
     "paths": {
-        "/api/absen": {
+        "/api/v1/absen": {
             "get": {
-                "summary": "Get Absen",
-                "description": "Mengambil data absensi berdasarkan user yang sedang login",
+                "summary": "Get All Absen Magang (Untuk role pembimbing)",
+                "description": "Endpoint untuk mendapatkan semua data absen magang",
                 "responses": {
                     "200": {
-                        "description": "Daftar absensi",
+                        "description": "Daftar semua absen magang",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -77,7 +78,40 @@
                                         "user": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/Absen"
+                                                "type": "object",
+                                                "properties": {
+                                                    "id_user": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "John Doe"
+                                                    },
+                                                    "tanggal": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "example": "2024-07-29"
+                                                    },
+                                                    "hari": {
+                                                        "type": "string",
+                                                        "example": "Senin"
+                                                    },
+                                                    "jam_masuk": {
+                                                        "type": "string",
+                                                        "example": "08:00:00",
+                                                        "nullable": true
+                                                    },
+                                                    "jam_pulang": {
+                                                        "type": "string",
+                                                        "example": "15:30:00",
+                                                        "nullable": true
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "example": "dikonfirmasi"
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -88,22 +122,55 @@
                 }
             }
         },
-        "/api/absen/all": {
+        "/api/v1/absen/magang": {
             "get": {
-                "summary": "Get All Absen Magang",
-                "description": "Mengambil semua data absensi magang",
+                "summary": "Dapatkan semua absen (Untuk role mahasiswa/siswa)",
+                "description": "Endpoint untuk mendapatkan semua data absensi",
                 "responses": {
                     "200": {
-                        "description": "Daftar semua absensi magang",
+                        "description": "Daftar semua absensi",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "user": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/Absen"
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "id_user_magang": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "tanggal": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2024-07-29"
+                                            },
+                                            "hari": {
+                                                "type": "string",
+                                                "example": "Senin"
+                                            },
+                                            "jam_masuk": {
+                                                "type": "string",
+                                                "example": "08:00:00"
+                                            },
+                                            "jam_pulang": {
+                                                "type": "string",
+                                                "nullable": true,
+                                                "example": null
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-07-29T08:00:00Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-07-29T08:00:00Z"
                                             }
                                         }
                                     }
@@ -114,15 +181,16 @@
                 }
             }
         },
-        "/api/absen/{id_user}": {
+        "/api/v1/absen/{user_id}": {
             "get": {
-                "summary": "Get Absen Magang by User ID",
-                "description": "Mengambil data absensi magang berdasarkan ID user",
+                "summary": "Dapatkan absen pengguna (Untuk role pembimbing)",
+                "description": "Endpoint untuk mendapatkan data absensi berdasarkan user_id",
                 "parameters": [
                     {
-                        "name": "id_user",
+                        "name": "user_id",
                         "in": "path",
                         "required": true,
+                        "description": "ID dari pengguna yang ingin diambil data absensinya",
                         "schema": {
                             "type": "integer"
                         }
@@ -130,7 +198,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Data absensi magang user",
+                        "description": "Data absensi berhasil diambil",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -139,8 +207,60 @@
                                         "absen": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/Absen"
+                                                "type": "object",
+                                                "properties": {
+                                                    "id_absen": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "id_user": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "John Doe"
+                                                    },
+                                                    "tanggal": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "example": "2024-07-29"
+                                                    },
+                                                    "hari": {
+                                                        "type": "string",
+                                                        "example": "Senin"
+                                                    },
+                                                    "jam_masuk": {
+                                                        "type": "string",
+                                                        "example": "08:00:00"
+                                                    },
+                                                    "jam_pulang": {
+                                                        "type": "string",
+                                                        "nullable": true,
+                                                        "example": null
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "example": "menunggu"
+                                                    }
+                                                }
                                             }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data absensi tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data absensi tidak ditemukan"
                                         }
                                     }
                                 }
@@ -152,8 +272,8 @@
         },
         "/api/v1/absen/jam-masuk": {
             "post": {
-                "summary": "Tambah Jam Masuk",
-                "description": "Menambah data jam masuk absensi",
+                "summary": "Tambah jam masuk absen (Untuk role mahasiswa/siswa)",
+                "description": "Endpoint untuk menambahkan jam masuk absen",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -163,31 +283,51 @@
                                 "properties": {
                                     "tanggal": {
                                         "type": "string",
-                                        "format": "date"
+                                        "format": "date",
+                                        "example": "29-07-2024"
                                     },
                                     "jam_masuk": {
                                         "type": "string",
-                                        "format": "date-time"
+                                        "format": "time",
+                                        "example": "07:30:00"
                                     }
                                 },
-                                "required": [
-                                    "tanggal",
-                                    "jam_masuk"
-                                ]
+                                "required": ["tanggal", "jam_masuk"]
                             }
                         }
                     }
                 },
                 "responses": {
-                    "201": {
-                        "description": "Data absensi berhasil ditambahkan",
+                    "200": {
+                        "description": "Berhasil menambah jam masuk",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
                                         "absen": {
-                                            "$ref": "#/components/schemas/Absen"
+                                            "type": "object",
+                                            "properties": {
+                                                "id_user_magang": {
+                                                    "type": "integer"
+                                                },
+                                                "tanggal": {
+                                                    "type": "string",
+                                                    "format": "date"
+                                                },
+                                                "hari": {
+                                                    "type": "string"
+                                                },
+                                                "jam_masuk": {
+                                                    "type": "string",
+                                                    "format": "time"
+                                                },
+                                                "jam_pulang": {
+                                                    "type": "string",
+                                                    "format": "time",
+                                                    "nullable": true
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -195,27 +335,33 @@
                         }
                     },
                     "403": {
-                        "description": "Absensi hanya dapat dilakukan pada jam yang ditentukan",
+                        "description": "Anda sudah melakukan absen hari ini / Absensi hanya dapat dilakukan pada jam yang ditentukan",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
                                         "message": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "Anda sudah melakukan absen hari ini"
                                         }
                                     }
                                 }
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/v1/absen/jam-pulang": {
             "post": {
-                "summary": "Tambah Jam Pulang",
-                "description": "Menambah data jam pulang absensi",
+                "summary": "Tambah jam pulang (Untuk role mahasiswa/siswa)",
+                "description": "Endpoint untuk menambah jam pulang absen",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -225,31 +371,55 @@
                                 "properties": {
                                     "tanggal": {
                                         "type": "string",
-                                        "format": "date"
+                                        "format": "date",
+                                        "description": "Tanggal absen",
+                                        "example": "29-07-2024"
                                     },
                                     "jam_pulang": {
                                         "type": "string",
-                                        "format": "date-time"
+                                        "description": "Jam pulang absen",
+                                        "example": "15:30:00"
                                     }
                                 },
-                                "required": [
-                                    "tanggal",
-                                    "jam_pulang"
-                                ]
+                                "required": ["tanggal", "jam_pulang"]
                             }
                         }
                     }
                 },
                 "responses": {
-                    "201": {
-                        "description": "Data absensi berhasil ditambahkan",
+                    "200": {
+                        "description": "Jam pulang berhasil ditambahkan",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
                                         "absen": {
-                                            "$ref": "#/components/schemas/Absen"
+                                            "type": "object",
+                                            "properties": {
+                                                "id_user_magang": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "tanggal": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2024-07-29"
+                                                },
+                                                "hari": {
+                                                    "type": "string",
+                                                    "example": "Senin"
+                                                },
+                                                "jam_masuk": {
+                                                    "type": "string",
+                                                    "example": "08:00:00",
+                                                    "nullable": true
+                                                },
+                                                "jam_pulang": {
+                                                    "type": "string",
+                                                    "example": "15:30:00"
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -257,14 +427,15 @@
                         }
                     },
                     "403": {
-                        "description": "Absensi hanya dapat dilakukan pada jam yang ditentukan",
+                        "description": "Absensi hanya dapat dilakukan pada jam yang ditentukan atau Anda sudah melakukan absen hari ini",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
                                         "message": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "Absensi hanya dapat dilakukan pada jam yang ditentukan"
                                         }
                                     }
                                 }
@@ -274,15 +445,16 @@
                 }
             }
         },
-        "/api/absen/{id}/terima": {
-            "patch": {
-                "summary": "Terima Absen",
-                "description": "Menerima absensi",
+        "/api/v1/absen/terima-absen/{id_absen}": {
+            "post": {
+                "summary": "Terima Absen (Untuk role pembimbing)",
+                "description": "Endpoint untuk menerima absen berdasarkan id_absen",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "id_absen",
                         "in": "path",
                         "required": true,
+                        "description": "ID dari absen yang ingin diterima",
                         "schema": {
                             "type": "integer"
                         }
@@ -290,17 +462,66 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Absensi berhasil diterima",
+                        "description": "Absen berhasil disetujui",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
                                         "absen": {
-                                            "$ref": "#/components/schemas/Absen"
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "id_user_magang": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "tanggal": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2024-07-29"
+                                                },
+                                                "hari": {
+                                                    "type": "string",
+                                                    "example": "Senin"
+                                                },
+                                                "jam_masuk": {
+                                                    "type": "string",
+                                                    "example": "08:00:00",
+                                                    "nullable": true
+                                                },
+                                                "jam_pulang": {
+                                                    "type": "string",
+                                                    "example": "15:30:00"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "dikonfirmasi"
+                                                }
+                                            }
                                         },
                                         "status": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "Absen berhasil disetujui"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Absen tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Absen not found"
                                         }
                                     }
                                 }
@@ -310,15 +531,16 @@
                 }
             }
         },
-        "/api/absen/{id}/tolak": {
-            "patch": {
-                "summary": "Tolak Absen",
-                "description": "Menolak absensi",
+        "/api/v1/absen/tolak-absen/{id_absen}": {
+            "post": {
+                "summary": "Tolak Absen (Untuk role pembimbing)",
+                "description": "Endpoint untuk menolak absen berdasarkan id_absen",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "id_absen",
                         "in": "path",
                         "required": true,
+                        "description": "ID dari absen yang ingin ditolak",
                         "schema": {
                             "type": "integer"
                         }
@@ -326,17 +548,66 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Absensi berhasil ditolak",
+                        "description": "Absen berhasil ditolak",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
                                         "absen": {
-                                            "$ref": "#/components/schemas/Absen"
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "id_user_magang": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "tanggal": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2024-07-29"
+                                                },
+                                                "hari": {
+                                                    "type": "string",
+                                                    "example": "Senin"
+                                                },
+                                                "jam_masuk": {
+                                                    "type": "string",
+                                                    "example": "08:00:00",
+                                                    "nullable": true
+                                                },
+                                                "jam_pulang": {
+                                                    "type": "string",
+                                                    "example": "15:30:00"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "ditolak"
+                                                }
+                                            }
                                         },
                                         "status": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "Absen berhasil ditolak"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Absen tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Absen not found"
                                         }
                                     }
                                 }

@@ -30,7 +30,7 @@ class AbsenController extends Controller
 
         $userMagang = UserMagang::query()->join('users', 'users.id', '=', 'user_magang.id_user')
                                             ->join('absens', 'absens.id_user_magang', '=', 'user_magang.id')
-                                            ->select("users.id as id_user", "users.name as name", "absens.tanggal as tanggal", "absens.hari as hari", "absens.jam_masuk as jam_masuk", "absens.jam_pulang as jam_pulang", "absens.status as status")
+                                            ->select("users.id as id_user", "absens.id as id_absen", "users.name as name", "absens.tanggal as tanggal", "absens.hari as hari", "absens.jam_masuk as jam_masuk", "absens.jam_pulang as jam_pulang", "absens.status as status")
                                             ->get();
 
         return response()->json([

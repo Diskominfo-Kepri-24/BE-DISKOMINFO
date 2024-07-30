@@ -50,7 +50,7 @@ Route::middleware('auth:sanctum')->group(function () {
         });
 
         Route::controller(AbsenController::class)->group(function(){
-            Route::get("v1/absen", 'getAbsen');
+            Route::get("v1/absen/magang", 'getAbsen');
             Route::post("v1/absen/jam-masuk", "tambahJamMasuk");
             Route::post("v1/absen/jam-pulang", "tambahJamPulang");
         });
