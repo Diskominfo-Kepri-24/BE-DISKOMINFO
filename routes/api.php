@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbsenController;
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\CommentController;
@@ -47,6 +48,29 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::delete('v1/document', 'deleteAllDocuments');
             Route::post('v1/document/update', 'updateDocument');
         });
+
+        Route::controller(AbsenController::class)->group(function(){
+            Route::get("v1/absen", 'getAbsen');
+            Route::post("v1/absen/jam-masuk", "tambahJamMasuk");
+            Route::post("v1/absen/jam-pulang", "tambahJamPulang");
+        });
+
+    });
+    
+    // 
+    
+    // 
+    Route::middleware('role:pembimbing')->group(function(){
+        
+        Route::controller(AbsenController::class)->group(function(){
+            
+            Route::get('v1/absen', 'getAllAbsenMagang'); 
+            Route::get('v1/absen/{user_id}', 'getAbsenMagang');
+            Route::post('v1/absen/terima-absen/{absen:id}', 'terimaAbsen');
+            Route::post('v1/absen/tolak-absen/{absen:id}', 'tolakAbsen');
+        
+        });
+
     });
 
     Route::middleware('role:admin')->group(function () {

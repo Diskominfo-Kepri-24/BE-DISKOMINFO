@@ -38,5 +38,9 @@ class UserMagang extends Model
     public function userMagangSiswa(): HasOne {
         return $this->hasOne(UserMagangSiswa::class, 'id_user_magang', 'id');
     }
+
+    public function absen(): HasOne {
+        return $this->hasOne(Absen::class, "id_user_magang", "id");
+    }
     
 }
