@@ -192,7 +192,10 @@ class AuthController extends Controller
             'message' => 'Login Success',
             'access_token' => $token,
             'token_type' => 'Bearer',
-            "role" => $user->role
+            "role" => $user->role,
+            "name" => $user->name,
+            "email" => $user->email,
+            "user_id" => $user->id,
         ]);
     }
 
@@ -215,6 +218,7 @@ class AuthController extends Controller
             if ($userMagang->status == "menunggu" || $userMagang->status == "ditolak") {
                 return response()->json([
                     "message" => "Anda belum memiliki akses ke halaman ini",
+                    "name" => $user->name,
                     "status" => $userMagang->status
                 ], 403);
             }
@@ -228,6 +232,8 @@ class AuthController extends Controller
                 "status" => $userMagang->status,
                 "token_type" => "Bearer",
                 "role" => $user->role,
+                "name" => $user->name,
+                "email" => $user->email,
                 "user_id" => $user->id, // Tambahkan ID pengguna ke respons
             ]);
         }
