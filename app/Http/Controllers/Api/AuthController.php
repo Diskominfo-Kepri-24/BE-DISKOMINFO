@@ -198,47 +198,52 @@ class AuthController extends Controller
 
     public function loginDiff(Request $request)
     {
-
+        // Verifikasi kredensial pengguna
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
                 'message' => "Unauthorized"
             ], 401);
         }
-
+    
         $user = User::query()->where('email', $request->email)->firstOrFail();
-
+    
+        // Jika peran pengguna adalah mahasiswa atau siswa
         if ($user->role == "mahasiswa" || $user->role == "siswa") {
-
             $userMagang = $user->userMagang()->firstOrFail();
-
-
+    
+            // Periksa status userMagang
             if ($userMagang->status == "menunggu" || $userMagang->status == "ditolak") {
                 return response()->json([
                     "message" => "Anda belum memiliki akses ke halaman ini",
                     "status" => $userMagang->status
                 ], 403);
             }
-
+    
+            // Buat token otentikasi
             $token = $user->createToken('auth_token')->plainTextToken;
-
+    
             return response()->json([
                 "message" => "Login Success",
                 "access_token" => $token,
                 "status" => $userMagang->status,
                 "token_type" => "Bearer",
                 "role" => $user->role,
+                "user_id" => $user->id, // Tambahkan ID pengguna ke respons
             ]);
         }
-
+    
+        // Buat token otentikasi untuk pengguna dengan peran lain
         $token = $user->createToken('auth_token')->plainTextToken;
-
+    
         return response()->json([
             "message" => "Login Success",
             "access_token" => $token,
             "token_type" => 'Bearer',
             "role" => $user->role,
+            "user_id" => $user->id, // Tambahkan ID pengguna ke respons
         ]);
     }
+    
 
     public function logout()
     {
