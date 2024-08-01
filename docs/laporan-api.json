@@ -6,56 +6,6 @@
         "version": "1.0.0"
     },
     "components": {
-        "schemas": {
-            "Berita": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "tanggal": {
-                        "type": "string",
-                        "format": "date",
-                        "example": "2024-07-22"
-                    },
-                    "slug": {
-                        "type": "string",
-                        "example": "judul-berita-unik"
-                    },
-                    "judul": {
-                        "type": "string",
-                        "example": "Judul Berita"
-                    },
-                    "isi_berita": {
-                        "type": "string",
-                        "example": "Isi berita yang sangat menarik."
-                    },
-                    "kategori": {
-                        "type": "string",
-                        "example": "Olahraga"
-                    },
-                    "gambar": {
-                        "type": "string",
-                        "example": "storage/berita/1626949200_gambar_judul-berita-unik.jpg"
-                    },
-                    "id_user": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-07-22T10:00:00.000000Z"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-07-22T10:00:00.000000Z"
-                    }
-                }
-            }
-        },
         "securitySchemes": {
             "bearerAuth": {
                 "type": "http",

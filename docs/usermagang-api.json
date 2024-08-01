@@ -1,0 +1,271 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "User Magang API",
+        "description": "API untuk mengelola user magang",
+        "version": "1.0.0"
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "servers": [{ "url": "http://localhost:8000" }],
+    "paths": {
+        "/api/v1/user-magang": {
+            "get": {
+                "summary": "Get all user magang",
+                "description": "Endpoint untuk mendapatkan semua data user magang",
+                "tags": ["User Magang"],
+                "responses": {
+                    "200": {
+                        "description": "Daftar user magang berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "users": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id_user_magang": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "id_user": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Mahadi Dwi Nugraha"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "mahadi@gmail.com"
+                                                    },
+                                                    "mulai_magang": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-07-01 00:00:00"
+                                                    },
+                                                    "akhir_magang": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-08-30 00:00:00"
+                                                    },
+                                                    "role": {
+                                                        "type": "string",
+                                                        "example": "mahasiswa"
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "example": "diterima"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User magang tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User magang not found."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user-magang/terima/{id_user_magang}": {
+            "put": {
+                "summary": "Terima user magang",
+                "description": "Endpoint untuk menerima user magang berdasarkan ID",
+                "tags": ["User Magang"],
+                "parameters": [
+                    {
+                        "name": "id_user_magang",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID user magang yang akan diterima",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User magang berhasil diterima",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Permintaan tidak valid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bad Request"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User magang tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User magang not found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user-magang/tolak/{id_user_magang}": {
+            "put": {
+                "summary": "Tolak user magang",
+                "description": "Endpoint untuk menolak user magang berdasarkan ID",
+                "tags": ["User Magang"],
+                "parameters": [
+                    {
+                        "name": "id_user_magang",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID user magang yang akan ditolak",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User magang berhasil ditolak",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Permintaan tidak valid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bad Request"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User magang tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User magang not found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    }
+}

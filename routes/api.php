@@ -12,7 +12,7 @@ use App\Http\Controllers\ProgramController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KegiatanController;
-
+use App\Http\Controllers\UserMagangController;
 
 Route::controller(AuthController::class)->group(function () {
 
@@ -111,6 +111,12 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::delete('v1/agenda/{slug}', 'deleteAgenda');
         });
 
+        Route::controller(UserMagangController::class)->group(function(){
+            
+            Route::get('v1/user-magang', 'getAllUserMagang');
+            Route::put('v1/user-magang/terima/{userMagang:id}', 'acceptMagang');
+            Route::put('v1/user-magang/tolak/{userMagang:id}', 'rejectMagang');
+        });
 
     });
 
