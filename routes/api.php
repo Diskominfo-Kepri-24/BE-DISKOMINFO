@@ -58,6 +58,9 @@ Route::middleware('auth:sanctum')->group(function () {
         });
         Route::controller(LaporanController::class)->group(function () {
             Route::post("v1/laporan", "addLaporan");
+            Route::get("v1/laporan/magang", 'getLaporan');
+            Route::put("v1/laporan", 'updateLaporan');
+            Route::delete("v1/laporan", 'deleteLaporan');
         });
 
 

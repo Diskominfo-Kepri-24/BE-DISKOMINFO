@@ -1,13 +1,81 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "API Agenda",
-        "description": "Dokumentasi API untuk endpoint agenda",
+        "title": "API Laporan",
+        "description": "Dokumentasi API untuk endpoint laporan",
         "version": "1.0.0"
     },
     "paths": {
-        "/api/v1/agenda/{slug}": {
-            
+        "/api/v1/laporan": {
+            "delete": {
+                "summary": "Delete laporan",
+                "description": "Endpoint untuk menghapus laporan user yang terautentikasi",
+                "tags": ["Laporan"],
+                "responses": {
+                    "200": {
+                        "description": "Data laporan berhasil dihapus",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Data laporan berhasil dihapus"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Laporan tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Laporan not found."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
         }
     }
 }
