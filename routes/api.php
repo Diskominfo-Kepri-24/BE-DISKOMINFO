@@ -10,6 +10,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProgramController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\KegiatanController;
 
 
 Route::controller(AuthController::class)->group(function () {
@@ -105,6 +106,16 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('v1/berita/{berita:slug}/komentar', 'addComment');
         Route::put('v1/berita/komentar/{komentar:id}', 'updateComment');
         Route::delete('v1/berita/komentar/{komentar:id}', 'deleteComment');
+    });
+
+    Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
+        Route::get('/kegiatan', [KegiatanController::class, 'index']);
+        Route::post('/kegiatan', [KegiatanController::class, 'store']);
+        Route::get('/kegiatan/{id}', [KegiatanController::class, 'show']);
+        Route::put('/kegiatan/{id}', [KegiatanController::class, 'update']);
+        Route::delete('/kegiatan/{id}', [KegiatanController::class, 'destroy']);
+        Route::post('/kegiatan/{id}/confirm', [KegiatanController::class, 'confirm']);
+        Route::post('/kegiatan/{id}/reject', [KegiatanController::class, 'reject']);
     });
 
     Route::delete('/v1/logout', [AuthController::class, 'logout']);

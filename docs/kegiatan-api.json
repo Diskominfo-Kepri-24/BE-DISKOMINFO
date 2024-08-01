@@ -1,0 +1,281 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+      "title": "Kegiatan API",
+      "description": "API untuk mengelola kegiatan mahasiswa dan pembimbing",
+      "version": "1.0"
+    },
+    "components": {
+      "schemas": {
+        "Kegiatan": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "user_id": {
+              "type": "integer"
+            },
+            "tanggal": {
+              "type": "string",
+              "format": "date"
+            },
+            "catatan": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            },
+            "created_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "updated_at": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      },
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      }
+    },
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "servers": [
+      {
+        "url": "http://localhost:8000"
+      }
+    ],
+    "paths": {
+      "/api/v1/kegiatan": {
+        "get": {
+          "summary": "Dapatkan semua kegiatan mahasiswa",
+          "description": "Endpoint untuk mendapatkan semua kegiatan mahasiswa yang login",
+          "responses": {
+            "200": {
+              "description": "Daftar semua kegiatan",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Kegiatan"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Tambah kegiatan baru",
+          "description": "Endpoint untuk menambahkan kegiatan baru",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "tanggal": {
+                      "type": "string",
+                      "format": "date",
+                      "example": "2024-08-01"
+                    },
+                    "catatan": {
+                      "type": "string",
+                      "example": "Catatan kegiatan"
+                    }
+                  },
+                  "required": ["user_id", "tanggal", "catatan"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Kegiatan berhasil ditambahkan",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Kegiatan"
+                  }
+                }
+              }
+            },
+            "403": {
+              "description": "Kegiatan untuk hari ini sudah disubmit",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Catatan kegiatan untuk hari ini sudah disubmit."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/kegiatan/{user_id}": {
+        "get": {
+          "summary": "Dapatkan kegiatan pengguna (Untuk role pembimbing)",
+          "description": "Endpoint untuk mendapatkan data kegiatan berdasarkan user_id",
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "path",
+              "required": true,
+              "description": "ID dari pengguna yang ingin diambil data kegiatannya",
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Data kegiatan berhasil diambil",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "kegiatan": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/Kegiatan"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Data kegiatan tidak ditemukan",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Data kegiatan tidak ditemukan"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/kegiatan/{id}/confirm": {
+        "post": {
+          "summary": "Konfirmasi kegiatan",
+          "description": "Endpoint untuk mengonfirmasi kegiatan mahasiswa",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Kegiatan berhasil dikonfirmasi",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Kegiatan"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Kegiatan tidak ditemukan",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Kegiatan tidak ditemukan"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/kegiatan/{id}/reject": {
+        "post": {
+          "summary": "Tolak kegiatan",
+          "description": "Endpoint untuk menolak kegiatan mahasiswa",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Kegiatan berhasil ditolak",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Kegiatan"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Kegiatan tidak ditemukan",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Kegiatan tidak ditemukan"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
