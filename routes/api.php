@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AbsenController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\CommentController;
@@ -55,6 +56,10 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post("v1/absen/jam-masuk", "tambahJamMasuk");
             Route::post("v1/absen/jam-pulang", "tambahJamPulang");
         });
+        Route::controller(LaporanController::class)->group(function () {
+            Route::post("v1/laporan", "addLaporan");
+        });
+
 
     });
     
@@ -70,6 +75,10 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('v1/absen/terima-absen/{absen:id}', 'terimaAbsen');
             Route::post('v1/absen/tolak-absen/{absen:id}', 'tolakAbsen');
         
+        });
+
+        Route::controller(LaporanController::class)->group(function(){
+            Route::get("v1/laporan", "getAllLaporan");
         });
 
     });
