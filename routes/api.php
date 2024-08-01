@@ -61,7 +61,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // 
     
     // 
-    Route::middleware('role:pembimbing,mahasiswa')->group(function(){
+    Route::middleware('role:pembimbing')->group(function(){
         
         Route::controller(AbsenController::class)->group(function(){
             

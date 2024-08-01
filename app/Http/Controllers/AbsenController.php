@@ -18,7 +18,9 @@ class AbsenController extends Controller
 
         $userMagang = Auth::user()->userMagang;
 
-        $absen = Absen::query()->where("id_user_magang", $userMagang->id)->get();
+        $absen = Absen::query()->where("id_user_magang", $userMagang->id)
+                                ->orderBy('tanggal', 'desc')
+                                ->get();
 
         return response()->json([
             "user" => $absen
