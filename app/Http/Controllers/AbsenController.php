@@ -78,8 +78,8 @@ class AbsenController extends Controller
         ]);
 
         Carbon::setLocale("id");
-        $hari = Carbon::createFromFormat('d-m-Y', $request->input("tanggal"))->isoFormat("dddd");
-        $tanggal = Carbon::createFromFormat('d-m-Y', $request->input("tanggal"))->format("Y-m-d");
+        $hari = Carbon::createFromFormat('Y-m-d', $request->input("tanggal"))->isoFormat("dddd");
+        // $tanggal = Carbon::createFromFormat('d-m-Y', $request->input("tanggal"))->format("Y-m-d");
 
         $jamMasuk = null;
         $jamPulang = null;
@@ -99,7 +99,7 @@ class AbsenController extends Controller
 
         $absen = Absen::query()->create([
             "id_user_magang" => $userMagang->id,
-            "tanggal" => $tanggal,
+            "tanggal" => $request->tanggal,
             "hari" => $hari,
             "jam_masuk" => $jamMasuk,
             "jam_pulang" => $jamPulang
@@ -121,8 +121,8 @@ class AbsenController extends Controller
             "jam_pulang" => "required"
         ]);
 
-        $hari = Carbon::createFromFormat('d-m-Y', $request->input("tanggal"))->isoFormat("dddd");
-        $tanggal = Carbon::createFromFormat('d-m-Y', $request->input("tanggal"))->format("Y-m-d");
+        $hari = Carbon::createFromFormat('Y-m-d', $request->input("tanggal"))->isoFormat("dddd");
+        // $tanggal = Carbon::createFromFormat('d-m-Y', $request->input("tanggal"))->format("Y-m-d");
 
         $absen = Absen::query()->where("tanggal", substr(now("Asia/Jakarta"), 0, 10))
                                 ->Where("id_user_magang", $userMagang->id)->first();
@@ -137,7 +137,7 @@ class AbsenController extends Controller
 
                 $absen = Absen::query()->create([
                     "id_user_magang" => $userMagang->id,
-                    "tanggal" => $tanggal,
+                    "tanggal" => $request->tanggal,
                     "hari" => $hari,
                     "jam_masuk" => $jamMasuk,
                     "jam_pulang" => $request->jam_pulang
