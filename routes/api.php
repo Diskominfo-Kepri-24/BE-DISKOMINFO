@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AbsenController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\CommentController;
@@ -11,7 +12,7 @@ use App\Http\Controllers\ProgramController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KegiatanController;
-
+use App\Http\Controllers\UserMagangController;
 
 Route::controller(AuthController::class)->group(function () {
 
@@ -55,6 +56,13 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post("v1/absen/jam-masuk", "tambahJamMasuk");
             Route::post("v1/absen/jam-pulang", "tambahJamPulang");
         });
+        Route::controller(LaporanController::class)->group(function () {
+            Route::post("v1/laporan", "addLaporan");
+            Route::get("v1/laporan/magang", 'getLaporan');
+            Route::put("v1/laporan", 'updateLaporan');
+            Route::delete("v1/laporan", 'deleteLaporan');
+        });
+
 
     });
     
@@ -70,6 +78,10 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('v1/absen/terima-absen/{absen:id}', 'terimaAbsen');
             Route::post('v1/absen/tolak-absen/{absen:id}', 'tolakAbsen');
         
+        });
+
+        Route::controller(LaporanController::class)->group(function(){
+            Route::get("v1/laporan", "getAllLaporan");
         });
 
     });
@@ -99,6 +111,12 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::delete('v1/agenda/{slug}', 'deleteAgenda');
         });
 
+        Route::controller(UserMagangController::class)->group(function(){
+            
+            Route::get('v1/user-magang', 'getAllUserMagang');
+            Route::put('v1/user-magang/terima/{userMagang:id}', 'acceptMagang');
+            Route::put('v1/user-magang/tolak/{userMagang:id}', 'rejectMagang');
+        });
 
     });
 

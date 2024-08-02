@@ -1,13 +1,20 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "API Agenda",
-        "description": "Dokumentasi API untuk endpoint agenda",
+        "title": "API User Magang",
+        "description": "Dokumentasi API untuk endpoint user magang",
         "version": "1.0.0"
     },
     "paths": {
-        "/api/v1/agenda/{slug}": {
-            
+        
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
         }
     }
 }
