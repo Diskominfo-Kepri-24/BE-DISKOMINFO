@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Custom\Services\EmailVerificationService;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,6 +15,12 @@ use App\Models\UserMagangSiswa;
 
 class AuthController extends Controller
 {
+
+    public function __construct(private EmailVerificationService $service)
+    {
+        
+    }
+
     public function registerMahasiswa(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -37,6 +44,10 @@ class AuthController extends Controller
             'email' => $request->email,
             'role' => 'mahasiswa',
         ]);
+
+        if($user){
+            $this->service->sendVerificationLink($user);
+        }
 
         $userMagang = UserMagang::create([
             'no_telp' => $request->no_telp,
@@ -91,6 +102,10 @@ class AuthController extends Controller
             'email' => $request->email,
             'role' => 'siswa',
         ]);
+
+        if ($user){
+            $this->service->sendVerificationLink($user);
+        }
 
         $userMagang = UserMagang::create([
             'no_telp' => $request->no_telp,
