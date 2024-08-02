@@ -12,20 +12,14 @@ use App\Http\Controllers\ProgramController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KegiatanController;
-use App\Http\Controllers\UserMagangController;
-
 Route::controller(AuthController::class)->group(function () {
-
     Route::post('/v1/login', 'login');
     Route::post('/v1/register/mahasiswa', 'registerMahasiswa');
     Route::post('/v1/register/siswa', 'registerSiswa');
     Route::post('/v1/register/pembimbing', 'registerPembimbing');
     Route::post('/v1/register/admin', 'registerAdmin');
-
     Route::post('v1/magang/login', 'loginDiff');
-
 });
-
 // get data without login
 // berita
 Route::get('v1/berita', [NewsController::class, 'searchBerita']);
@@ -40,9 +34,7 @@ Route::get('v1/program/{program:id}', [ProgramController::class, 'getProgram']);
 // agenda
 Route::get('v1/agenda', [AgendaController::class, 'getAgendas']);
 Route::get('v1/agenda/{slug}', [AgendaController::class, 'getAgenda']);
-
 Route::middleware('auth:sanctum')->group(function () {
-
     Route::middleware('role:mahasiswa,siswa')->group(function () {
         Route::controller(DokumenController::class)->group(function () {
             Route::post('v1/document', 'storeDocument');
@@ -50,7 +42,6 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::delete('v1/document', 'deleteAllDocuments');
             Route::post('v1/document/update', 'updateDocument');
         });
-
         Route::controller(AbsenController::class)->group(function(){
             Route::get("v1/absen/magang", 'getAbsen');
             Route::post("v1/absen/jam-masuk", "tambahJamMasuk");
@@ -58,14 +49,11 @@ Route::middleware('auth:sanctum')->group(function () {
         });
         Route::controller(LaporanController::class)->group(function () {
             Route::post("v1/laporan", "addLaporan");
-            Route::get("v1/laporan/magang", 'getLaporan');
-            Route::put("v1/laporan", 'updateLaporan');
-            Route::delete("v1/laporan", 'deleteLaporan');
         });
 
 
     });
-    
+
     // 
     
     // 
@@ -77,7 +65,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('v1/absen/{user_id}', 'getAbsenMagang');
             Route::post('v1/absen/terima-absen/{absen:id}', 'terimaAbsen');
             Route::post('v1/absen/tolak-absen/{absen:id}', 'tolakAbsen');
-        
+
         });
 
         Route::controller(LaporanController::class)->group(function(){
@@ -92,40 +80,27 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('v1/berita/{berita:slug}', 'updateBerita');
             Route::delete('v1/berita/{berita:slug}', 'deleteBerita');
         });
-
         Route::controller(GalleryController::class)->group(function(){
             Route::post('v1/gallery', 'storeImage');
             Route::post('v1/gallery/{gallery:id}', 'updateImage');
             Route::delete('v1/gallery/{gallery:id}', 'deleteImage');
         });
-
         Route::controller(ProgramController::class)->group(function(){
             Route::post('v1/program', 'addProgram');
             Route::post('v1/program/{program:id}', 'updateProgram');
             Route::delete('v1/program/{program:id}', 'deleteProgram');
         });
-
         Route::controller(AgendaController::class)->group(function(){
             Route::post('v1/agenda', 'addAgenda');
             Route::post('v1/agenda/{slug}', 'updateAgenda');
             Route::delete('v1/agenda/{slug}', 'deleteAgenda');
         });
-
-        Route::controller(UserMagangController::class)->group(function(){
-            
-            Route::get('v1/user-magang', 'getAllUserMagang');
-            Route::put('v1/user-magang/terima/{userMagang:id}', 'acceptMagang');
-            Route::put('v1/user-magang/tolak/{userMagang:id}', 'rejectMagang');
-        });
-
     });
-
     Route::controller(CommentController::class)->group(function(){
         Route::post('v1/berita/{berita:slug}/komentar', 'addComment');
         Route::put('v1/berita/komentar/{komentar:id}', 'updateComment');
         Route::delete('v1/berita/komentar/{komentar:id}', 'deleteComment');
     });
-
     Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
         Route::get('/kegiatan', [KegiatanController::class, 'index']);
         Route::post('/kegiatan', [KegiatanController::class, 'store']);
