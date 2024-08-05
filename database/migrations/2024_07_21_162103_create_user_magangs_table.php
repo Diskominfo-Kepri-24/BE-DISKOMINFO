@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string("jenjang");
             $table->string("instansi");
             $table->string('surat_magang');
-            $table->dateTime('mulai_magang');
-            $table->dateTime('akhir_magang');
+            $table->date('mulai_magang');
+            $table->date('akhir_magang');
             $table->string('alasan_magang');
             $table->string('motivasi_magang');
             $table->enum("status", ["diterima", "menunggu", "ditolak"])->default("menunggu");

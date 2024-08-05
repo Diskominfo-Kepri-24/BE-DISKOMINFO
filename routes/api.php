@@ -74,6 +74,13 @@ Route::prefix('v1')->group(function(){
                 Route::post('absen/tolak-absen/{absen:id}', 'tolakAbsen');
             
             });
+
+            Route::controller(MagangController::class)->group(function(){
+                
+                Route::get('user-magang', 'getAllUserMagang');
+                Route::put('user-magang/terima/{userMagang:id}', 'acceptMagang');
+                Route::put('user-magang/tolak/{userMagang:id}', 'rejectMagang');
+            });
     
             Route::controller(LaporanController::class)->group(function(){
                 Route::get("laporan", "getAllLaporan");
@@ -104,13 +111,6 @@ Route::prefix('v1')->group(function(){
                 Route::post('agenda', 'addAgenda');
                 Route::post('agenda/{slug}', 'updateAgenda');
                 Route::delete('agenda/{slug}', 'deleteAgenda');
-            });
-    
-            Route::controller(MagangController::class)->group(function(){
-                
-                Route::get('user-magang', 'getAllUserMagang');
-                Route::put('user-magang/terima/{userMagang:id}', 'acceptMagang');
-                Route::put('user-magang/tolak/{userMagang:id}', 'rejectMagang');
             });
     
         });
