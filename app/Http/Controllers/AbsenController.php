@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Absen;
+use App\Models\Magang;
 use App\Models\User;
 use App\Models\UserMagang;
 use Carbon\Carbon;
@@ -16,7 +17,7 @@ class AbsenController extends Controller
     public function getAbsen()
     {
 
-        $userMagang = Auth::user()->userMagang;
+        $userMagang = Auth::user()->magang;
 
         $absen = Absen::query()->where("id_user_magang", $userMagang->id)
                                 ->orderBy('tanggal', 'desc')
@@ -30,9 +31,9 @@ class AbsenController extends Controller
     // dipakai di role pembimbing buat dapatin semua data magang
     public function getAllAbsenMagang(){
 
-        $userMagang = UserMagang::query()->join('users', 'users.id', '=', 'user_magang.id_user')
-                                            ->join('absens', 'absens.id_user_magang', '=', 'user_magang.id')
-                                            ->select("users.id as id_user", "absens.id as id_absen", "users.name as name", "absens.tanggal as tanggal", "absens.hari as hari", "absens.jam_masuk as jam_masuk", "absens.jam_pulang as jam_pulang", "absens.status as status")
+        $userMagang = Magang::query()->join('users', 'users.id', '=', 'magang.id_user')
+                                            ->join('absens', 'absens.id_user_magang', '=', 'magang.id')
+                                            ->select("users.id as id_user", "absens.id as id_absen", "users.nama as name", "absens.tanggal as tanggal", "absens.hari as hari", "absens.jam_masuk as jam_masuk", "absens.jam_pulang as jam_pulang", "absens.status as status")
                                             ->get();
 
         return response()->json([
@@ -45,9 +46,9 @@ class AbsenController extends Controller
     public function getAbsenMagang($id_user){
 
 
-        $absen = Absen::query()->join("user_magang", "user_magang.id", "=", "absens.id_user_magang")
-                                ->join("users", "users.id", "=", "user_magang.id_user")
-                                ->select("absens.id as id_absen", "users.id as id_user", "users.name as name", "absens.tanggal as tanggal", "absens.hari as hari", "absens.jam_masuk as jam_masuk", "absens.jam_pulang as jam_pulang", "absens.status as status")
+        $absen = Absen::query()->join("magang", "magang.id", "=", "absens.id_user_magang")
+                                ->join("users", "users.id", "=", "magang.id_user")
+                                ->select("absens.id as id_absen", "users.id as id_user", "users.nama as name", "absens.tanggal as tanggal", "absens.hari as hari", "absens.jam_masuk as jam_masuk", "absens.jam_pulang as jam_pulang", "absens.status as status")
                                 ->where('users.id', $id_user)
                                 ->get();
 
@@ -61,7 +62,7 @@ class AbsenController extends Controller
     public function tambahJamMasuk(Request $request)
     {
 
-        $userMagang = Auth::user()->userMagang;
+        $userMagang = Auth::user()->magang;
 
         $absen = Absen::query()->where("tanggal", substr(now("Asia/Jakarta"), 0, 10))->where("id_user_magang", $userMagang->id)->first();
         
@@ -114,7 +115,7 @@ class AbsenController extends Controller
     public function tambahJamPulang(Request $request)
     {
 
-        $userMagang = Auth::user()->userMagang;
+        $userMagang = Auth::user()->magang;
 
         $request->validate([
             "tanggal" => "required",

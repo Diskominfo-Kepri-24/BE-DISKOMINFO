@@ -10,9 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\Models\UserMagang;
-use App\Models\UserMagangMahasiswa;
-use App\Models\UserMagangSiswa;
 
 class AuthController extends Controller
 {
@@ -177,14 +174,14 @@ class AuthController extends Controller
         $user = User::query()->where('email', $request->email)->firstOrFail();
     
         // Jika peran pengguna adalah mahasiswa atau siswa
-        if ($user->role == "mahasiswa" || $user->role == "siswa") {
-            $userMagang = $user->userMagang()->firstOrFail();
+        if ($user->role == "magang") {
+            $userMagang = $user->magang()->firstOrFail();
     
             // Periksa status userMagang
             if ($userMagang->status == "menunggu" || $userMagang->status == "ditolak") {
                 return response()->json([
                     "message" => "Anda belum memiliki akses ke halaman ini",
-                    "name" => $user->name,
+                    "name" => $user->nama,
                     "status" => $userMagang->status
                 ], 403);
             }
@@ -198,9 +195,18 @@ class AuthController extends Controller
                 "status" => $userMagang->status,
                 "token_type" => "Bearer",
                 "role" => $user->role,
-                "name" => $user->name,
+                "name" => $user->nama,
                 "email" => $user->email,
                 "user_id" => $user->id, // Tambahkan ID pengguna ke respons
+                "no_hp" => $user->no_hp,
+                "jurusan" => $userMagang->jurusan,
+                "no_induk" => $userMagang->no_induk,
+                "jenjang" => $userMagang->jenjang,
+                "instansi" => $userMagang->instansi,
+                "surat_magang" => $userMagang->surat_magang,
+                "mulai_magang" => $userMagang->mulai_magang,
+                "akhir_magang" => $userMagang->akhir_magang,
+                "motivasi_magang" => $userMagang->motivasi_magang,
             ]);
         }
     
