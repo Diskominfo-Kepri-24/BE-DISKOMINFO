@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class UserMagang extends Model
+class Magang extends Model
 {
     use HasFactory;
 
-    protected $table = 'user_magang';
+    protected $table = 'magang';
 
     public $timestamps = true;
 
@@ -21,22 +21,21 @@ class UserMagang extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'no_telp',
+        'jurusan',
+        'no_induk',
+        'jenjang',
+        'instansi',
+        'surat_magang',
         'mulai_magang',
         'akhir_magang',
+        'alasan_magang',
+        'motivasi_magang',
+        'status',
         'id_user',
     ];
 
     public function user(): BelongsTo {
         return $this->belongsTo(User::class, 'id_user', 'id');
-    }
-
-    public function userMagangMahasiswa(): HasOne {
-        return $this->hasOne(UserMagangMahasiswa::class, 'id_user_magang', 'id');
-    }
-
-    public function userMagangSiswa(): HasOne {
-        return $this->hasOne(UserMagangSiswa::class, 'id_user_magang', 'id');
     }
 
     public function absen(): HasOne {

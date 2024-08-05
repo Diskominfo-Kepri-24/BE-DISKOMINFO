@@ -61,7 +61,7 @@
                                         "role":{
                                             "type": "string"
                                         },
-                                        "name":{
+                                        "nama":{
                                             "type": "string"
                                         },
                                         "email":{
@@ -136,7 +136,7 @@
                                         "role":{
                                             "type": "string"
                                         },
-                                        "name":{
+                                        "nama":{
                                             "type": "string"
                                         },
                                         "email":{
@@ -186,46 +186,56 @@
                 }
             }
         },
-        "/api/v1/register/mahasiswa": {
+        "/api/v1/register/magang": {
             "post": {
-                "description": "Register User Magang Mahasiswa",
+                "summary": "Register Magang",
+                "description": "Register User Magang",
                 "requestBody": {
+                    "required": true,
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "examples": {
                                 "user": {
-                                    "description": "Register User Magang Mahasiswa",
+                                    "description": "Register User Magang",
                                     "value": {
-                                        "name": "string",
+                                        "nama": "string",
                                         "email": "string",
                                         "password": "string",
-                                        "nim": "string",
-                                        "no_telp": "string",
+                                        "no_induk": "string",
+                                        "no_hp": "string",
                                         "jurusan": "string",
-                                        "tahun_angkatan": "string",
-                                        "universitas": "string",
+                                        "jenjang": "string",
+                                        "instansi": "string",
+                                        "surat_magang": "string",
                                         "mulai_magang": "string",
-                                        "akhir_magang": "string"
+                                        "akhir_magang": "string",
+                                        "alasan_magang": "string",
+                                        "motivasi_magang": "string"
                                     }
                                 }
                             },
                             "schema": {
                                 "type": "object",
                                 "required": [
-                                    "name",
+                                    "nama",
                                     "email",
                                     "password",
-                                    "nim",
-                                    "no_telp",
+                                    "no_induk",
+                                    "no_hp",
                                     "jurusan",
-                                    "tahun_angkatan",
-                                    "universitas"
+                                    "jenjang",
+                                    "instansi",
+                                    "surat_magang",
+                                    "mulai_magang",
+                                    "akhir_magang",
+                                    "alasan_magang",
+                                    "motivasi_magang"
                                 ],
                                 "properties": {
-                                    "name": {
+                                    "nama": {
                                         "type": "string"
                                     },
-                                    "nim": {
+                                    "no_induk": {
                                         "type": "string"
                                     },
                                     "email": {
@@ -234,16 +244,32 @@
                                     "password": {
                                         "type": "string"
                                     },
-                                    "no_telp": {
+                                    "no_hp": {
                                         "type": "string"
                                     },
                                     "jurusan": {
                                         "type": "string"
                                     },
-                                    "tahun_angkatan": {
+                                    "jenjang":{
                                         "type": "string"
                                     },
-                                    "universitas": {
+                                    "instansi": {
+                                        "type": "string"
+                                    },
+                                    "surat_magang": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "mulai_magang":{
+                                        "type": "string"
+                                    },
+                                    "akhir_magang":{
+                                        "type": "string"
+                                    },
+                                    "alasan_magang":{
+                                        "type": "string"
+                                    },
+                                    "motivasi_magang":{
                                         "type": "string"
                                     }
                                 }
@@ -261,16 +287,21 @@
                                         "description": "Success Register New User",
                                         "value": {
                                             "data": {
-                                                "name": "string",
+                                                "nama": "string",
                                                 "email": "string",
                                                 "id": 1,
+                                                "no_induk": "string",
+                                                "surat_magang": "string",
                                                 "jurusan": "string",
+                                                "jenjang": "string",
                                                 "tahun_angkatan": "string",
-                                                "universitas": "string",
-                                                "id_user_magang": 1,
+                                                "instansi": "string",
+                                                "id_magang": 1,
                                                 "updated_at": "string",
                                                 "created_at": "string",
-                                                "no_telp": "string",
+                                                "no_hp": "string",
+                                                "alasan_magang": "string",
+                                                "motivasi_magang": "string",
                                                 "role": "string"
                                             }
                                         }
@@ -285,13 +316,16 @@
                                                 "id": {
                                                     "type": "number"
                                                 },
-                                                "name": {
+                                                "nama": {
                                                     "type": "string"
                                                 },
                                                 "email": {
                                                     "type": "string"
                                                 },
                                                 "jurusan": {
+                                                    "type": "string"
+                                                },
+                                                "jenjang":{
                                                     "type": "string"
                                                 },
                                                 "tahun_angkatan": {
@@ -336,191 +370,33 @@
                                                 "The password field is required",
                                                 "password min 8 characters"
                                             ],
-                                            "name": [
-                                                "The name field is required"
+                                            "nama": [
+                                                "The nama field is required"
                                             ],
                                             "nim": [
                                                 "The nim field is required"
                                             ],
-                                            "no_telp": [
+                                            "no_hp": [
                                                 "The no_telp field is required"
                                             ],
                                             "jurusan": [
                                                 "The jurusan field is required"
                                             ],
-                                            "tahun_angkatan": [
-                                                "the tahun angkatan field is required"
+                                            "surat_magang": [
+                                                "the surat magang field is required",
+                                                "the surat magang field must be pdf"
                                             ],
-                                            "universitas": [
-                                                "the universitas field is required"
+                                            "jenjang": [
+                                                "the jenjang field is required"
                                             ],
-                                            "mulai_magang": [
-                                                "The mulai magang field is required"
+                                            "instansi": [
+                                                "the instansi field is required"
                                             ],
-                                            "akhir_magang": [
-                                                "The akhir magang field is required"
-                                            ]
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/register/siswa": {
-            "post": {
-                "description": "Register User Magang Siswa",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "examples": {
-                                "user": {
-                                    "description": "Register User Magang Siswa",
-                                    "value": {
-                                        "name": "string",
-                                        "email": "string",
-                                        "password": "string",
-                                        "nisn": "string",
-                                        "no_telp": "string",
-                                        "jurusan": "string",
-                                        "tahun_angkatan": "string",
-                                        "sekolah": "string",
-                                        "mulai_magang": "string",
-                                        "akhir_magang": "string"
-                                    }
-                                }
-                            },
-                            "schema": {
-                                "type": "object",
-                                "required": [
-                                    "name",
-                                    "email",
-                                    "password",
-                                    "nisn",
-                                    "no_telp",
-                                    "jurusan",
-                                    "tahun_angkatan",
-                                    "sekolah",
-                                    "mulai_magang",
-                                    "akhir_magang"
-                                ],
-                                "properties": {
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "nisn": {
-                                        "type": "string"
-                                    },
-                                    "email": {
-                                        "type": "string"
-                                    },
-                                    "password": {
-                                        "type": "string"
-                                    },
-                                    "no_telp": {
-                                        "type": "string"
-                                    },
-                                    "jurusan": {
-                                        "type": "string"
-                                    },
-                                    "tahun_angkatan": {
-                                        "type": "string"
-                                    },
-                                    "sekolah": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Success Register User Siswa",
-                        "content": {
-                            "application/json": {
-                                "examples": {
-                                    "success": {
-                                        "description": "Success Register New User",
-                                        "value": {
-                                            "data": {
-                                                "name": "string",
-                                                "email": "string",
-                                                "id": 1,
-                                                "nisn": "string",
-                                                "jurusan": "string",
-                                                "tahun_angkatan": "string",
-                                                "sekolah": "string",
-                                                "id_user_magang": 1,
-                                                "updated_at": "string",
-                                                "created_at": "string",
-                                                "no_telp": "string",
-                                                "role": "string"
-                                            }
-                                        }
-                                    }
-                                },
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number"
-                                                },
-                                                "name": {
-                                                    "type": "string"
-                                                },
-                                                "email": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        },
-                                        "errors": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "examples": {
-                                    "Validation Error": {
-                                        "description": "Validation Error",
-                                        "value": {
-                                            "email": [
-                                                "The email field is required",
-                                                "email containt @examples.com",
-                                                "The email has already been taken"
+                                            "alasan_magang": [
+                                                "the alasan magang field is required"
                                             ],
-                                            "password": [
-                                                "The password field is required",
-                                                "password min 8 characters"
-                                            ],
-                                            "name": [
-                                                "The name field is required"
-                                            ],
-                                            "nim": [
-                                                "The nim field is required"
-                                            ],
-                                            "no_telp": [
-                                                "The no_telp field is required"
-                                            ],
-                                            "jurusan": [
-                                                "The jurusan field is required"
-                                            ],
-                                            "tahun_angkatan": [
-                                                "the tahun angkatan field is required"
-                                            ],
-                                            "universitas": [
-                                                "the universitas field is required"
+                                            "motivasi_magang": [
+                                                "the motivasi_magang field is required"
                                             ],
                                             "mulai_magang": [
                                                 "The mulai magang field is required"
@@ -547,20 +423,21 @@
                                 "user": {
                                     "description": "Register User Pembimbing",
                                     "value": {
-                                        "name": "string",
+                                        "nama": "string",
                                         "email": "string",
+                                        "no_hp": "string",
                                         "password": "string"
                                     }
                                 }
                             },
                             "schema": {
                                 "type": "object",
-                                "required": ["name", "email", "password"],
+                                "required": ["nama", "no_hp", "email", "password"],
                                 "properties": {
-                                    "name": {
+                                    "nama": {
                                         "type": "string"
                                     },
-                                    "nisn": {
+                                    "no_hp": {
                                         "type": "string"
                                     },
                                     "email": {
@@ -584,7 +461,7 @@
                                         "description": "Success Register New User",
                                         "value": {
                                             "data": {
-                                                "name": "string",
+                                                "nama": "string",
                                                 "email": "string",
                                                 "id": 1
                                             }
@@ -600,7 +477,7 @@
                                                 "id": {
                                                     "type": "number"
                                                 },
-                                                "name": {
+                                                "nama": {
                                                     "type": "string"
                                                 },
                                                 "email": {
@@ -633,8 +510,8 @@
                                                 "The password field is required",
                                                 "password min 8 characters"
                                             ],
-                                            "name": [
-                                                "The name field is required"
+                                            "nama": [
+                                                "The nama field is required"
                                             ]
                                         }
                                     }
@@ -655,7 +532,7 @@
                                 "user": {
                                     "description": "Register User Admin",
                                     "value": {
-                                        "name": "string",
+                                        "nama": "string",
                                         "email": "string",
                                         "password": "string"
                                     }
@@ -663,9 +540,9 @@
                             },
                             "schema": {
                                 "type": "object",
-                                "required": ["name", "email", "password"],
+                                "required": ["nama", "email", "password"],
                                 "properties": {
-                                    "name": {
+                                    "nama": {
                                         "type": "string"
                                     },
                                     "email": {
@@ -689,7 +566,7 @@
                                         "description": "Success Register New User",
                                         "value": {
                                             "data": {
-                                                "name": "string",
+                                                "nama": "string",
                                                 "email": "string",
                                                 "id": 1
                                             }
@@ -705,7 +582,7 @@
                                                 "id": {
                                                     "type": "number"
                                                 },
-                                                "name": {
+                                                "nama": {
                                                     "type": "string"
                                                 },
                                                 "email": {
@@ -738,8 +615,8 @@
                                                 "The password field is required",
                                                 "password min 8 characters"
                                             ],
-                                            "name": [
-                                                "The name field is required"
+                                            "nama": [
+                                                "The nama field is required"
                                             ]
                                         }
                                     }

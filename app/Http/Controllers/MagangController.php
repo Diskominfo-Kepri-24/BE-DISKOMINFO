@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UserMagang;
+use App\Models\Magang;
 use Illuminate\Http\Request;
 
-class UserMagangController extends Controller
+class MagangController extends Controller
 {
 
 
     public function getAllUserMagang(){
 
-        $users = UserMagang::query()->join('users', 'users.id', '=', 'user_magang.id_user')
-                                    ->select('user_magang.id as id_user_magang', 'users.id as id_user' ,'users.name as name', 'email', 'mulai_magang', 'akhir_magang', 'role', 'status')
+        $users = Magang::query()->join('users', 'users.id', '=', 'magang.id_user')
+                                    ->select('magang.id as id_magang', 'users.id as id_user' ,'users.nama as nama', 'email', 'mulai_magang', 'akhir_magang', 'role', 'status')
                                     ->get();
 
         return response()->json([
@@ -22,7 +22,7 @@ class UserMagangController extends Controller
     }
 
 
-    public function acceptMagang(UserMagang $userMagang){
+    public function acceptMagang(Magang $userMagang){
 
         $userMagang->status = "diterima";
         $isSuccess = $userMagang->save();
@@ -33,7 +33,7 @@ class UserMagangController extends Controller
 
     }
 
-    public function rejectMagang(UserMagang $userMagang){
+    public function rejectMagang(Magang $userMagang){
 
         $userMagang->status = "ditolak";
         $isSuccess = $userMagang->save();

@@ -21,8 +21,9 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nama',
         'email',
+        'no_hp',
         'password',
         'role',
     ];
@@ -50,8 +51,8 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function userMagang(): HasOne {
-        return $this->hasOne(UserMagang::class, 'id_user', 'id');
+    public function magang(): HasOne {
+        return $this->hasOne(Magang::class, 'id_user', 'id');
     }
 
     public function berita(): HasOne {

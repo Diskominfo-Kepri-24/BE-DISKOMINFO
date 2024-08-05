@@ -14,10 +14,10 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->uuid()->unique()->default(DB::raw('(UUID())'));
+            $table->string('nama');
+            $table->string('no_hp')->nullable();
             $table->string('email')->unique();
-            $table->enum('role', ['guest', 'mahasiswa', 'siswa', 'pembimbing', 'admin'])->default('guest');
+            $table->enum('role', ['guest', 'magang', 'pembimbing', 'admin'])->default('guest');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

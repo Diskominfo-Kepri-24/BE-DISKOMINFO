@@ -12,13 +12,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_magang', function (Blueprint $table) {
+        Schema::create('magang', function (Blueprint $table) {
             $table->id();
-            $table->string('no_telp', 20)->nullable(true);
-            $table->uuid()->unique()->default(DB::raw('(UUID())'));
-            $table->enum("status", ["diterima", "menunggu", "ditolak"])->default("menunggu");
+            $table->string('jurusan', 20)->nullable(true);
+            $table->string('no_induk');
+            $table->string("jenjang");
+            $table->string("instansi");
+            $table->string('surat_magang');
             $table->dateTime('mulai_magang');
             $table->dateTime('akhir_magang');
+            $table->string('alasan_magang');
+            $table->string('motivasi_magang');
+            $table->enum("status", ["diterima", "menunggu", "ditolak"])->default("menunggu");
             $table->unsignedBigInteger('id_user');
             $table->timestamps();
 
@@ -31,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_magang');
+        Schema::dropIfExists('magang');
     }
 };
