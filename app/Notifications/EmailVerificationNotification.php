@@ -12,14 +12,16 @@ class EmailVerificationNotification extends Notification
     use Queueable;
     
     protected $url;
+    private $user;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($url)
+    public function __construct($url, $user)
     {
         //
         $this->url = $url;
+        $this->user = $user;
     }
 
     /**
@@ -38,11 +40,12 @@ class EmailVerificationNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
+                    // ->
                     ->subject('Verify Email Address')
-                    ->line("Dear $notifiable->name")
-                    ->line('Thank you for signing up with Kominfo kepri. To ensure your security please verification your email address')
-                    ->action('Verify Email', $this->url)
-                    ->line("If you didn't create an account, no further action is required from you.");
+                    ->markdown('verifyemails.verify', [
+                        'url' => $this->url,
+                        'user' => $this->user,
+                    ]);
     }
 
     /**

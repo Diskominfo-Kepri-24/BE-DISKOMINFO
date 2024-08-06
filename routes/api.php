@@ -6,6 +6,7 @@ use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DokumenController;
+use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProgramController;
@@ -41,6 +42,8 @@ Route::prefix('v1')->group(function(){
     // agenda
     Route::get('agenda', [AgendaController::class, 'getAgendas']);
     Route::get('agenda/{slug}', [AgendaController::class, 'getAgenda']);
+
+    
     
     Route::middleware('auth:sanctum')->group(function () {
     

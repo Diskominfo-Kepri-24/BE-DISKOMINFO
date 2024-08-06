@@ -15,7 +15,7 @@ class EmailVerificationService
      */
     public function sendVerificationLink(object $user): void {
 
-        Notification::send($user, new EmailVerificationNotification($this->generateVerificationLink($user->email)));
+        Notification::send($user, new EmailVerificationNotification($this->generateVerificationLink($user->email), $user));
 
     }
 
@@ -29,7 +29,7 @@ class EmailVerificationService
         if($checkIfTokenExists) $checkIfTokenExists->delete();
         $token = Str::uuid();
 
-        $url = config('app.url') . "?token=" . $token . "&email=" . $email;
+        $url = config('app.url') . "/verify?token=" . $token . "&email=" . $email;
         $saveToken = EmailVerificationToken::query()->create([
             "email" => $email,
             "token" => $token,

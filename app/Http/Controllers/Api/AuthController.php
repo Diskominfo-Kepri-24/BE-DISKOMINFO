@@ -53,7 +53,7 @@ class AuthController extends Controller
         ]);
 
         if($user){
-            $this->service->sendVerificationLink($user);
+            $this->service->sendVerificationLink($user, $user);
         }
 
         $magang = Magang::create([
@@ -175,6 +175,15 @@ class AuthController extends Controller
     
         // Jika peran pengguna adalah mahasiswa atau siswa
         if ($user->role == "magang") {
+
+            if(is_null($user->email_verified_at)){
+                return response()->json([
+                    "message" => "Email belum diverifikasi, silakan verifikasi terlebih dahulu email anda",
+                    "name" => $user->nama,
+                    "email" => $user->email
+                ], 403);
+            }
+
             $userMagang = $user->magang()->firstOrFail();
     
             // Periksa status userMagang
