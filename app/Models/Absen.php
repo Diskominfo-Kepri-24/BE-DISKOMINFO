@@ -21,9 +21,9 @@ class Absen extends Model
         "status"
     ];
 
-    public function userMagang(): BelongsTo {
+    public function magang(): BelongsTo {
 
-        return $this->belongsTo(UserMagang::class, 'id_user_magang', "id");
+        return $this->belongsTo(Magang::class, 'id_magang', "id");
 
     }
 

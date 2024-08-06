@@ -21,7 +21,7 @@ return new class extends Migration
             $table->enum("status", ["dikonfirmasi", "menunggu", "ditolak"])->default("menunggu");
             $table->timestamps();
 
-            $table->foreign("id_user_magang")->references("id")->on("user_magang")->onUpdate("cascade")->onDelete("cascade");
+            $table->foreign("id_user_magang")->references("id")->on("magang")->onUpdate("cascade")->onDelete("cascade");
         });
     }
 

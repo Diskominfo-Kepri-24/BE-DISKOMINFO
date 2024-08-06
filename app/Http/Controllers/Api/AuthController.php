@@ -4,14 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Custom\Services\EmailVerificationService;
 use App\Http\Controllers\Controller;
+use App\Models\Magang;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\Models\UserMagang;
-use App\Models\UserMagangMahasiswa;
-use App\Models\UserMagangSiswa;
 
 class AuthController extends Controller
 {
@@ -21,118 +19,64 @@ class AuthController extends Controller
         
     }
 
-    public function registerMahasiswa(Request $request)
+    public function registerMagang(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
             'email' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:8',
-            'nim' => 'required|string',
-            'no_telp' => 'string|min:10',
-            'jurusan' => 'string',
-            'tahun_angkatan' => 'string',
-            'universitas' => 'string'
+            'no_induk' => 'required|string',
+            'jurusan' => 'required',
+            'jenjang' => 'required',
+            'instansi' => 'required',
+            'surat_magang' => 'required|mimes:pdf',
+            'mulai_magang' => 'required',
+            'akhir_magang' => 'required',
+            'alasan_magang' => 'required',
+            'motivasi_magang' => 'required',
         ]);
+
+        $surat_magang = $request->file('surat_magang');
+        $surat_magangName = time() . "_" . "surat_magang" . "_" . $surat_magang->hashName();
+        $surat_magang->storeAs("public/surat_magang", $surat_magangName);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
         $user = User::create([
-            'name' => $request->name,
+            'nama' => $request->nama,
             'password' => Hash::make($request->password),
             'email' => $request->email,
-            'role' => 'mahasiswa',
+            'no_hp' => $request->no_hp,
+            'role' => 'magang',
         ]);
 
         if($user){
             $this->service->sendVerificationLink($user);
         }
 
-        $userMagang = UserMagang::create([
-            'no_telp' => $request->no_telp,
+        $magang = Magang::create([
+            'jurusan' => $request->jurusan,
+            'no_induk' => $request->no_induk,
+            'jenjang' => $request->jenjang,
+            'instansi' => $request->instansi,
+            'surat_magang' => 'storage/surat_magang/' . $surat_magangName,
             'mulai_magang' => $request->mulai_magang,
             'akhir_magang' => $request->akhir_magang,
+            'alasan_magang' => $request->alasan_magang,
+            'motivasi_magang' => $request->motivasi_magang,
             'id_user' => $user->id,
         ]);
 
-        $userMahasiswa = UserMagangMahasiswa::create([
-            'nim' => $request->nim,
-            'jurusan' => $request->jurusan,
-            'tahun_angkatan' => $request->tahun_angkatan,
-            'universitas' => $request->universitas,
-            'id_user_magang' => $userMagang->id,
-
-        ]);
-
-        $data = $userMahasiswa->toArray();
-        $data['name'] = $user->name;
-        $data['email'] = $user->email;
-        $data['no_telp'] = $userMagang->no_telp;
-        $data['role'] = $user->role;
-        $data['id'] = $user->id;
-
+        $magang['nama'] = $user->nama;
+        $magang['email'] = $user->email;
+        $magang['no_hp'] =  $user->no_hp;
+        $magang['role'] = $user->role;
+        $magang['id_user'] = $user->id;
 
         return response()->json([
-            'data' => $data
-        ]);
-    }
-
-
-    public function registerSiswa(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            'nisn' => 'required|string',
-            'no_telp' => 'string|min:10',
-            'jurusan' => 'string',
-            'tahun_angkatan' => 'string',
-            'sekolah' => 'string'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
-        $user = User::create([
-            'name' => $request->name,
-            'password' => Hash::make($request->password),
-            'email' => $request->email,
-            'role' => 'siswa',
-        ]);
-
-        if ($user){
-            $this->service->sendVerificationLink($user);
-        }
-
-        $userMagang = UserMagang::create([
-            'no_telp' => $request->no_telp,
-            'mulai_magang' => $request->mulai_magang,
-            'akhir_magang' => $request->akhir_magang,
-            'id_user' => $user->id,
-        ]);
-
-        $userSiswa = UserMagangSiswa::create([
-            'nisn' => $request->nisn,
-            'jurusan' => $request->jurusan,
-            'tahun_angkatan' => $request->tahun_angkatan,
-            'sekolah' => $request->sekolah,
-            'id_user_magang' => $userMagang->id,
-            
-        ]);
-
-        $data = $userSiswa->toArray();
-        $data['name'] = $user->name;
-        $data['email'] = $user->email;
-        $data['no_telp'] = $userMagang->no_telp;
-        $data['role'] = $user->role;
-        $data['id'] = $user->id;
-        
-
-        return response()->json([
-            'data' => $data
+            'data' => $magang
         ]);
     }
 
@@ -140,9 +84,11 @@ class AuthController extends Controller
     public function registerPembimbing(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
             'email' => 'required|string|max:255|unique:users',
             "password" => "required|min:8",
+            'no_hp' => 'required|numeric',
+            
         ]);
 
         if ($validator->fails()) {
@@ -150,7 +96,8 @@ class AuthController extends Controller
         }
 
         $user = User::create([
-            'name' => $request->name,
+            'nama' => $request->nama,
+            'no_hp' => $request->no_hp,
             'password' => Hash::make($request->password),
             'email' => $request->email,
             'role' => 'pembimbing',
@@ -165,7 +112,7 @@ class AuthController extends Controller
     public function registerAdmin(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
             'email' => 'required|string|max:255|unique:users',
             "password" => "required|min:8",
         ]);
@@ -175,7 +122,8 @@ class AuthController extends Controller
         }
 
         $user = User::create([
-            'name' => $request->name,
+            'nama' => $request->nama,
+            'no_hp' => $request->no_hp,
             'password' => Hash::make($request->password),
             'email' => $request->email,
             'role' => 'admin',
@@ -208,7 +156,7 @@ class AuthController extends Controller
             'access_token' => $token,
             'token_type' => 'Bearer',
             "role" => $user->role,
-            "name" => $user->name,
+            "nama" => $user->nama,
             "email" => $user->email,
             "user_id" => $user->id,
         ]);
@@ -226,14 +174,14 @@ class AuthController extends Controller
         $user = User::query()->where('email', $request->email)->firstOrFail();
     
         // Jika peran pengguna adalah mahasiswa atau siswa
-        if ($user->role == "mahasiswa" || $user->role == "siswa") {
-            $userMagang = $user->userMagang()->firstOrFail();
+        if ($user->role == "magang") {
+            $userMagang = $user->magang()->firstOrFail();
     
             // Periksa status userMagang
             if ($userMagang->status == "menunggu" || $userMagang->status == "ditolak") {
                 return response()->json([
                     "message" => "Anda belum memiliki akses ke halaman ini",
-                    "name" => $user->name,
+                    "name" => $user->nama,
                     "status" => $userMagang->status
                 ], 403);
             }
@@ -247,9 +195,18 @@ class AuthController extends Controller
                 "status" => $userMagang->status,
                 "token_type" => "Bearer",
                 "role" => $user->role,
-                "name" => $user->name,
+                "name" => $user->nama,
                 "email" => $user->email,
                 "user_id" => $user->id, // Tambahkan ID pengguna ke respons
+                "no_hp" => $user->no_hp,
+                "jurusan" => $userMagang->jurusan,
+                "no_induk" => $userMagang->no_induk,
+                "jenjang" => $userMagang->jenjang,
+                "instansi" => $userMagang->instansi,
+                "surat_magang" => $userMagang->surat_magang,
+                "mulai_magang" => $userMagang->mulai_magang,
+                "akhir_magang" => $userMagang->akhir_magang,
+                "motivasi_magang" => $userMagang->motivasi_magang,
             ]);
         }
     
@@ -258,6 +215,8 @@ class AuthController extends Controller
     
         return response()->json([
             "message" => "Login Success",
+            "name" => $user->nama,
+            "email" => $user->email,
             "access_token" => $token,
             "token_type" => 'Bearer',
             "role" => $user->role,
