@@ -16,9 +16,16 @@ class MagangController extends Controller
 
     public function getAllUserMagang(){
 
-        $users = Magang::query()->join('users', 'users.id', '=', 'magang.id_user')
-                                    ->select('magang.id as id_magang', 'users.id as id_user' ,'users.nama as nama', 'email', 'mulai_magang', 'akhir_magang', 'role', 'status')
-                                    ->get();
+        $users = Magang::query()->get();
+
+        // Iterasi melalui setiap user untuk menambahkan status verifikasi
+        foreach ($users as $user) {
+            if (is_null($user->email_verified_at)) {
+                $user->verifikasi = "Email belum diverifikasi";
+            } else {
+                $user->verifikasi = "Email sudah diverifikasi";
+            }
+        }
 
         return response()->json([
             "users" => $users
@@ -61,13 +68,16 @@ class MagangController extends Controller
 
     public function rejectMagang(Magang $userMagang){
 
-        $user = User::query()->where('id', $userMagang->id_user)->firstOrFail();
+        $user = User::query()->where('id', $userMagang->id_user)->first();
+        if(!is_null($user)){
+            $user->delete();
+        }
 
         $userMagang->status = "tolak";
         $isSuccess = $userMagang->save();
 
         if($isSuccess){
-            Mail::to($user->email)->send(new MagangEmail($user, $userMagang));
+            Mail::to($userMagang->email)->send(new MagangEmail($userMagang, $userMagang->email));
         }
 
         return response()->json([
