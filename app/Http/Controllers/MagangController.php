@@ -6,7 +6,9 @@ use App\Mail\MagangEmail;
 use App\Models\Magang;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class MagangController extends Controller
 {
@@ -28,13 +30,27 @@ class MagangController extends Controller
     public function acceptMagang(Magang $userMagang){
 
         // $user = $userMagang->user();
-        $user = User::query()->where('id', $userMagang->id_user)->firstOrFail();
+        // $user = User::query()->where('id', $userMagang->id_user)->firstOrFail();
 
-        $userMagang->status = "diterima";
+        $userMagang->status = "terima";
         $isSuccess = $userMagang->save();
 
         if($isSuccess){
-            Mail::to($user->email)->send(new MagangEmail($user, $userMagang));
+
+            $rawPassword = Str::random(12);
+
+            $user = User::create([
+                'nama' => $userMagang->nama,
+                'password' => Hash::make($rawPassword),
+                'email' => $userMagang->email,
+                'no_hp' => $userMagang->no_hp,
+                'role' => 'magang',
+            ]);
+
+            $userMagang->id_user = $user->id;
+            $userMagang->save();
+
+            Mail::to($user->email)->send(new MagangEmail($userMagang, $rawPassword));
         }
 
         return response()->json([
@@ -47,7 +63,7 @@ class MagangController extends Controller
 
         $user = User::query()->where('id', $userMagang->id_user)->firstOrFail();
 
-        $userMagang->status = "ditolak";
+        $userMagang->status = "tolak";
         $isSuccess = $userMagang->save();
 
         if($isSuccess){

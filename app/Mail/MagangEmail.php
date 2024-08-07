@@ -12,16 +12,17 @@ use Illuminate\Queue\SerializesModels;
 class MagangEmail extends Mailable
 {
     use Queueable, SerializesModels;
-    private $user;
     private $magang;
+    private $password;
+
     /**
      * Create a new message instance.
      */
-    public function __construct($user, $magang)
+    public function __construct($magang, $password)
     {
         //
-        $this->user = $user;
         $this->magang = $magang;
+        $this->password = $password;
     }
 
     /**
@@ -39,21 +40,23 @@ class MagangEmail extends Mailable
      */
     public function content(): Content
     {
-        if ($this->magang->status == "diterima"){
+        if ($this->magang->status == "terima"){
             return new Content(
                 view: 'emails.terimamagang',
                 with: [
-                    'name' => $this->user->nama,
+                    'name' => $this->magang->nama,
                     'status' => $this->magang->status,
+                    'email' => $this->magang->email,
+                    'password' => $this->password,
                     'tanggal_mulai' => $this->magang->mulai_magang,
                     'tanggal_selesai' => $this->magang->akhir_magang
                 ]
             );
-        }else if($this->magang->status == "ditolak"){
+        }else if($this->magang->status == "tolak"){
             return new Content(
                 view: 'emails.tolakmagang',
                 with: [
-                    'name' => $this->user->nama
+                    'name' => $this->magang->nama
                 ]
             );
         }

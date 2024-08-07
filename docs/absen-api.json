@@ -284,7 +284,7 @@
                                     "tanggal": {
                                         "type": "string",
                                         "format": "date",
-                                        "example": "29-07-2024"
+                                        "example": "2024-07-01"
                                     },
                                     "jam_masuk": {
                                         "type": "string",
@@ -373,7 +373,7 @@
                                         "type": "string",
                                         "format": "date",
                                         "description": "Tanggal absen",
-                                        "example": "29-07-2024"
+                                        "example": "2024-07-29"
                                     },
                                     "jam_pulang": {
                                         "type": "string",

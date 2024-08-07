@@ -24,7 +24,6 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string|max:255',
             'email' => 'required|string|max:255|unique:users',
-            'password' => 'required|string|min:8',
             'no_induk' => 'required|string',
             'jurusan' => 'required',
             'jenjang' => 'required',
@@ -33,7 +32,6 @@ class AuthController extends Controller
             'mulai_magang' => 'required',
             'akhir_magang' => 'required',
             'alasan_magang' => 'required',
-            'motivasi_magang' => 'required',
         ]);
 
         $surat_magang = $request->file('surat_magang');
@@ -44,36 +42,39 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $user = User::create([
-            'nama' => $request->nama,
-            'password' => Hash::make($request->password),
-            'email' => $request->email,
-            'no_hp' => $request->no_hp,
-            'role' => 'magang',
-        ]);
-
-        if($user){
-            $this->service->sendVerificationLink($user, $user);
-        }
-
+        // $user = User::create([
+        //     'nama' => $request->nama,
+        //     'password' => Hash::make($request->password),
+        //     'email' => $request->email,
+        //     'no_hp' => $request->no_hp,
+        //     'role' => 'magang',
+        // ]);
         $magang = Magang::create([
-            'jurusan' => $request->jurusan,
+            'nama' => $request->nama,
+            'email' => $request->email,
             'no_induk' => $request->no_induk,
+            'no_hp' => $request->no_hp,
+            'jurusan' => $request->jurusan,
             'jenjang' => $request->jenjang,
             'instansi' => $request->instansi,
             'surat_magang' => 'storage/surat_magang/' . $surat_magangName,
             'mulai_magang' => $request->mulai_magang,
             'akhir_magang' => $request->akhir_magang,
             'alasan_magang' => $request->alasan_magang,
-            'motivasi_magang' => $request->motivasi_magang,
-            'id_user' => $user->id,
+            'status' => "pending",
+            // 'id_user' => $user->id,
         ]);
 
-        $magang['nama'] = $user->nama;
-        $magang['email'] = $user->email;
-        $magang['no_hp'] =  $user->no_hp;
-        $magang['role'] = $user->role;
-        $magang['id_user'] = $user->id;
+        if($magang){
+            $this->service->sendVerificationLink($magang);
+        }
+
+
+        // $magang['nama'] = $magang->nama;
+        // $magang['email'] = $user->email;
+        // $magang['no_hp'] =  $user->no_hp;
+        // $magang['role'] = $user->role;
+        // $magang['id_user'] = $user->id;
 
         return response()->json([
             'data' => $magang
@@ -176,22 +177,13 @@ class AuthController extends Controller
         // Jika peran pengguna adalah mahasiswa atau siswa
         if ($user->role == "magang") {
 
-            if(is_null($user->email_verified_at)){
+            $magang = Magang::query()->where('id_user', $user->id)->firstOrFail();
+
+            if(is_null($magang->email_verified_at)){
                 return response()->json([
                     "message" => "Email belum diverifikasi, silakan verifikasi terlebih dahulu email anda",
                     "name" => $user->nama,
                     "email" => $user->email
-                ], 403);
-            }
-
-            $userMagang = $user->magang()->firstOrFail();
-    
-            // Periksa status userMagang
-            if ($userMagang->status == "menunggu" || $userMagang->status == "ditolak") {
-                return response()->json([
-                    "message" => "Anda belum memiliki akses ke halaman ini",
-                    "name" => $user->nama,
-                    "status" => $userMagang->status
                 ], 403);
             }
     
@@ -201,21 +193,21 @@ class AuthController extends Controller
             return response()->json([
                 "message" => "Login Success",
                 "access_token" => $token,
-                "status" => $userMagang->status,
+                "status" => $magang->status,
                 "token_type" => "Bearer",
                 "role" => $user->role,
                 "name" => $user->nama,
                 "email" => $user->email,
                 "user_id" => $user->id, // Tambahkan ID pengguna ke respons
                 "no_hp" => $user->no_hp,
-                "jurusan" => $userMagang->jurusan,
-                "no_induk" => $userMagang->no_induk,
-                "jenjang" => $userMagang->jenjang,
-                "instansi" => $userMagang->instansi,
-                "surat_magang" => $userMagang->surat_magang,
-                "mulai_magang" => $userMagang->mulai_magang,
-                "akhir_magang" => $userMagang->akhir_magang,
-                "motivasi_magang" => $userMagang->motivasi_magang,
+                "jurusan" => $magang->jurusan,
+                "no_induk" => $magang->no_induk,
+                "jenjang" => $magang->jenjang,
+                "instansi" => $magang->instansi,
+                "surat_magang" => $magang->surat_magang,
+                "mulai_magang" => $magang->mulai_magang,
+                "akhir_magang" => $magang->akhir_magang,
+                "motivasi_magang" => $magang->motivasi_magang,
             ]);
         }
     

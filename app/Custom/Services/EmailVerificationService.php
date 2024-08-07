@@ -13,9 +13,9 @@ class EmailVerificationService
     /**
      * Send verification link to a user
      */
-    public function sendVerificationLink(object $user): void {
+    public function sendVerificationLink(object $magang){
 
-        Notification::send($user, new EmailVerificationNotification($this->generateVerificationLink($user->email), $user));
+        Notification::send($magang, new EmailVerificationNotification($this->generateVerificationLink($magang->email), $magang));
 
     }
 

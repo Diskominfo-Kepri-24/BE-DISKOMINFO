@@ -23,12 +23,12 @@ class EmailVerificationController extends Controller
         // Cek apakah token telah kedaluwarsa
         if (Carbon::now()->greaterThan($token->expired_at)) {
             // Hapus user terkait
-            $user = User::query()->where('email', $token->email)->first();
-            $magang = Magang::query()->where('id_user', $user->id)->first();
+            // $user = User::query()->where('email', $token->email)->first();
+            $magang = Magang::query()->where('email', $token->email)->first();
 
-            if ($user) {
+            if ($magang) {
                 Storage::disk('public')->delete(substr($magang->surat_magang, 8));
-                $user->delete();
+                $magang->delete();
             }
 
             // Hapus token verifikasi
@@ -39,9 +39,9 @@ class EmailVerificationController extends Controller
         }
 
         // Jika token masih valid, lanjutkan verifikasi email
-        $user = User::query()->where('email', $token->email)->first();
-        $user->email_verified_at = now();
-        $user->save();
+        $magang = Magang::query()->where('email', $token->email)->first();
+        $magang->email_verified_at = now();
+        $magang->save();
         $token->delete();
 
         return view('verifyemails.berhasil');

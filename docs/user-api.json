@@ -200,7 +200,6 @@
                                     "value": {
                                         "nama": "string",
                                         "email": "string",
-                                        "password": "string",
                                         "no_induk": "string",
                                         "no_hp": "string",
                                         "jurusan": "string",
@@ -209,8 +208,7 @@
                                         "surat_magang": "string",
                                         "mulai_magang": "string",
                                         "akhir_magang": "string",
-                                        "alasan_magang": "string",
-                                        "motivasi_magang": "string"
+                                        "alasan_magang": "string"
                                     }
                                 }
                             },
@@ -219,7 +217,6 @@
                                 "required": [
                                     "nama",
                                     "email",
-                                    "password",
                                     "no_induk",
                                     "no_hp",
                                     "jurusan",
@@ -228,8 +225,7 @@
                                     "surat_magang",
                                     "mulai_magang",
                                     "akhir_magang",
-                                    "alasan_magang",
-                                    "motivasi_magang"
+                                    "alasan_magang"
                                 ],
                                 "properties": {
                                     "nama": {
@@ -239,9 +235,6 @@
                                         "type": "string"
                                     },
                                     "email": {
-                                        "type": "string"
-                                    },
-                                    "password": {
                                         "type": "string"
                                     },
                                     "no_hp": {
@@ -267,9 +260,6 @@
                                         "type": "string"
                                     },
                                     "alasan_magang":{
-                                        "type": "string"
-                                    },
-                                    "motivasi_magang":{
                                         "type": "string"
                                     }
                                 }
@@ -301,8 +291,7 @@
                                                 "created_at": "string",
                                                 "no_hp": "string",
                                                 "alasan_magang": "string",
-                                                "motivasi_magang": "string",
-                                                "role": "string"
+                                                "status": "pending"
                                             }
                                         }
                                     }

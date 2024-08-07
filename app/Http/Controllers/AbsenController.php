@@ -17,7 +17,8 @@ class AbsenController extends Controller
     public function getAbsen()
     {
 
-        $userMagang = Auth::user()->magang;
+        $user = Auth::user();
+        $userMagang = Magang::query()->where('id_user', $user->id)->firstOrFail();
 
         $absen = Absen::query()->where("id_user_magang", $userMagang->id)
                                 ->orderBy('tanggal', 'desc')
@@ -62,7 +63,8 @@ class AbsenController extends Controller
     public function tambahJamMasuk(Request $request)
     {
 
-        $userMagang = Auth::user()->magang;
+        $user = Auth::user();
+        $userMagang = Magang::query()->where('id_user', $user->id)->firstOrFail();
 
         $absen = Absen::query()->where("tanggal", substr(now("Asia/Jakarta"), 0, 10))->where("id_user_magang", $userMagang->id)->first();
         
@@ -115,7 +117,8 @@ class AbsenController extends Controller
     public function tambahJamPulang(Request $request)
     {
 
-        $userMagang = Auth::user()->magang;
+        $user = Auth::user();
+        $userMagang = Magang::query()->where('id_user', $user->id)->firstOrFail();
 
         $request->validate([
             "tanggal" => "required",

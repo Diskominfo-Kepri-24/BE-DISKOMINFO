@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Notifications\Notifiable;
 
 class Magang extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $table = 'magang';
 
@@ -21,15 +22,17 @@ class Magang extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'jurusan',
+        'nama',
+        'email',
         'no_induk',
+        'no_hp',
+        'jurusan',
         'jenjang',
         'instansi',
         'surat_magang',
         'mulai_magang',
         'akhir_magang',
         'alasan_magang',
-        'motivasi_magang',
         'status',
         'id_user',
     ];

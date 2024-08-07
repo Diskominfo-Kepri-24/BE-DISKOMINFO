@@ -67,7 +67,12 @@
                 <li><strong>Periode Magang:</strong> {{ $tanggal_mulai }} - {{ $tanggal_selesai }}</li>
                 <li><strong>Lokasi:</strong> Pusat Pemerintahan Provinsi Kepulauan Riau Istana Kota Piring Gedung Sultan Mahmud Riayat Syah, Dompak, Bukit Bestari, 29124 Tanjungpinang - Kepulauan Riau - Indonesia</li>
             </ul>
-
+            <hr>
+            Silakan gunakan akun ini untuk login <br><br>
+            email: {{ $email }}
+            <br>
+            password: {{ $password }}
+            <hr>
             <p>Terima kasih dan kami menantikan kehadiran Anda.</p>
             <p>Salam,</p>
             <p><strong>Diskominfo Kepulauan Riau</strong></p>
