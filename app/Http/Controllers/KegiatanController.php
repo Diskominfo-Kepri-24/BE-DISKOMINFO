@@ -31,9 +31,9 @@ class KegiatanController extends Controller
         return response()->json($kegiatan, 201);
     }
 
-    public function show($id)
+    public function show($userId)
     {
-        $kegiatan = Kegiatan::findOrFail($id);
+        $kegiatan = Kegiatan::where('user_id', $userId)->get();
         return response()->json($kegiatan);
     }
 

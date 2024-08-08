@@ -15,7 +15,7 @@ class MagangController extends Controller
     public function getAllUserMagang(){
 
         $users = Magang::query()->join('users', 'users.id', '=', 'magang.id_user')
-                                    ->select('magang.id as id_magang', 'users.id as id_user' ,'users.nama as nama', 'email', 'mulai_magang', 'akhir_magang', 'role', 'status')
+                                    ->select('magang.id as id_magang', 'users.id as id_user' ,'users.nama as nama', 'email', 'mulai_magang', 'akhir_magang','instansi', 'role', 'status')
                                     ->get();
 
         return response()->json([
