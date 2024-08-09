@@ -90,7 +90,7 @@ class AbsenController extends Controller
         if (!is_null($request->jam_masuk)) {
 
             $jamMasukArray = array_map('intval', explode(":", $request->jam_masuk));
-            if ($jamMasukArray[0] >= 7 && $jamMasukArray[0] <= 9) {
+            if ($jamMasukArray[0] >= 7 && $jamMasukArray[0] <= 8) {
                 $jamMasuk = $request->jam_masuk;
             } else {
                 return response()->json([
@@ -137,7 +137,7 @@ class AbsenController extends Controller
             $jamMasuk = null;
 
             $jamPulangArray = array_map('intval', explode(":", $request->jam_pulang));
-            if ($jamPulangArray[0] >= 15 && $jamPulangArray[0] <= 16) {
+            if ($jamPulangArray[0] >= 15 && $jamPulangArray[0] < 16) {
 
                 $absen = Absen::query()->create([
                     "id_user_magang" => $userMagang->id,
