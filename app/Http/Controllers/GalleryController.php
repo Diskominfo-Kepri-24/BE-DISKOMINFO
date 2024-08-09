@@ -51,29 +51,38 @@ class GalleryController extends Controller
 
     }
 
-    public function updateImage(Request $request, Gallery $gallery){
+    public function updateImage(Request $request, Gallery $gallery) {
+    // Validasi tanpa required
+    $request->validate([
+        "image" => "mimes:png,jpg,jpeg|max:4096",
+        "title" => "nullable"
+    ]);
 
-        $request->validate([
-            "image" => "required|mimes:png,jpg,jpeg|max:4096",
-            "title" => "required"
-        ]);
-
+    // Hapus gambar lama jika gambar baru diunggah
+    if ($request->hasFile('image')) {
         Storage::disk('public')->delete(substr($gallery->image, 8));
 
         $image = $request->file('image');
         $imageName = time() . "_" . "gallery" . "_" . $image->hashName();
         $image->storeAs("public/gallery", $imageName);
 
-        $gallery->title = $request->title;
+        // Update field image
         $gallery->image = "storage/gallery/" . $imageName;
-        $gallery->save();
-
-        return response()->json([
-            "data" => $gallery,
-            "status" => "Data gallery berhasil diubah"
-        ]);
-        
     }
+
+    // Update field title jika ada input baru
+    if ($request->filled('title')) {
+        $gallery->title = $request->title;
+    }
+
+    // Simpan perubahan
+    $gallery->save();
+
+    return response()->json([
+        "data" => $gallery,
+        "status" => "Data gallery berhasil diubah"
+    ]);
+}
 
     public function deleteImage(Gallery $gallery){
 
