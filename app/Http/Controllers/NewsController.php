@@ -28,19 +28,19 @@ class NewsController extends Controller
         if ($request->hasFile("gambar")) {
 
             $request->validate([
-                "gambar" => "mimes:png,jpg,jpeg|max:4096"
+                "gambar" => "mimes:png,jpg,jpeg,bmp,svg|max:4096"
             ]);
 
             $gambar = $request->file('gambar');
-            $gambarName = now() . "_" . "gambar" . "_" . $gambar->hashName();
+            $gambarName = now()->format('Y-m-d_H-i-s') . "_gambar_" . $gambar->hashName();
             $gambar->storeAs("public/berita", $gambarName);
         }
 
         $data = News::query()->create([
-            "tanggal" => date("Y-m-d h:i:s", time()),
+            "tanggal" => now(),
             "slug" => $request->slug,
             "judul" => $request->judul,
-            "gambar" => is_null($gambarName) ? null : "storage/berita/" . $gambarName,
+            "gambar" => $gambarName ? "storage/berita/" . $gambarName : null,
             "isi_berita" => $request->isi_berita,
             "kategori" => $request->kategori,
             "id_user" => $id_user,
