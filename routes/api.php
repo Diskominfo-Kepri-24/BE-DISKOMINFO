@@ -67,7 +67,7 @@ Route::prefix('v1')->group(function(){
         // 
         
         // 
-        Route::middleware('role:pembimbing')->group(function(){
+        Route::middleware('role:pembimbing,admin')->group(function(){
             
             Route::controller(AbsenController::class)->group(function(){
                 

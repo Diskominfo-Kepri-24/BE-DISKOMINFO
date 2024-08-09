@@ -13,43 +13,38 @@ class NewsController extends Controller
 {
 
     public function storeBerita(Request $request)
-    {
+{
+    $id_user = $request->user()->id;
 
-        $id_user = $request->user()->id;
+    $request->validate([
+        "slug" => "required|unique:news,slug",
+        "judul" => "required",
+        "isi_berita" => "required",
+        "kategori" => "required",
+        "gambar" => "mimes:png,jpg,jpeg|max:4096|nullable",
+    ]);
 
-        $request->validate([
-            "slug" => "required|unique:news,slug",
-            "judul" => "required",
-            "isi_berita" => "required",
-            "kategori" => "required",
-        ]);
-
-        $gambarName = null;
-        if ($request->hasFile("gambar")) {
-
-            $request->validate([
-                "gambar" => "mimes:png,jpg,jpeg|max:4096"
-            ]);
-
-            $gambar = $request->file('gambar');
-            $gambarName = now() . "_" . "gambar" . "_" . $gambar->hashName();
-            $gambar->storeAs("public/berita", $gambarName);
-        }
-
-        $data = News::query()->create([
-            "tanggal" => date("Y-m-d h:i:s", time()),
-            "slug" => $request->slug,
-            "judul" => $request->judul,
-            "gambar" => is_null($gambarName) ? null : "storage/berita/" . $gambarName,
-            "isi_berita" => $request->isi_berita,
-            "kategori" => $request->kategori,
-            "id_user" => $id_user,
-        ]);
-
-        return response()->json([
-            "data" => $data
-        ]);
+    $gambarName = null;
+    if ($request->hasFile("gambar")) {
+        $gambar = $request->file('gambar');
+        $gambarName = now()->format('Y-m-d_H-i-s') . "_gambar_" . $gambar->hashName();
+        $gambar->storeAs("public/berita", $gambarName);
     }
+
+    $data = News::query()->create([
+        "tanggal" => now(),
+        "slug" => $request->slug,
+        "judul" => $request->judul,
+        "gambar" => $gambarName ? "storage/berita/" . $gambarName : null,
+        "isi_berita" => $request->isi_berita,
+        "kategori" => $request->kategori,
+        "id_user" => $id_user,
+    ]);
+
+    return response()->json([
+        "data" => $data
+    ]);
+}
 
     public function searchBerita(Request $request)
     {
