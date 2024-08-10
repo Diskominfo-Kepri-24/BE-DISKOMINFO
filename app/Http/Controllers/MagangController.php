@@ -86,5 +86,20 @@ class MagangController extends Controller
 
     }
 
+    public function getMagangByUserId($id)
+    {
+        $magang = Magang::query()->where('id', $id)->first();
+
+        if (is_null($magang)) {
+            return response()->json([
+                "message" => "Data magang tidak ditemukan"
+            ], 404);
+        }
+
+        return response()->json([
+            "magang" => $magang
+        ]);
+    }
+
 
 }

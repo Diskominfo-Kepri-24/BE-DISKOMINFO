@@ -81,6 +81,7 @@ Route::prefix('v1')->group(function(){
             Route::controller(MagangController::class)->group(function(){
                 
                 Route::get('user-magang', 'getAllUserMagang');
+                Route::get('user-magang/{userMagang:id_user}', 'getMagangByUserId');
                 Route::put('user-magang/terima/{userMagang:id}', 'acceptMagang');
                 Route::put('user-magang/tolak/{userMagang:id}', 'rejectMagang');
             });
