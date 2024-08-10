@@ -233,4 +233,34 @@ class AuthController extends Controller
             'message' => 'logout success'
         ]);
     }
+
+    public function getAllPembimbing()
+{
+    // Mengambil semua pembimbing dengan role 'pembimbing'
+    $pembimbing = User::where('role', 'pembimbing')->get();
+
+    return response()->json([
+        'data' => $pembimbing
+    ]);
+}
+
+public function deletePembimbingById($id)
+{
+    // Mencari pembimbing berdasarkan ID
+    $pembimbing = User::where('role', 'pembimbing')->find($id);
+
+    if (!$pembimbing) {
+        return response()->json([
+            'message' => 'Pembimbing tidak ditemukan'
+        ], 404);
+    }
+
+    // Menghapus pembimbing
+    $pembimbing->delete();
+
+    return response()->json([
+        'message' => 'Pembimbing berhasil dihapus'
+    ]);
+}
+
 }

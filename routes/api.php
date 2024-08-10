@@ -23,7 +23,6 @@ Route::prefix('v1')->group(function(){
         Route::post('register/magang', 'registerMagang');
         Route::post('register/pembimbing', 'registerPembimbing');
         Route::post('register/admin', 'registerAdmin');
-    
         Route::post('magang/login', 'loginDiff');
     
     });
@@ -116,7 +115,12 @@ Route::prefix('v1')->group(function(){
                 Route::post('agenda/{slug}', 'updateAgenda');
                 Route::delete('agenda/{slug}', 'deleteAgenda');
             });
-    
+            Route::controller(AuthController::class)->group(function () {
+                Route::get('pembimbing', 'getAllPembimbing');
+                Route::delete('pembimbing/{id}', 'deletePembimbingById');
+            });
+
+           
         });
     
         Route::controller(CommentController::class)->group(function(){
