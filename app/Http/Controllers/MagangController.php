@@ -14,10 +14,11 @@ class MagangController extends Controller
 {
 
 
-    public function getAllUserMagang(){
-
-        $users = Magang::query()->get();
-
+    public function getAllUserMagang()
+    {
+        // Mengambil data user magang dengan urutan terbaru terlebih dahulu
+        $users = Magang::query()->orderBy('created_at', 'desc')->get();
+    
         // Iterasi melalui setiap user untuk menambahkan status verifikasi
         foreach ($users as $user) {
             if (is_null($user->email_verified_at)) {
@@ -26,11 +27,10 @@ class MagangController extends Controller
                 $user->verifikasi = "Email sudah diverifikasi";
             }
         }
-
+    
         return response()->json([
             "users" => $users
         ]);
-
     }
 
 

@@ -117,6 +117,12 @@ Route::prefix('v1')->group(function(){
                 Route::delete('agenda/{slug}', 'deleteAgenda');
             });
     
+            Route::controller(AuthController::class)->group(function () {
+                Route::get('pembimbing', 'getAllPembimbing');
+                Route::delete('pembimbing/{id}', 'deletePembimbingById');
+            });
+
+
         });
     
         Route::controller(CommentController::class)->group(function(){
