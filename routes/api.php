@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\MagangController;
-
+use App\Http\Controllers\VisitController;
 Route::prefix('v1')->group(function(){
     
     Route::controller(AuthController::class)->group(function () {
@@ -42,6 +42,10 @@ Route::prefix('v1')->group(function(){
     // agenda
     Route::get('agenda', [AgendaController::class, 'getAgendas']);
     Route::get('agenda/{slug}', [AgendaController::class, 'getAgenda']);
+
+    Route::post('log-visit', [VisitController::class, 'logVisit']);
+    Route::get('online-status', [VisitController::class, 'updateOnlineStatus']);
+    Route::get('statistics', [VisitController::class, 'getStatistics']);
 
     
     
