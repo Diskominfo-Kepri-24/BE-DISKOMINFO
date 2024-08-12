@@ -2,7 +2,7 @@
     "openapi": "3.0.2",
     "info": {
         "title": "Agenda API",
-        "description": "Agenda API",
+        "description": "API untuk mengelola agenda",
         "version": "1.0"
     },
     "components": {
@@ -23,10 +23,12 @@
                         "type": "string"
                     },
                     "tanggal_mulai": {
-                        "type": "string"
+                        "type": "string",
+                        "format": "date-time"
                     },
                     "tanggal_selesai": {
-                        "type": "string"
+                        "type": "string",
+                        "format": "date-time"
                     },
                     "tipe_acara": {
                         "type": "string"
@@ -35,6 +37,20 @@
                         "type": "string"
                     },
                     "foto": {
+                        "type": "string"
+                    },
+                    "tgl_event_mulai": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "tgl_event_akhir": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "tanggal_event_mulai": {
+                        "type": "string"
+                    },
+                    "tanggal_event_akhir": {
                         "type": "string"
                     },
                     "created_at": {
@@ -61,7 +77,11 @@
             "bearerAuth": []
         }
     ],
-    "servers": [{ "url": "http://localhost:8000" }],
+    "servers": [
+        {
+            "url": "http://localhost:8000"
+        }
+    ],
     "paths": {
         "/api/v1/agenda": {
             "get": {
@@ -112,12 +132,12 @@
                                     },
                                     "tanggal_mulai": {
                                         "type": "string",
-                                        "format": "date",
+                                        "format": "date-time",
                                         "description": "Tanggal mulai agenda"
                                     },
                                     "tanggal_selesai": {
                                         "type": "string",
-                                        "format": "date",
+                                        "format": "date-time",
                                         "description": "Tanggal selesai agenda"
                                     },
                                     "tipe_acara": {
@@ -127,6 +147,16 @@
                                     "isi_agenda": {
                                         "type": "string",
                                         "description": "Isi agenda"
+                                    },
+                                    "tgl_event_mulai": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Tanggal event mulai"
+                                    },
+                                    "tgl_event_akhir": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Tanggal event akhir"
                                     },
                                     "gambar": {
                                         "type": "string",
@@ -141,7 +171,9 @@
                                     "tanggal_mulai",
                                     "tanggal_selesai",
                                     "tipe_acara",
-                                    "isi_agenda"
+                                    "isi_agenda",
+                                    "tgl_event_mulai",
+                                    "tgl_event_akhir"
                                 ]
                             }
                         }
@@ -210,7 +242,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Agenda not found"
+                                            "example": "Agenda tidak ditemukan"
                                         }
                                     }
                                 }
@@ -219,7 +251,7 @@
                     }
                 }
             },
-            "post": {
+            "put": {
                 "summary": "Update agenda by slug",
                 "description": "Endpoint untuk mengupdate agenda berdasarkan slug",
                 "parameters": [
@@ -254,21 +286,31 @@
                                     },
                                     "tanggal_mulai": {
                                         "type": "string",
-                                        "format": "date",
+                                        "format": "date-time",
                                         "description": "Tanggal mulai agenda"
                                     },
                                     "tanggal_selesai": {
                                         "type": "string",
-                                        "format": "date",
+                                        "format": "date-time",
                                         "description": "Tanggal selesai agenda"
                                     },
                                     "tipe_acara": {
                                         "type": "string",
-                                        "description": "Tipe acara agenda"
+                                        "description": "Tipe acara"
                                     },
                                     "isi_agenda": {
                                         "type": "string",
                                         "description": "Isi agenda"
+                                    },
+                                    "tgl_event_mulai": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Tanggal event mulai"
+                                    },
+                                    "tgl_event_akhir": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Tanggal event akhir"
                                     },
                                     "gambar": {
                                         "type": "string",
@@ -279,11 +321,12 @@
                                 "required": [
                                     "judul",
                                     "status",
-                                    "slug",
                                     "tanggal_mulai",
                                     "tanggal_selesai",
                                     "tipe_acara",
-                                    "isi_agenda"
+                                    "isi_agenda",
+                                    "tgl_event_mulai",
+                                    "tgl_event_akhir"
                                 ]
                             }
                         }
@@ -318,26 +361,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Agenda not found"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validasi error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "The given data was invalid."
-                                        },
-                                        "errors": {
-                                            "type": "object"
+                                            "example": "Agenda tidak ditemukan"
                                         }
                                     }
                                 }
@@ -369,8 +393,8 @@
                                     "type": "object",
                                     "properties": {
                                         "status": {
-                                            "type": "boolean",
-                                            "example": true
+                                            "type": "string",
+                                            "example": "Agenda berhasil dihapus"
                                         }
                                     }
                                 }
@@ -386,7 +410,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Agenda not found"
+                                            "example": "Agenda tidak ditemukan"
                                         }
                                     }
                                 }

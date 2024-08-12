@@ -22,6 +22,11 @@ class Agenda extends Model
         "tipe_acara",
         "isi_agenda",
         "foto",
+        "tgl_event_mulai",
+        "tgl_event_akhir",
+        "tanggal_event_mulai",
+        "tanggal_event_akhir",
     ];
+    
 
 }
