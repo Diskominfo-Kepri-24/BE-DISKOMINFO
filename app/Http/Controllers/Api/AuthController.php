@@ -234,6 +234,23 @@ class AuthController extends Controller
         ]);
     }
 
+    // ubah password
+    public function changePassword(Request $request){
+
+        $request->validate([
+            "password" => "required|min:8"
+        ]);
+
+        $user = User::query()->where('id', Auth::user()->id)->first();
+        $user->password = Hash::make($request->password);
+        $isSave = $user->save();
+        
+        return response()->json([
+            "message" => $isSave
+        ]);
+
+    }
+
     public function getAllPembimbing()
 {
     // Mengambil semua pembimbing dengan role 'pembimbing'
