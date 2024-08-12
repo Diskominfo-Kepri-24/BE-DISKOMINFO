@@ -17,14 +17,15 @@ class PenilaianController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'user_id' => 'required|exists:users,id',
             'nilai' => 'required|integer',
         ]);
-
+    
         $penilaian = Penilaian::create([
-            'user_id' => Auth::user()->id,  // Menggunakan id user yang sedang login
+            'user_id' => $request->user_id,  // Menggunakan id user dari inputan
             'nilai' => $request->nilai,
         ]);
-
+    
         return response()->json($penilaian, 201);
     }
 

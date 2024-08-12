@@ -94,6 +94,13 @@ Route::prefix('v1')->group(function(){
             Route::controller(LaporanController::class)->group(function(){
                 Route::get("laporan", "getAllLaporan");
             });
+
+             // PENILAIAN
+            Route::get('/penilaian', [PenilaianController::class, 'index']);
+            Route::post('/penilaian', [PenilaianController::class, 'store']);
+            Route::get('/penilaian/{id}', [PenilaianController::class, 'show']);
+            Route::put('/penilaian/{id}', [PenilaianController::class, 'update']);
+            Route::delete('/penilaian/{id}', [PenilaianController::class, 'destroy']);
     
         });
     
@@ -154,10 +161,5 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
     Route::post('/kegiatan/{id}/reject', [KegiatanController::class, 'reject']);
 
 
-    // PENILAIAN
-    Route::get('/penilaian', [PenilaianController::class, 'index']);
-    Route::post('/penilaian', [PenilaianController::class, 'store']);
-    Route::get('/penilaian/{id}', [PenilaianController::class, 'show']);
-    Route::put('/penilaian/{id}', [PenilaianController::class, 'update']);
-    Route::delete('/penilaian/{id}', [PenilaianController::class, 'destroy']);
+   
 });
