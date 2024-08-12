@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\MagangController;
+use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\VisitController;
 Route::prefix('v1')->group(function(){
     
@@ -151,4 +152,12 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
     Route::delete('/kegiatan/{id}', [KegiatanController::class, 'destroy']);
     Route::post('/kegiatan/{id}/confirm', [KegiatanController::class, 'confirm']);
     Route::post('/kegiatan/{id}/reject', [KegiatanController::class, 'reject']);
+
+
+    // PENILAIAN
+    Route::get('/penilaian', [PenilaianController::class, 'index']);
+    Route::post('/penilaian', [PenilaianController::class, 'store']);
+    Route::get('/penilaian/{id}', [PenilaianController::class, 'show']);
+    Route::put('/penilaian/{id}', [PenilaianController::class, 'update']);
+    Route::delete('/penilaian/{id}', [PenilaianController::class, 'destroy']);
 });

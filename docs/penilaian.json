@@ -1,0 +1,250 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+      "title": "Penilaian API",
+      "description": "API untuk mengelola penilaian mahasiswa",
+      "version": "1.0"
+    },
+    "components": {
+      "schemas": {
+        "Penilaian": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "user_id": {
+              "type": "integer"
+            },
+            "nilai": {
+              "type": "integer"
+            },
+            "created_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "updated_at": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      },
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      }
+    },
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "servers": [
+      {
+        "url": "http://localhost:8000"
+      }
+    ],
+    "paths": {
+      "/api/v1/penilaian": {
+        "get": {
+          "summary": "Dapatkan semua penilaian",
+          "description": "Endpoint untuk mendapatkan semua penilaian mahasiswa",
+          "responses": {
+            "200": {
+              "description": "Daftar semua penilaian",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Penilaian"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Tambah penilaian baru",
+          "description": "Endpoint untuk menambahkan penilaian baru",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "nilai": {
+                      "type": "integer",
+                      "example": 85
+                    }
+                  },
+                  "required": ["nilai"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Penilaian berhasil ditambahkan",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Penilaian"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/penilaian/{id}": {
+        "get": {
+          "summary": "Dapatkan penilaian pengguna",
+          "description": "Endpoint untuk mendapatkan data penilaian berdasarkan user_id",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID dari penilaian yang ingin diambil",
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Data penilaian berhasil diambil",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Penilaian"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Data penilaian tidak ditemukan",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Data penilaian tidak ditemukan"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "summary": "Perbarui penilaian",
+          "description": "Endpoint untuk memperbarui data penilaian",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID dari penilaian yang ingin diperbarui",
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "nilai": {
+                      "type": "integer",
+                      "example": 90
+                    }
+                  },
+                  "required": ["nilai"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Penilaian berhasil diperbarui",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Penilaian"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Data penilaian tidak ditemukan",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Data penilaian tidak ditemukan"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "summary": "Hapus penilaian",
+          "description": "Endpoint untuk menghapus penilaian",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID dari penilaian yang ingin dihapus",
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Penilaian berhasil dihapus",
+              "content": {}
+            },
+            "404": {
+              "description": "Data penilaian tidak ditemukan",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Data penilaian tidak ditemukan"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
