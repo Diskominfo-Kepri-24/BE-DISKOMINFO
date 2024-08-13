@@ -147,6 +147,7 @@ Route::prefix('v1')->group(function(){
             Route::post('ubah-password', 'changePassword');
         });
 
+        Route::post('check-password', [AuthController::class, 'checkPassword']);
         Route::put('ubah-password', [AuthController::class, 'changePassword']);
         
         Route::delete('logout', [AuthController::class, 'logout']);

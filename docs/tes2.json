@@ -1,20 +1,11 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "API User Magang",
-        "description": "Dokumentasi API untuk endpoint user magang",
+        "title": "API Password Check",
+        "description": "Dokumentasi API untuk memeriksa validitas password pengguna",
         "version": "1.0.0"
     },
     "paths": {
         
-    },
-    "components": {
-        "securitySchemes": {
-            "bearerAuth": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
-            }
-        }
     }
 }
