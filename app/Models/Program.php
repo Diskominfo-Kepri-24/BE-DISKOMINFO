@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Program extends Model
 {
@@ -26,4 +27,9 @@ class Program extends Model
         "tipe_modul",
         "image"
     ];
+
+    public function mentors(): BelongsToMany{
+        return $this->belongsToMany(Mentor::class, 'mentor_program', 'program_id', 'mentor_id');
+    }
+
 }

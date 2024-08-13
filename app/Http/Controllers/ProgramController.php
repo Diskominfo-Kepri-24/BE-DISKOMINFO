@@ -42,6 +42,7 @@ class ProgramController extends Controller
     {
 
         $program = Program::query()->where('slug', $slug)->firstOrFail();
+        $program->load('mentors');
 
         return response()->json([
             "program" => $program
@@ -63,7 +64,7 @@ class ProgramController extends Controller
             "tipe_program" => "required",
             "link_pendaftaran" => "required",
             "description" => "required",
-            "category" => "required",
+            // "category" => "required",
             "image" => "required|mimes:png,jpg,jpeg|max:4096"
         ]);
 

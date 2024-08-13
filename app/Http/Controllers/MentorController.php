@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mentor;
+use App\Models\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,8 +13,12 @@ class MentorController extends Controller
     public function getMentors()
     {
 
+        $mentor = Mentor::query()->get();
+
+        $mentor->load('programs');
+
         return response()->json([
-            "mentor" => Mentor::query()->get(),
+            "mentor" => $mentor,
         ]);
     }
 
@@ -23,6 +28,8 @@ class MentorController extends Controller
 
         $mentor = Mentor::query()->where('id', $idMentor)->firstOrFail();
 
+        $mentor->load('programs');
+
         return response()->json([
             "mentor" => $mentor,
         ]);
@@ -31,11 +38,24 @@ class MentorController extends Controller
     public function addMentor(Request $request)
     {
 
+
+        $programIdsArray = explode(',', $request->program_ids);
+        
         $request->validate([
             "nama_mentor" => "required",
             "deskripsi_mentor" => "required",
             "foto_mentor" => "required|mimes:png,jpg,jpeg|max:4096",
-            "link_linkedin" => "nullable|url"
+            "link_linkedin" => "nullable|url",
+            "program_ids" => [
+                'required',
+                function($attribute, $value, $fail) use ($programIdsArray){
+                    foreach ($programIdsArray as $id) {
+                        if (!Program::find($id)) {
+                            $fail("The program with ID $id does not exist.");
+                        }
+                    }
+                }
+            ]
         ]);
 
         $foto_mentor = $request->file('foto_mentor');
@@ -43,12 +63,16 @@ class MentorController extends Controller
         $foto_mentor->storeAs("public/mentor", $foto_mentorName);
 
 
-        $mentor = Mentor::create([
+        $mentor = Mentor::query()->create([
             "nama_mentor" => $request->nama_mentor,
             "deskripsi_mentor" => $request->deskripsi_mentor,
             "foto_mentor" => "storage/mentor/" . $foto_mentorName,
             "link_linkedin" => $request->link_linkedin
         ]);
+
+        $mentor->programs()->sync($programIdsArray);
+
+        $mentor->load('programs');
 
         return response()->json([
             "mentor" => $mentor,
@@ -84,6 +108,7 @@ class MentorController extends Controller
 
         $mentor->nama_mentor = $request->nama_mentor;
         $mentor->deskripsi_mentor = $request->deskripsi_mentor;
+        $mentor->link_linkedin = $request->link_linkedin;
         $mentor->save();
 
         return response()->json([

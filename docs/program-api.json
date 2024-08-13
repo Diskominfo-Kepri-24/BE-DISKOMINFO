@@ -306,7 +306,7 @@
                 "description": "Endpoint untuk mengubah data program",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "slug",
                         "in": "path",
                         "required": true,
                         "description": "slug dari program yang akan diubah",
@@ -396,16 +396,16 @@
                 }
             },
             "get": {
-                "summary": "Get program by ID",
+                "summary": "Get program by slug",
                 "description": "Endpoint untuk mendapatkan detail program berdasarkan ID",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "slug",
                         "in": "path",
                         "required": true,
-                        "description": "ID dari program yang akan diambil",
+                        "description": "slug dari program yang akan diambil",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],

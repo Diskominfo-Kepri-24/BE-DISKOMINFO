@@ -19,7 +19,7 @@
             "bearerAuth": []
         }
     ],
-    "servers": [{ "url": "http://192.168.101.22:8000" }],
+    "servers": [{ "url": "http://localhost:8000" }],
     "paths": {
         "/api/v1/login": {
             "post": {

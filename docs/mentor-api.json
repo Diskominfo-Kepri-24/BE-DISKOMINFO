@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "Program API",
-        "description": "Program API",
+        "title": "Mentor API",
+        "description": "Mentor API",
         "version": "1.0"
     },
     "components": {
@@ -137,6 +137,14 @@
                                         "type": "string",
                                         "description": "Link LinkedIn mentor",
                                         "example": "https://linkedin.com/in/johndoe"
+                                    },
+                                    "program_ids": {
+                                        "type": "array",
+                                        "description": "Array ID program yang akan dikaitkan dengan mentor",
+                                        "items": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
                                     }
                                 },
                                 "required": [
