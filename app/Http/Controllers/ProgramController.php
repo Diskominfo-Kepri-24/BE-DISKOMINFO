@@ -43,6 +43,7 @@ class ProgramController extends Controller
 
         $program = Program::query()->where('slug', $slug)->firstOrFail();
         $program->load('mentors');
+        $program->load('skills');
 
         return response()->json([
             "program" => $program
