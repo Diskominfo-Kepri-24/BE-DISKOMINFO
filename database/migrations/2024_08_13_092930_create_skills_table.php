@@ -15,7 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text("description");
+            $table->unsignedBigInteger("id_program");
             $table->timestamps();
+
+
+            $table->foreign('id_program')->references("id")->on("programs")->onUpdate("cascade")->onDelete("cascade");
         });
     }
 

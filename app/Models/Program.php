@@ -14,8 +14,16 @@ class Program extends Model
     protected $fillable = [
         "title",
         "description",
+        "slug",
+        "jadwal",
+        "tipe_program",
+        "link_pendaftaran",
         "category",
+        "jam_program_dimulai",
+        "deskripsi_sertifikat",
+        "tipe_pembelajaran",
+        "tipe_mentoring",
+        "tipe_modul",
         "image"
     ];
-
 }

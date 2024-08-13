@@ -1,13 +1,11 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "API Mentor",
-        "description": "Dokumentasi API untuk mengelola data mentor",
+        "title": "API Skill",
+        "description": "Dokumentasi API untuk endpoint skill",
         "version": "1.0.0"
     },
     "paths": {
-        "/api/v1/mentor/{id}": {
-            
-        }
+        
     }
 }

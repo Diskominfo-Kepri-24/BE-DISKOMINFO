@@ -16,6 +16,7 @@ use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\MagangController;
 use App\Http\Controllers\MentorController;
 use App\Http\Controllers\PenilaianController;
+use App\Http\Controllers\SkillController;
 use App\Http\Controllers\VisitController;
 Route::prefix('v1')->group(function(){
     
@@ -141,6 +142,14 @@ Route::prefix('v1')->group(function(){
                 Route::post('mentor', 'addMentor');
                 Route::post('mentor/{id}', 'updateMentor');
                 Route::delete('mentor/{id}', 'deleteMentor');
+            });
+
+            Route::controller(SkillController::class)->group(function(){
+                Route::get('skill/{idSkill}', 'getSkillByIdSkill');
+                Route::get('skill/program/{idProgram}', 'getSkillByIdProgram');
+                Route::post('skill/program/{idProgram}', 'addSkillByIdProgram');
+                Route::put('skill/{idSkill}', 'updateSkillByIdSkill');
+                Route::delete('skill/{idSkill}', 'deleteSkillByIdSkill');
             });
 
         });

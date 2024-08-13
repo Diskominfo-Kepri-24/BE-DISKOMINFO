@@ -16,6 +16,33 @@
                     "title": {
                         "type": "string"
                     },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "jadwal": {
+                        "type": "string"
+                    },
+                    "jam_program_dimulai": {
+                        "type": "string"
+                    },
+                    "tipe_modul": {
+                        "type": "string"
+                    },
+                    "tipe_mentoring": {
+                        "type": "string"
+                    },
+                    "tipe_pembelajaran": {
+                        "type": "string"
+                    },
+                    "deskripsi_sertifikat": {
+                        "type": "string"
+                    },
+                    "tipe_program": {
+                        "type": "string"
+                    },
+                    "link_pendaftaran": {
+                        "type": "string"
+                    },
                     "description": {
                         "type": "string"
                     },
@@ -66,6 +93,51 @@
                                         "type": "string",
                                         "description": "Judul program",
                                         "example": "Program Baru"
+                                    },
+                                    "slug": {
+                                        "type": "string",
+                                        "description": "Slug berdasarkan judul",
+                                        "example": "program-baru"
+                                    },
+                                    "jadwal": {
+                                        "type": "string",
+                                        "description": "Add jadwal",
+                                        "example": "2024-08-03"
+                                    },
+                                    "jam_program_dimulai": {
+                                        "type": "string",
+                                        "description": "Add Jam Program Dimulai",
+                                        "example": "14:20"
+                                    },
+                                    "tipe_modul": {
+                                        "type": "string",
+                                        "description": "Add tipe modul",
+                                        "example": "web dev"
+                                    },
+                                    "tipe_mentoring": {
+                                        "type": "string",
+                                        "description": "Add tipe mentoring",
+                                        "example": "offline"
+                                    },
+                                    "tipe_pembelajaran": {
+                                        "type": "string",
+                                        "description": "Add Tipe Pembelajaran",
+                                        "example": "menggunakan Modul"
+                                    },
+                                    "deskripsi_sertifikat": {
+                                        "type": "string",
+                                        "description": "Deskripsi Sertifikat",
+                                        "example": "Deskripsi dari sertifikat"
+                                    },
+                                    "tipe_program": {
+                                        "type": "string",
+                                        "description": "Tipe dari program",
+                                        "example": "Tipe Program"
+                                    },
+                                    "link_pendaftaran": {
+                                        "type": "string",
+                                        "description": "Deskripsi dari link pendaftaran",
+                                        "example": "https://google.com"
                                     },
                                     "description": {
                                         "type": "string",
@@ -228,7 +300,7 @@
                 }
             }
         },
-        "/api/v1/program/{id}": {
+        "/api/v1/program/{slug}": {
             "post": {
                 "summary": "Update a program",
                 "description": "Endpoint untuk mengubah data program",
@@ -237,7 +309,7 @@
                         "name": "id",
                         "in": "path",
                         "required": true,
-                        "description": "ID dari program yang akan diubah",
+                        "description": "slug dari program yang akan diubah",
                         "schema": {
                             "type": "integer"
                         }

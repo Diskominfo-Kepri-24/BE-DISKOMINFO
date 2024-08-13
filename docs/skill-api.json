@@ -1,0 +1,163 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Program API",
+        "description": "Program API",
+        "version": "1.0"
+    },
+    "components": {
+        "schemas": {
+            "Mentor": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "nama_mentor": {
+                        "type": "string"
+                    },
+                    "deskripsi_mentor": {
+                        "type": "string"
+                    },
+                    "foto_mentor": {
+                        "type": "string"
+                    },
+                    "link_linkedin": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "servers": [{ "url": "http://localhost:8000" }],
+    "paths": {
+        "/api/v1/skill/program/{idProgram}": {
+            "post": {
+                "summary": "Tambah Skill Berdasarkan ID Program",
+                "description": "Endpoint untuk menambahkan skill berdasarkan ID program",
+                "parameters": [
+                    {
+                        "name": "idProgram",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID dari program terkait",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "description": "Judul skill"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Deskripsi skill"
+                                    }
+                                },
+                                "required": ["title", "description"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Skill berhasil ditambahkan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "skill": {
+                                            "type": "object",
+                                            "description": "Data skill yang ditambahkan",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "description": "ID skill"
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "description": "Judul skill"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "description": "Deskripsi skill"
+                                                },
+                                                "id_program": {
+                                                    "type": "integer",
+                                                    "description": "ID program terkait"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "description": "Waktu pembuatan skill"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "description": "Waktu pembaruan skill"
+                                                }
+                                            }
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Data skill berhasil ditambahkan"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validasi gagal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "description": "Detail kesalahan validasi"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
