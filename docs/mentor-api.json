@@ -1,0 +1,455 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Program API",
+        "description": "Program API",
+        "version": "1.0"
+    },
+    "components": {
+        "schemas": {
+            "Mentor": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "nama_mentor": {
+                        "type": "string"
+                    },
+                    "deskripsi_mentor": {
+                        "type": "string"
+                    },
+                    "foto_mentor": {
+                        "type": "string"
+                    },
+                    "link_linkedin": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "servers": [{ "url": "http://localhost:8000" }],
+    "paths": {
+        "/api/v1/mentor": {
+            "get": {
+                "summary": "Dapatkan Semua Mentor",
+                "description": "Endpoint untuk mendapatkan semua data mentor",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mendapatkan data mentor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "mentor": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nama_mentor": {
+                                                        "type": "string",
+                                                        "example": "John Doe"
+                                                    },
+                                                    "deskripsi_mentor": {
+                                                        "type": "string",
+                                                        "example": "Expert in software development"
+                                                    },
+                                                    "foto_mentor": {
+                                                        "type": "string",
+                                                        "example": "storage/mentor/mentor_image.jpg"
+                                                    },
+                                                    "link_linkedin": {
+                                                        "type": "string",
+                                                        "example": "https://linkedin.com/in/johndoe"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-08-12T15:00:00.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-08-12T15:00:00.000000Z"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Tambah Mentor",
+                "description": "Endpoint untuk menambahkan mentor baru",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nama_mentor": {
+                                        "type": "string",
+                                        "description": "Nama mentor",
+                                        "example": "John Doe"
+                                    },
+                                    "deskripsi_mentor": {
+                                        "type": "string",
+                                        "description": "Deskripsi mentor",
+                                        "example": "John adalah seorang mentor dengan pengalaman 10 tahun di bidang teknologi."
+                                    },
+                                    "foto_mentor": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Foto mentor"
+                                    },
+                                    "link_linkedin": {
+                                        "type": "string",
+                                        "description": "Link LinkedIn mentor",
+                                        "example": "https://linkedin.com/in/johndoe"
+                                    }
+                                },
+                                "required": [
+                                    "nama_mentor",
+                                    "deskripsi_mentor",
+                                    "foto_mentor"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Berhasil menambahkan mentor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "mentor": {
+                                            "$ref": "#/components/schemas/Mentor"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Berhasil ditambahkan"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Kesalahan dalam input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data tidak valid atau file terlalu besar"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/mentor/{id}": {
+            "get": {
+                "summary": "Dapatkan Mentor Berdasarkan ID",
+                "description": "Endpoint untuk mendapatkan data mentor berdasarkan ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID dari mentor yang ingin didapatkan",
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mendapatkan data mentor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "mentor": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "nama_mentor": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "deskripsi_mentor": {
+                                                    "type": "string",
+                                                    "example": "Expert in software development"
+                                                },
+                                                "foto_mentor": {
+                                                    "type": "string",
+                                                    "example": "storage/mentor/mentor_image.jpg"
+                                                },
+                                                "link_linkedin": {
+                                                    "type": "string",
+                                                    "example": "https://linkedin.com/in/johndoe"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-08-12T15:00:00.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-08-12T15:00:00.000000Z"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Mentor tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Update Data Mentor Berdasarkan ID",
+                "description": "Endpoint untuk mengubah data mentor berdasarkan ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID dari mentor yang akan diubah",
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nama_mentor": {
+                                        "type": "string",
+                                        "description": "Nama mentor",
+                                        "example": "John Doe"
+                                    },
+                                    "deskripsi_mentor": {
+                                        "type": "string",
+                                        "description": "Deskripsi mentor",
+                                        "example": "Expert in software development"
+                                    },
+                                    "link_linkedin": {
+                                        "type": "string",
+                                        "description": "URL LinkedIn mentor",
+                                        "example": "https://linkedin.com/in/johndoe",
+                                        "nullable": true
+                                    },
+                                    "foto_mentor": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "File gambar mentor (opsional)"
+                                    }
+                                },
+                                "required": ["nama_mentor", "deskripsi_mentor"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data mentor berhasil diubah",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "mentor": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "nama_mentor": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "deskripsi_mentor": {
+                                                    "type": "string",
+                                                    "example": "Expert in software development"
+                                                },
+                                                "foto_mentor": {
+                                                    "type": "string",
+                                                    "example": "storage/mentor/mentor_image.jpg"
+                                                },
+                                                "link_linkedin": {
+                                                    "type": "string",
+                                                    "example": "https://linkedin.com/in/johndoe"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-08-12T15:00:00.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-08-12T15:00:00.000000Z"
+                                                }
+                                            }
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Data mentor John Doe Berhasil diubah"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi gagal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Hapus Mentor Berdasarkan ID",
+                "description": "Endpoint untuk menghapus mentor berdasarkan ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID dari mentor yang akan dihapus",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil menghapus data mentor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Data mentor {namaMentor} Berhasil dihapus"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Mentor tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

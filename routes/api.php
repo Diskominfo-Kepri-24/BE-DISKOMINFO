@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\MagangController;
+use App\Http\Controllers\MentorController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\VisitController;
 Route::prefix('v1')->group(function(){
@@ -134,6 +135,13 @@ Route::prefix('v1')->group(function(){
                 Route::delete('pembimbing/{id}', 'deletePembimbingById');
             });
 
+            Route::controller(MentorController::class)->group(function(){
+                Route::get('mentor', 'getMentors');
+                Route::get('mentor/{id}', 'getMentorById');
+                Route::post('mentor', 'addMentor');
+                Route::post('mentor/{id}', 'updateMentor');
+                Route::delete('mentor/{id}', 'deleteMentor');
+            });
 
         });
     

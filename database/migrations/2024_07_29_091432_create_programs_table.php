@@ -13,10 +13,19 @@ return new class extends Migration
     {
         Schema::create('programs', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title')->unique();
+            $table->string('slug')->unique();
             $table->text('description');
+            $table->timestamp('jadwal');
+            $table->enum('tipe_program', ["online", "offline"]);
+            $table->string('link_pendaftaran');
             $table->text("image");
             $table->string('category');
+            $table->string("jam_program_dimulai");
+            $table->text('deskripsi_sertifikat');
+            $table->string('tipe_pembelajaran');
+            $table->string('tipe_mentoring');
+            $table->string('tipe_modul');
             $table->timestamps();
         });
     }

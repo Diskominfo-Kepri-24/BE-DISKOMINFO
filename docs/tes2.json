@@ -1,11 +1,13 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "API Password Check",
-        "description": "Dokumentasi API untuk memeriksa validitas password pengguna",
+        "title": "API Mentor",
+        "description": "Dokumentasi API untuk mengelola data mentor",
         "version": "1.0.0"
     },
     "paths": {
-        
+        "/api/v1/mentor/{id}": {
+            
+        }
     }
 }
