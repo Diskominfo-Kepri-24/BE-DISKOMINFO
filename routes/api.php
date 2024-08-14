@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\MagangController;
 use App\Http\Controllers\PenilaianController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\VisitController;
 Route::prefix('v1')->group(function(){
     
@@ -54,6 +55,8 @@ Route::prefix('v1')->group(function(){
     
         Route::middleware('role:magang')->group(function () {
     
+            Route::get('/penilaian/magang', [PenilaianController::class, 'getPenilaian']);
+
             Route::controller(AbsenController::class)->group(function(){
                 Route::get("absen/magang", 'getAbsen');
                 Route::post("absen/jam-masuk", "tambahJamMasuk");
@@ -65,8 +68,13 @@ Route::prefix('v1')->group(function(){
                 Route::put("laporan", 'updateLaporan');
                 Route::delete("laporan", 'deleteLaporan');
             });
-    
-    
+            
+            Route::get('/feedback', [FeedbackController::class, 'index']);
+            Route::post('/feedback', [FeedbackController::class, 'store']);
+            Route::get('/feedback/{id}', [FeedbackController::class, 'show']);
+            Route::put('/feedback/{id}', [FeedbackController::class, 'update']);
+            Route::delete('/feedback/{id}', [FeedbackController::class, 'destroy']);
+
         });
         
         // 
@@ -74,6 +82,8 @@ Route::prefix('v1')->group(function(){
         // 
         Route::middleware('role:pembimbing,admin')->group(function(){
             
+            Route::get('/feedback', [FeedbackController::class, 'index']);
+
             Route::controller(AbsenController::class)->group(function(){
                 
                 Route::get('absen', 'getAllAbsenMagang'); 
@@ -101,7 +111,7 @@ Route::prefix('v1')->group(function(){
             Route::get('/penilaian/{id}', [PenilaianController::class, 'show']);
             Route::put('/penilaian/{id}', [PenilaianController::class, 'update']);
             Route::delete('/penilaian/{id}', [PenilaianController::class, 'destroy']);
-    
+            
         });
     
         Route::middleware('role:admin')->group(function () {

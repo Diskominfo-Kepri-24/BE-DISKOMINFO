@@ -14,6 +14,12 @@ class PenilaianController extends Controller
         return response()->json($penilaians);
     }
 
+    public function getPenilaian(){
+        return response()->json([
+            Penilaian::query()->where("user_id", Auth::user()->id)->first(),
+        ]);
+    }
+
     public function store(Request $request)
     {
         $request->validate([

@@ -49,6 +49,27 @@
     }
   ],
   "paths": {
+    "/api/v1/penilaian/magang": {
+      "get": {
+        "summary": "Dapatkan semua penilaian",
+        "description": "Endpoint untuk mendapatkan semua penilaian mahasiswa",
+        "responses": {
+          "200": {
+            "description": "Daftar semua penilaian",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Penilaian"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/penilaian": {
       "get": {
         "summary": "Dapatkan semua penilaian",
