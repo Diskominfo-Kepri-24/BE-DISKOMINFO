@@ -131,7 +131,7 @@ class ProgramController extends Controller
             ]);
 
             $gambar = $request->file('image');
-            $gambarName = now() . "_" . "program" . "_" . $gambar->hashName();
+            $gambarName = time() . "_" . "program" . "_" . $gambar->hashName();
             $gambar->storeAs("public/program", $gambarName);
 
             $program->image = "storage/program/" . $gambarName;

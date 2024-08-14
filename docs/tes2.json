@@ -1,11 +1,54 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "API Skill",
-        "description": "Dokumentasi API untuk endpoint skill",
+        "title": "API Program",
+        "description": "API untuk mengelola program",
         "version": "1.0.0"
     },
     "paths": {
-        
+        "/api/v1/program/{slug}": {
+            "post": {
+                "summary": "Update Program",
+                "description": "Endpoint untuk mengupdate program berdasarkan slug",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "required": true,
+                        "description": "Slug dari program yang akan diupdate",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Program berhasil diupdate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Data program berhasil diubah"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

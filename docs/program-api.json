@@ -302,16 +302,16 @@
         },
         "/api/v1/program/{slug}": {
             "post": {
-                "summary": "Update a program",
-                "description": "Endpoint untuk mengubah data program",
+                "summary": "Perbarui Program Berdasarkan Slug",
+                "description": "Endpoint untuk memperbarui program berdasarkan slug",
                 "parameters": [
                     {
                         "name": "slug",
                         "in": "path",
                         "required": true,
-                        "description": "slug dari program yang akan diubah",
+                        "description": "Slug dari program yang akan diperbarui",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -323,41 +323,130 @@
                                 "type": "object",
                                 "properties": {
                                     "title": {
-                                        "type": "string",
-                                        "description": "Judul program",
-                                        "example": "Program Diperbarui"
+                                        "type": "string"
+                                    },
+                                    "slug":{
+                                        "type": "string"
+                                    },
+                                    "jadwal": {
+                                        "type": "string"
+                                    },
+                                    "jam_program_dimulai": {
+                                        "type": "string"
+                                    },
+                                    "tipe_modul": {
+                                        "type": "string"
+                                    },
+                                    "tipe_mentoring": {
+                                        "type": "string"
+                                    },
+                                    "tipe_pembelajaran": {
+                                        "type": "string"
+                                    },
+                                    "deskripsi_sertifikat": {
+                                        "type": "string"
+                                    },
+                                    "tipe_program": {
+                                        "type": "string"
+                                    },
+                                    "link_pendaftaran": {
+                                        "type": "string"
                                     },
                                     "description": {
-                                        "type": "string",
-                                        "description": "Deskripsi program",
-                                        "example": "Deskripsi dari program yang diperbarui"
+                                        "type": "string"
                                     },
                                     "category": {
-                                        "type": "string",
-                                        "description": "Kategori program",
-                                        "example": "Edukasi"
+                                        "type": "string"
                                     },
                                     "image": {
                                         "type": "string",
                                         "format": "binary",
                                         "description": "Gambar untuk program"
                                     }
-                                },
-                                "required": ["title", "description", "category"]
+                                }
                             }
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "description": "Data program berhasil diubah",
+                        "description": "Program berhasil diperbarui",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/components/schemas/Program"
+                                            "type": "object",
+                                            "description": "Data program yang diperbarui",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "description": "ID program"
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "description": "Judul program"
+                                                },
+                                                "slug": {
+                                                    "type": "string",
+                                                    "description": "Slug program"
+                                                },
+                                                "image": {
+                                                    "type": "string",
+                                                    "description": "URL gambar program"
+                                                },
+                                                "jadwal": {
+                                                    "type": "string",
+                                                    "description": "Jadwal program"
+                                                },
+                                                "jam_program_dimulai": {
+                                                    "type": "string",
+                                                    "description": "Jam dimulainya program"
+                                                },
+                                                "tipe_modul": {
+                                                    "type": "string",
+                                                    "description": "Tipe modul program"
+                                                },
+                                                "tipe_mentoring": {
+                                                    "type": "string",
+                                                    "description": "Tipe mentoring program"
+                                                },
+                                                "tipe_pembelajaran": {
+                                                    "type": "string",
+                                                    "description": "Tipe pembelajaran program"
+                                                },
+                                                "deskripsi_sertifikat": {
+                                                    "type": "string",
+                                                    "description": "Deskripsi sertifikat program"
+                                                },
+                                                "tipe_program": {
+                                                    "type": "string",
+                                                    "description": "Tipe program"
+                                                },
+                                                "link_pendaftaran": {
+                                                    "type": "string",
+                                                    "description": "Link pendaftaran program"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "description": "Deskripsi program"
+                                                },
+                                                "category": {
+                                                    "type": "string",
+                                                    "description": "Kategori program"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "description": "Waktu pembuatan program"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "description": "Waktu pembaruan program"
+                                                }
+                                            }
                                         },
                                         "status": {
                                             "type": "string",
@@ -368,7 +457,7 @@
                             }
                         }
                     },
-                    "422": {
+                    "400": {
                         "description": "Validasi gagal",
                         "content": {
                             "application/json": {
@@ -377,16 +466,11 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "The given data was invalid."
+                                            "example": "Validation error"
                                         },
                                         "errors": {
                                             "type": "object",
-                                            "additionalProperties": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                }
-                                            }
+                                            "description": "Detail kesalahan validasi"
                                         }
                                     }
                                 }
