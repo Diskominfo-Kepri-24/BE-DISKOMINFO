@@ -5,7 +5,6 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\NewsController;
@@ -16,11 +15,8 @@ use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\MagangController;
 use App\Http\Controllers\MentorController;
 use App\Http\Controllers\PenilaianController;
-<<<<<<< HEAD
 use App\Http\Controllers\FeedbackController;
-=======
 use App\Http\Controllers\SkillController;
->>>>>>> 1f07de5262dda177665c7828b2589da0124d1b8e
 use App\Http\Controllers\VisitController;
 Route::prefix('v1')->group(function(){
     
