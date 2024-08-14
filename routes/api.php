@@ -16,11 +16,8 @@ use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\MagangController;
 use App\Http\Controllers\MentorController;
 use App\Http\Controllers\PenilaianController;
-<<<<<<< HEAD
 use App\Http\Controllers\FeedbackController;
-=======
 use App\Http\Controllers\SkillController;
->>>>>>> 1f07de5262dda177665c7828b2589da0124d1b8e
 use App\Http\Controllers\VisitController;
 Route::prefix('v1')->group(function(){
     
@@ -74,11 +71,13 @@ Route::prefix('v1')->group(function(){
                 Route::delete("laporan", 'deleteLaporan');
             });
             
-            Route::get('/feedback', [FeedbackController::class, 'index']);
-            Route::post('/feedback', [FeedbackController::class, 'store']);
-            Route::get('/feedback/{id}', [FeedbackController::class, 'show']);
-            Route::put('/feedback/{id}', [FeedbackController::class, 'update']);
-            Route::delete('/feedback/{id}', [FeedbackController::class, 'destroy']);
+
+                Route::get('/feedback', [FeedbackController::class, 'index']);
+                Route::post('/feedback', [FeedbackController::class, 'store']);
+                Route::get('/feedback/{id}', [FeedbackController::class, 'show']);
+                Route::put('/feedback/{id}', [FeedbackController::class, 'update']);
+                Route::delete('/feedback/{id}', [FeedbackController::class, 'destroy']);
+            
 
         });
         
@@ -88,6 +87,7 @@ Route::prefix('v1')->group(function(){
         Route::middleware('role:pembimbing,admin')->group(function(){
             
             Route::get('/feedback', [FeedbackController::class, 'index']);
+            Route::get('/feedback/{id}', [FeedbackController::class, 'show']);
 
             Route::controller(AbsenController::class)->group(function(){
                 

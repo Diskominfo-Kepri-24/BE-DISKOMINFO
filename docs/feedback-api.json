@@ -1,270 +1,264 @@
 {
-    "openapi": "3.0.2",
-    "info": {
+  "openapi": "3.0.2",
+  "info": {
       "title": "Feedback API",
       "description": "API untuk mengelola feedback peserta magang",
       "version": "1.0"
-    },
-    "components": {
+  },
+  "components": {
       "schemas": {
-        "Feedback": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "integer"
-            },
-            "user_id": {
-              "type": "integer"
-            },
-            "rating": {
-              "type": "string"
-            },
-            "feedback": {
-              "type": "string"
-            },
-            "created_at": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "updated_at": {
-              "type": "string",
-              "format": "date-time"
-            }
+          "Feedback": {
+              "type": "object",
+              "properties": {
+                  "id": {
+                      "type": "integer"
+                  },
+                  "user_id": {
+                      "type": "integer"
+                  },
+                  "rating": {
+                      "type": "integer"
+                  },
+                  "feedback": {
+                      "type": "string"
+                  },
+                  "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                  },
+                  "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                  }
+              }
           }
-        }
       },
       "securitySchemes": {
-        "bearerAuth": {
-          "type": "http",
-          "scheme": "bearer",
-          "bearerFormat": "JWT"
-        }
+          "bearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+          }
       }
-    },
-    "security": [
+  },
+  "security": [
       {
-        "bearerAuth": []
+          "bearerAuth": []
       }
-    ],
-    "servers": [
+  ],
+  "servers": [
       {
-        "url": "http://localhost:8000"
+          "url": "http://localhost:8000"
       }
-    ],
-    "paths": {
+  ],
+  "paths": {
       "/api/v1/feedback": {
-        "get": {
-          "summary": "Dapatkan semua feedback",
-          "description": "Endpoint untuk mendapatkan semua feedback dari peserta magang",
-          "responses": {
-            "200": {
-              "description": "Daftar semua feedback",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/Feedback"
-                    }
+          "get": {
+              "summary": "Dapatkan semua feedback (Untuk role Pembimbing)",
+              "description": "Endpoint untuk mendapatkan semua feedback dari peserta magang",
+              "responses": {
+                  "200": {
+                      "description": "Daftar semua feedback",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "array",
+                                  "items": {
+                                      "$ref": "#/components/schemas/Feedback"
+                                  }
+                              }
+                          }
+                      }
                   }
-                }
               }
-            }
-          }
-        },
-        "post": {
-          "summary": "Tambah feedback baru",
-          "description": "Endpoint untuk menambahkan feedback baru",
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "user_id": {
-                      "type": "integer",
-                      "example": 1,
-                      "description": "ID dari pengguna yang memberikan feedback"
-                    },
-                    "rating": {
-                      "type": "string",
-                      "example": "A",
-                      "description": "Rating yang diberikan"
-                    },
-                    "feedback": {
-                      "type": "string",
-                      "example": "Great mentor, very helpful!",
-                      "description": "Feedback yang diberikan"
-                    }
-                  },
-                  "required": ["user_id", "rating", "feedback"]
-                }
-              }
-            }
           },
-          "responses": {
-            "201": {
-              "description": "Feedback berhasil ditambahkan",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Feedback"
+          "post": {
+              "summary": "Tambah feedback baru (Untuk role Peserta Magang",
+              "description": "Endpoint untuk menambahkan feedback baru",
+              "requestBody": {
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "rating": {
+                                      "type": "integer",
+                                      "example": 5,
+                                      "description": "Rating yang diberikan"
+                                  },
+                                  "feedback": {
+                                      "type": "string",
+                                      "example": "Great mentor, very helpful!",
+                                      "description": "Feedback yang diberikan"
+                                  }
+                              },
+                              "required": ["rating"]
+                          }
+                      }
                   }
-                }
+              },
+              "responses": {
+                  "201": {
+                      "description": "Feedback berhasil ditambahkan",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/Feedback"
+                              }
+                          }
+                      }
+                  }
               }
-            }
           }
-        }
       },
       "/api/v1/feedback/{id}": {
-        "get": {
-          "summary": "Dapatkan feedback pengguna",
-          "description": "Endpoint untuk mendapatkan data feedback berdasarkan user_id",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "description": "ID dari feedback yang ingin diambil",
-              "schema": {
-                "type": "integer"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Data feedback berhasil diambil",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Feedback"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Data feedback tidak ditemukan",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "message": {
-                        "type": "string",
-                        "example": "Data feedback tidak ditemukan"
+          "get": {
+              "summary": "Dapatkan feedback pengguna",
+              "description": "Endpoint untuk mendapatkan data feedback berdasarkan user_id",
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "required": true,
+                      "description": "ID dari feedback yang ingin diambil",
+                      "schema": {
+                          "type": "integer"
                       }
-                    }
                   }
-                }
-              }
-            }
-          }
-        },
-        "put": {
-          "summary": "Perbarui feedback",
-          "description": "Endpoint untuk memperbarui data feedback",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "description": "ID dari feedback yang ingin diperbarui",
-              "schema": {
-                "type": "integer"
-              }
-            }
-          ],
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "rating": {
-                      "type": "string",
-                      "example": "B",
-                      "description": "Rating yang diperbarui"
-                    },
-                    "feedback": {
-                      "type": "string",
-                      "example": "Good mentor, but room for improvement.",
-                      "description": "Feedback yang diperbarui"
-                    }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Data feedback berhasil diambil",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/Feedback"
+                              }
+                          }
+                      }
                   },
-                  "required": ["rating", "feedback"]
-                }
+                  "404": {
+                      "description": "Data feedback tidak ditemukan",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object",
+                                  "properties": {
+                                      "message": {
+                                          "type": "string",
+                                          "example": "Data feedback tidak ditemukan"
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
               }
-            }
           },
-          "responses": {
-            "200": {
-              "description": "Feedback berhasil diperbarui",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Feedback"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Data feedback tidak ditemukan",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "message": {
-                        "type": "string",
-                        "example": "Data feedback tidak ditemukan"
+          "put": {
+              "summary": "Perbarui feedback (Untuk role Peserta Magang)",
+              "description": "Endpoint untuk memperbarui data feedback",
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "required": true,
+                      "description": "ID dari feedback yang ingin diperbarui",
+                      "schema": {
+                          "type": "integer"
                       }
-                    }
                   }
-                }
-              }
-            }
-          }
-        },
-        "delete": {
-          "summary": "Hapus feedback",
-          "description": "Endpoint untuk menghapus feedback",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "description": "ID dari feedback yang ingin dihapus",
-              "schema": {
-                "type": "integer"
-              }
-            }
-          ],
-          "responses": {
-            "204": {
-              "description": "Feedback berhasil dihapus",
-              "content": {}
-            },
-            "404": {
-              "description": "Data feedback tidak ditemukan",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "message": {
-                        "type": "string",
-                        "example": "Data feedback tidak ditemukan"
+              ],
+              "requestBody": {
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "rating": {
+                                      "type": "integer",
+                                      "example": 4,
+                                      "description": "Rating yang diperbarui"
+                                  },
+                                  "feedback": {
+                                      "type": "string",
+                                      "example": "Good mentor, but room for improvement.",
+                                      "description": "Feedback yang diperbarui"
+                                  }
+                              },
+                              "required": ["rating"]
+                          }
                       }
-                    }
                   }
-                }
+              },
+              "responses": {
+                  "200": {
+                      "description": "Feedback berhasil diperbarui",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/Feedback"
+                              }
+                          }
+                      }
+                  },
+                  "404": {
+                      "description": "Data feedback tidak ditemukan",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object",
+                                  "properties": {
+                                      "message": {
+                                          "type": "string",
+                                          "example": "Data feedback tidak ditemukan"
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
               }
-            }
+          },
+          "delete": {
+              "summary": "Hapus feedback (Untuk role Peserta Magang)",
+              "description": "Endpoint untuk menghapus feedback",
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "required": true,
+                      "description": "ID dari feedback yang ingin dihapus",
+                      "schema": {
+                          "type": "integer"
+                      }
+                  }
+              ],
+              "responses": {
+                  "204": {
+                      "description": "Feedback berhasil dihapus",
+                      "content": {}
+                  },
+                  "404": {
+                      "description": "Data feedback tidak ditemukan",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object",
+                                  "properties": {
+                                      "message": {
+                                          "type": "string",
+                                          "example": "Data feedback tidak ditemukan"
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
           }
-        }
       }
-    }
   }
-  
+}
