@@ -234,6 +234,29 @@ class AuthController extends Controller
         ]);
     }
 
+    public function checkPassword(Request $request){
+
+
+        $request->validate([
+            "password" => "required|min:8"
+        ]);
+
+        $user = User::where('id', Auth::user()->id)->first();
+        
+        if(!Hash::check($request->password, $user->password)){
+            return response()->json([
+                'success' => false,
+                'message' => "Password tidak valid"
+            ], 401);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => "Password benar"
+        ]);
+
+    }
+
     // ubah password
     public function changePassword(Request $request){
 

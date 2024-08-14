@@ -58,16 +58,16 @@
                                         "token_type": {
                                             "type": "string"
                                         },
-                                        "role":{
+                                        "role": {
                                             "type": "string"
                                         },
-                                        "nama":{
+                                        "nama": {
                                             "type": "string"
                                         },
-                                        "email":{
+                                        "email": {
                                             "type": "string"
                                         },
-                                        "user_id":{
+                                        "user_id": {
                                             "type": "number"
                                         }
                                     }
@@ -93,19 +93,19 @@
                 }
             }
         },
-        "/api/v1/magang/login":{
-            "post":{
+        "/api/v1/magang/login": {
+            "post": {
                 "description": "Login User Magang",
-                "requestBody":{
+                "requestBody": {
                     "content": {
-                        "application/json":{
-                            "schema":{
+                        "application/json": {
+                            "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "email":{
+                                    "email": {
                                         "type": "string"
                                     },
-                                    "password":{
+                                    "password": {
                                         "type": "string"
                                     }
                                 }
@@ -114,35 +114,35 @@
                     }
                 },
                 "responses": {
-                    "200":{
+                    "200": {
                         "description": "Success login",
                         "content": {
-                            "application/json":{
-                                "schema":{
+                            "application/json": {
+                                "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "message":{
+                                        "message": {
                                             "type": "string"
                                         },
-                                        "access_token":{
+                                        "access_token": {
                                             "type": "string"
                                         },
-                                        "status":{
+                                        "status": {
                                             "type": "string"
                                         },
-                                        "token_type":{
+                                        "token_type": {
                                             "type": "string"
                                         },
-                                        "role":{
+                                        "role": {
                                             "type": "string"
                                         },
-                                        "nama":{
+                                        "nama": {
                                             "type": "string"
                                         },
-                                        "email":{
+                                        "email": {
                                             "type": "string"
                                         },
-                                        "user_id":{
+                                        "user_id": {
                                             "type": "number"
                                         }
                                     }
@@ -150,14 +150,14 @@
                             }
                         }
                     },
-                    "401":{
+                    "401": {
                         "description": "Failed Login",
                         "content": {
-                            "application/json":{
-                                "schema":{
+                            "application/json": {
+                                "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "message":{
+                                        "message": {
                                             "type": "string"
                                         }
                                     }
@@ -165,17 +165,17 @@
                             }
                         }
                     },
-                    "403":{
+                    "403": {
                         "description": "Dont have access",
                         "content": {
-                            "application/json":{
-                                "schema":{
+                            "application/json": {
+                                "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "message":{
+                                        "message": {
                                             "type": "string"
                                         },
-                                        "status":{
+                                        "status": {
                                             "type": "string"
                                         }
                                     }
@@ -243,7 +243,7 @@
                                     "jurusan": {
                                         "type": "string"
                                     },
-                                    "jenjang":{
+                                    "jenjang": {
                                         "type": "string"
                                     },
                                     "instansi": {
@@ -253,13 +253,13 @@
                                         "type": "string",
                                         "format": "binary"
                                     },
-                                    "mulai_magang":{
+                                    "mulai_magang": {
                                         "type": "string"
                                     },
-                                    "akhir_magang":{
+                                    "akhir_magang": {
                                         "type": "string"
                                     },
-                                    "alasan_magang":{
+                                    "alasan_magang": {
                                         "type": "string"
                                     }
                                 }
@@ -314,7 +314,7 @@
                                                 "jurusan": {
                                                     "type": "string"
                                                 },
-                                                "jenjang":{
+                                                "jenjang": {
                                                     "type": "string"
                                                 },
                                                 "tahun_angkatan": {
@@ -421,7 +421,12 @@
                             },
                             "schema": {
                                 "type": "object",
-                                "required": ["nama", "no_hp", "email", "password"],
+                                "required": [
+                                    "nama",
+                                    "no_hp",
+                                    "email",
+                                    "password"
+                                ],
                                 "properties": {
                                     "nama": {
                                         "type": "string"
@@ -708,6 +713,72 @@
                         "bearerAuth": []
                     }
                 ]
+            }
+        },
+        "/api/v1/check-password": {
+            "post": {
+                "summary": "Memeriksa Password Pengguna",
+                "description": "Endpoint untuk memeriksa apakah password yang diberikan benar untuk pengguna yang sedang login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "password": {
+                                        "type": "string",
+                                        "description": "Password yang akan diperiksa",
+                                        "example": "password123"
+                                    }
+                                },
+                                "required": ["password"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password benar",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Password benar"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Password tidak valid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Password tidak valid"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/v1/logout": {

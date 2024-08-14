@@ -14,8 +14,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\MagangController;
+use App\Http\Controllers\MentorController;
 use App\Http\Controllers\PenilaianController;
+<<<<<<< HEAD
 use App\Http\Controllers\FeedbackController;
+=======
+use App\Http\Controllers\SkillController;
+>>>>>>> 1f07de5262dda177665c7828b2589da0124d1b8e
 use App\Http\Controllers\VisitController;
 Route::prefix('v1')->group(function(){
     
@@ -144,6 +149,21 @@ Route::prefix('v1')->group(function(){
                 Route::delete('pembimbing/{id}', 'deletePembimbingById');
             });
 
+            Route::controller(MentorController::class)->group(function(){
+                Route::get('mentor', 'getMentors');
+                Route::get('mentor/{id}', 'getMentorById');
+                Route::post('mentor', 'addMentor');
+                Route::post('mentor/{id}', 'updateMentor');
+                Route::delete('mentor/{id}', 'deleteMentor');
+            });
+
+            Route::controller(SkillController::class)->group(function(){
+                Route::get('skill/{idSkill}', 'getSkillByIdSkill');
+                Route::get('skill/program/{idProgram}', 'getSkillByIdProgram');
+                Route::post('skill/program/{idProgram}', 'addSkillByIdProgram');
+                Route::put('skill/{idSkill}', 'updateSkillByIdSkill');
+                Route::delete('skill/{idSkill}', 'deleteSkillByIdSkill');
+            });
 
         });
     
@@ -157,6 +177,7 @@ Route::prefix('v1')->group(function(){
             Route::post('ubah-password', 'changePassword');
         });
 
+        Route::post('check-password', [AuthController::class, 'checkPassword']);
         Route::put('ubah-password', [AuthController::class, 'changePassword']);
         
         Route::delete('logout', [AuthController::class, 'logout']);
