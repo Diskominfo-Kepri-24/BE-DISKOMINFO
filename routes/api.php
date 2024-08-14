@@ -49,7 +49,6 @@ Route::prefix('v1')->group(function(){
     Route::post('log-visit', [VisitController::class, 'logVisit']);
     Route::get('online-status', [VisitController::class, 'updateOnlineStatus']);
     Route::get('statistics', [VisitController::class, 'getStatistics']);
-    Route::get('skill', [SkillController::class, 'getSkills']);
     
     
     Route::middleware('auth:sanctum')->group(function () {
@@ -154,7 +153,7 @@ Route::prefix('v1')->group(function(){
             });
 
             Route::controller(SkillController::class)->group(function(){
-                // Route::get('skill', 'getSkills');
+                Route::get('skill', 'getSkills');
                 Route::get('skill/{idSkill}', 'getSkillByIdSkill');
                 Route::get('skill/program/{idProgram}', 'getSkillByIdProgram');
                 Route::post('skill/program/{idProgram}', 'addSkillByIdProgram');
