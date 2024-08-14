@@ -154,6 +154,7 @@ Route::prefix('v1')->group(function(){
             });
 
             Route::controller(SkillController::class)->group(function(){
+                Route::get('skill', 'getSkills');
                 Route::get('skill/{idSkill}', 'getSkillByIdSkill');
                 Route::get('skill/program/{idProgram}', 'getSkillByIdProgram');
                 Route::post('skill/program/{idProgram}', 'addSkillByIdProgram');

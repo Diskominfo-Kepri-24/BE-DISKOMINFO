@@ -17,6 +17,14 @@ class SkillController extends Controller
         ]);
     }
 
+    public function getSkills(){
+
+        return response()->json([
+            "skills" => Skill::query()->get(),
+        ]);
+
+    }
+
     public function getSkillByIdSkill($idSkill){
         return response()->json([
             "skill" => Skill::query()->where('id', $idSkill)->first(),
