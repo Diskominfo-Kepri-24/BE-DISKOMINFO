@@ -16,8 +16,6 @@ DISKOMINFO KEPRI
 
 <hr>
 
-Mahadi Dwi Nugraha test :v
-
 Jika Anda mengalami kesulitan dalam mengklik tombol "Verifikasi Email", salin dan tempel URL di bawah ini ke browser web Anda:
 [{{ $url }}]({{ $url }})
 

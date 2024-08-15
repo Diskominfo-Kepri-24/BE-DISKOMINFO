@@ -84,8 +84,8 @@ Route::prefix('v1')->group(function(){
         // 
         Route::middleware('role:pembimbing,admin')->group(function(){
             
-            // Route::get('/feedback', [FeedbackController::class, 'index']);
-            // Route::get('/feedback/{id}', [FeedbackController::class, 'show']);
+            Route::get('/feedback', [FeedbackController::class, 'index']);
+            Route::get('/feedback/{id}', [FeedbackController::class, 'show']);
 
             Route::controller(AbsenController::class)->group(function(){
                 

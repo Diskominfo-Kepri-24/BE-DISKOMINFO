@@ -60,18 +60,25 @@
         <div class="content">
             <p>Yth. <strong>{{ $name }}</strong>,</p>
             <p>Kami dengan senang hati mengumumkan bahwa Anda telah diterima untuk mengikuti program magang di
-                <strong>Diskominfo Provinsi Kepulauan Riau</strong>. Kami sangat antusias menyambut Anda di tim kami dan berharap
-                pengalaman ini akan bermanfaat bagi pengembangan karir Anda.</p>
+                <strong>Diskominfo Provinsi Kepulauan Riau</strong>. Kami sangat antusias menyambut Anda di tim kami dan
+                berharap
+                pengalaman ini akan bermanfaat bagi pengembangan karir Anda.
+            </p>
             <p>Detail program magang adalah sebagai berikut:</p>
             <ul>
                 <li><strong>Periode Magang:</strong> {{ $tanggal_mulai }} - {{ $tanggal_selesai }}</li>
-                <li><strong>Lokasi:</strong> Pusat Pemerintahan Provinsi Kepulauan Riau Istana Kota Piring Gedung Sultan Mahmud Riayat Syah, Dompak, Bukit Bestari, 29124 Tanjungpinang - Kepulauan Riau - Indonesia</li>
+                <li><strong>Lokasi:</strong> Pusat Pemerintahan Provinsi Kepulauan Riau Istana Kota Piring Gedung Sultan
+                    Mahmud Riayat Syah, Dompak, Bukit Bestari, 29124 Tanjungpinang - Kepulauan Riau - Indonesia</li>
             </ul>
             <hr>
             Silakan gunakan akun ini untuk login <br><br>
             email: {{ $email }}
             <br>
             password: {{ $password }}
+            <p>Harap login di link berikut</p>
+            <p>
+                <a href="http://192.168.226.103:5173/login">Klik disini untuk login</a>
+            </p>
             <hr>
             <p>Terima kasih dan kami menantikan kehadiran Anda.</p>
             <p>Salam,</p>
