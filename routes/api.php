@@ -71,14 +71,14 @@ Route::prefix('v1')->group(function(){
                 Route::delete("laporan", 'deleteLaporan');
             });
             
-
-                Route::get('/feedback', [FeedbackController::class, 'index']);
-                Route::post('/feedback', [FeedbackController::class, 'store']);
-                Route::get('/feedback/{id}', [FeedbackController::class, 'show']);
-                Route::put('/feedback/{id}', [FeedbackController::class, 'update']);
-                Route::delete('/feedback/{id}', [FeedbackController::class, 'destroy']);
+            Route::controller(FeedbackController::class)->group(function () {
+                Route::get('/feedback', 'index');
+                Route::get('/feedback/{id}', 'show');
+                Route::post('/feedback', 'store');
+                Route::put('/feedback/{id}', 'update');
+                Route::delete('/feedback/{id}', 'destroy');
+            });
             
-
         });
         
         // 
@@ -86,8 +86,8 @@ Route::prefix('v1')->group(function(){
         // 
         Route::middleware('role:pembimbing,admin')->group(function(){
             
-            Route::get('/feedback', [FeedbackController::class, 'index']);
-            Route::get('/feedback/{id}', [FeedbackController::class, 'show']);
+            // Route::get('/feedback', [FeedbackController::class, 'index']);
+            // Route::get('/feedback/{id}', [FeedbackController::class, 'show']);
 
             Route::controller(AbsenController::class)->group(function(){
                 

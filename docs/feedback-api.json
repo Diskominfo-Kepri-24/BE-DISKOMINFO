@@ -223,7 +223,7 @@
               }
           },
           "delete": {
-              "summary": "Hapus feedback (Untuk role Peserta Magang)",
+              "summary": "Hapus feedback ",
               "description": "Endpoint untuk menghapus feedback",
               "parameters": [
                   {

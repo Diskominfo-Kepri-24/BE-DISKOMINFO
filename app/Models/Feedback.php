@@ -10,8 +10,6 @@ class Feedback extends Model
     use HasFactory;
 
     protected $table = 'feedbacks';
-    protected $primaryKey = 'id';
-    public $timestamps = true;
 
     protected $fillable = [
         'user_id',
@@ -21,6 +19,7 @@ class Feedback extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class);
     }
 }
+
