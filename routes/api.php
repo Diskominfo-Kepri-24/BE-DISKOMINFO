@@ -5,7 +5,6 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\NewsController;
@@ -50,7 +49,6 @@ Route::prefix('v1')->group(function(){
     Route::post('log-visit', [VisitController::class, 'logVisit']);
     Route::get('online-status', [VisitController::class, 'updateOnlineStatus']);
     Route::get('statistics', [VisitController::class, 'getStatistics']);
-
     
     
     Route::middleware('auth:sanctum')->group(function () {
@@ -158,6 +156,7 @@ Route::prefix('v1')->group(function(){
             });
 
             Route::controller(SkillController::class)->group(function(){
+                Route::get('skill', 'getSkills');
                 Route::get('skill/{idSkill}', 'getSkillByIdSkill');
                 Route::get('skill/program/{idProgram}', 'getSkillByIdProgram');
                 Route::post('skill/program/{idProgram}', 'addSkillByIdProgram');
